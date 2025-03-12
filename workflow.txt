@@ -1,0 +1,10 @@
+ssh hughes.annab@login.discovery.neu.edu
+
+cd /work/gatins/hci_genome
+
+# get out of login node
+srun --partition=short --nodes=1 --cpus-per-task=1 --pty /bin/bash
+module load anaconda3/2022.05 discovery
+
+# creating environment
+conda create --prefix=/work/gatins/hci_genome/env python=3.11 anaconda
