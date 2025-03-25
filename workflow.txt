@@ -6,7 +6,42 @@ cd /work/gatins/hci_genome
 srun --partition=short --nodes=1 --cpus-per-task=1 --pty /bin/bash
 module load anaconda3/2022.05 discovery
 
-# creating environment
+# creating environment -- took FOREVER, don't run again! just needed to set up environment
 conda create --prefix=/work/gatins/hci_genome/env python=3.11 anaconda
 
-#testing
+# activate environment
+source activate /work/gatins/hci_genome/env
+
+#my downloads:
+#Porechop v0.2.4
+conda install bioconda::porechop
+#seqkit v2.10.0
+conda install bioconda::seqkit
+#Hifiasm-0.25.0-r726
+git clone https://github.com/chhylp123/hifiasm
+cd hifiasm && make
+#BUSCO
+conda install bioconda::busco
+##tried installing BUSCO v5.8.3 but got the following message:
+Found conflicts! Looking for incompatible packages.
+This can take several minutes.  Press CTRL-C to abort.
+failed
+
+UnsatisfiableError: The following specifications were found to be incompatible with each other:
+
+Output in format: Requested package -> Available versionsThe following specifications were found to be incompatible with your system:
+
+  - feature:/linux-64::__glibc==2.17=0
+  - python=3.11 -> libgcc-ng[version='>=11.2.0'] -> __glibc[version='>=2.17']
+
+Your installed version is: 2.17
+
+#new env for busco
+conda create --prefix=/work/gatins/hci_genome/busco
+source activate /work/gatins/hci_genome/busco
+conda install -c conda-forge -c bioconda busco=5.8.2
+
+
+#Flye
+download error -- creating a new conda environment with a version of python that is Flye-compatible (going to try 3.12)
+conda create --prefix=/work/gatins/hci_genome/flye_env python=3.12 anaconda
