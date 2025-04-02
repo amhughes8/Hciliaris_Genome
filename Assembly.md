@@ -3,7 +3,7 @@
   2a. concatenate if needed (not sure if it'll be better to run each flow cell through whole pipeline separately or together...?)
 3. Porechop - trim adapters
 from Remy's pipeline:
-`porechop -i HPA_fastq/HPA_big_01.fastq.gz -o HPA_fastq/HPA_big_01_pc.fastq.gz --threads 24`
+``` porechop -i HPA_fastq/HPA_big_01.fastq.gz -o HPA_fastq/HPA_big_01_pc.fastq.gz --threads 24```
 4. seqkit - filtering (Remy used Nanofilt but i think seqkit looks ok)
 `cat filename | seqkit seq -m 2000 | seqkit stats`
 https://bioinf.shenwei.me/seqkit/usage/
