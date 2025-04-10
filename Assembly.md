@@ -11,7 +11,7 @@ cp /work/gatins/hci_genome/bams/03_24_25_R10_HCI_CUR_092401_GENOME_SS.5mC_5hmC.s
 compressing original files to save storage space
 - job name: tar_gzip_bams
 - job id: 48012219
-- run time:
+- run time: 02:03:15
 ```
 tar -zcvf /work/gatins/hci_genome/HCI_CUR_092401_ONT_bams.gz /work/gatins/hci_genome/bams
 ```
@@ -34,7 +34,7 @@ samtools bam2fq fc2_SS.bam > hci2.fastq
 ## 2a. check stats from each fastq using NanoStat OR seqkit (save output in excel file)
 - job name: flowcell_stats
 - job id: 48011288
-- run time:
+- run time: 02:54:42
 ```
 module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/env
