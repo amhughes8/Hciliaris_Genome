@@ -8,6 +8,13 @@ let's store this data in an untouched 'bams' directory and also make a copy to w
 cp /work/gatins/hci_genome/bams/03_24_25_R10_HCI_CUR_092401_GENOME.5mC_5hmC.sup.dorado.0.9.1.bam /work/gatins/hci_genome/processing
 cp /work/gatins/hci_genome/bams/03_24_25_R10_HCI_CUR_092401_GENOME_SS.5mC_5hmC.sup.dorado.0.9.1.bam /work/gatins/hci_genome/processing
 ```
+compressing original files to save storage space
+job name: tar_gzip_bams
+job id:
+run time:
+```
+tar -zcvf /work/gatins/hci_genome/HCI_CUR_092401_ONT_bams.gz /work/gatins/hci_genome/bams
+```
 renaming the files so they are easier to work with
 ```
 mv 03_24_25_R10_HCI_CUR_092401_GENOME.5mC_5hmC.sup.dorado.0.9.1.bam fc1.bam
@@ -15,17 +22,24 @@ mv 03_24_25_R10_HCI_CUR_092401_GENOME_SS.5mC_5hmC.sup.dorado.0.9.1.bam fc2_SS.ba
 ```
 
 #2. samtools bam --> fastq
+job name: bam2fastq
+job id:48007076
+run time: 01:15:41
 ```
 module load samtools/1.9
 samtools bam2fq fc1.bam > hci1.fastq
 samtools bam2fq fc2_SS.bam > hci2.fastq
 ```
-this took 1 hr 15 mins to complete
 
 ##2a. check stats from each fastq using NanoStat OR seqkit (save output in excel file)
+job name: flowcell_stats
+job id: 48011288
+run time:
 ```
-NanoStat --fastq hci1.fastq --outdir /work/gatins/hci_genome/statreports --name hci1_Nanostat_fastqreport
-NanoStat --fastq hci2.fastq --outdir /work/gatins/hci_genome/statreports --name hci2_Nanostat_fastqreport
+module load anaconda3/2022.05
+source activate /work/gatins/hci_genome/env
+NanoStat --fastq /work/gatins/hci_genome/processing/hci1.fastq --outdir /work/gatins/hci_genome/processing/statreports --name hci1_Nanostat_fastqreport
+NanoStat --fastq /work/gatins/hci_genome/processing/hci2.fastq --outdir /work/gatins/hci_genome/processing/statreports --name hci2_Nanostat_fastqreport
 ```
 ```
 seqkit stat *.fastq
