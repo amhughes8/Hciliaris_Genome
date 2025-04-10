@@ -41,9 +41,17 @@ source activate /work/gatins/hci_genome/env
 NanoStat --fastq /work/gatins/hci_genome/processing/hci1.fastq --outdir /work/gatins/hci_genome/processing/statreports --name hci1_Nanostat_fastqreport
 NanoStat --fastq /work/gatins/hci_genome/processing/hci2.fastq --outdir /work/gatins/hci_genome/processing/statreports --name hci2_Nanostat_fastqreport
 ```
+I'm curious about the difference in outputs from NanoStat and seqkit so let's run both
 ```
-seqkit stat *.fastq
+module load anaconda3/2022.05
+source activate /work/gatins/hci_genome/env
+seqkit stat /work/gatins/hci_genome/processing/*.fastq
 ```
+Now running NanoPlot? or a fastqc report?
+```
+module load fastqc/0.11.9
+```
+
 ## 2b. concatenate and gzip (not sure if it'll be better to run each flow cell through whole pipeline separately or together... revisit this)
 ```
 cat hci1.fastq hci2.fastq > hci_concat.fastq.gz
