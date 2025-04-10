@@ -14,18 +14,13 @@ mv 03_24_25_R10_HCI_CUR_092401_GENOME.5mC_5hmC.sup.dorado.0.9.1.bam fc1.bam
 mv 03_24_25_R10_HCI_CUR_092401_GENOME_SS.5mC_5hmC.sup.dorado.0.9.1.bam fc2_SS.bam
 ```
 
-#2. run summary statistics with NanoStat on sequencing_summary.txt files from both flow cells
-```
-NanoStat --summary flowcell1_summary.txt flowcell2_summary.txt --outdir /work/gatins/hci_genome/statreports --name Nanostat_Stat_Report
-```
-
-#3. samtools bam --> fastq
+#2. samtools bam --> fastq
 ```
 module load samtools/1.9
 samtools bam2fq fc1.bam > hci1.fastq
 samtools bam2fq fc2_SS.bam > hci2.fastq
 ```
-** started at 4:51pm
+this took 1 hr 15 mins to complete
 
 ##3a. check stats from each fastq using NanoStat OR seqkit (save output in excel file)
 ```
