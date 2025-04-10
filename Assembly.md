@@ -50,12 +50,22 @@ seqkit stat /work/gatins/hci_genome/processing/*.fastq
 
 # concatenate to one big file
 ```
-cat hci1.fastq hci2.fastq > hci_concat.fastq.gz
+cat hci1.fastq hci2.fastq > hci_concat.fastq
 ```
 
 # Porechop - trim adapters
 ```
-porechop -i hci_concat.fastq.gz -o hci_concat_noadapters.fastq.gz
+porechop -i hci_concat.fastq -o hci_concat_noadapters.fastq
+```
+
+now let's check and make sure the adapters came off with FCS from NCBI
+```
+module load singularity/3.10.3
+curl https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/latest/fcs-adaptor.sif -Lo fcs-adaptor.sif
+```
+```
+mkdir fcs_output
+./run_fcsadaptor.sh --fasta-input hci_concat_noadapters.fastq.gz --output-dir /work/gatins/hci_genome/processing/fcs_output --euk --container-engine singularity --image fcs-adaptor.sif
 ```
 
 # Estimating genome size with Jellyfish (k=21)
