@@ -41,7 +41,7 @@ source activate /work/gatins/hci_genome/env
 NanoStat --fastq /work/gatins/hci_genome/processing/hci1.fastq --outdir /work/gatins/hci_genome/processing/statreports --name hci1_Nanostat_fastqreport
 NanoStat --fastq /work/gatins/hci_genome/processing/hci2.fastq --outdir /work/gatins/hci_genome/processing/statreports --name hci2_Nanostat_fastqreport
 ```
-I'm curious about the difference in outputs from NanoStat and seqkit so let's run both
+I'm curious about the difference in outputs from NanoStat and seqkit so let's run seqkit too
 ```
 module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/env
@@ -54,8 +54,10 @@ cat hci1.fastq hci2.fastq > hci_concat.fastq
 ```
 
 # Porechop - trim adapters
+Porechop uses a lot of memory, so it is going to be really challenging to run on the concatenated file. I submitted a batch job on April 10 for hci1.fastq asking for 800G of memory (it is still in the queue) and I'm now interactively running Porechop on hci2.fastq with 300G of memory
 ```
-porechop -i hci_concat.fastq -o hci_concat_noadapters.fastq
+srun --partition=short --nodes=1 --cpus-per-task=1 --mem=300G --pty /bin/bash
+porechop -i hci2.fastq -o hci2_noadapters.fastq
 ```
 
 now let's check and make sure the adapters came off with FCS from NCBI
