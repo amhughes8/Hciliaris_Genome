@@ -54,9 +54,9 @@ cat hci1.fastq hci2.fastq > hci_concat.fastq
 ```
 
 # Porechop - trim adapters
-Porechop uses a lot of memory, so it is going to be really challenging to run on the concatenated file. I submitted a batch job on April 10 for hci1.fastq asking for 800G of memory (it is still in the queue) and I'm now interactively running Porechop on hci2.fastq with 300G of memory
+Porechop uses a lot of memory, so it is going to be really challenging to run on the concatenated file. I submitted a batch job on April 10 for hci1.fastq asking for 800G of memory (it is still in the queue) and I'm now interactively running Porechop on hci2.fastq with 300G of memory. **this step takes longer than 4 hours (short partition default), so make sure to indicate longer runtimes!**
 ```
-srun --partition=short --nodes=1 --cpus-per-task=1 --mem=300G --pty /bin/bash
+srun --partition=short --nodes=1 --cpus-per-task=1 --mem=300G --time=48:00:00 --pty /bin/bash
 porechop -i hci2.fastq -o hci2_noadapters.fastq
 ```
 
