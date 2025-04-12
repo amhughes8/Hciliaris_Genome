@@ -15,7 +15,7 @@ compressing original files to save storage space
 ```
 tar -zcvf /work/gatins/hci_genome/HCI_CUR_092401_ONT_bams.gz /work/gatins/hci_genome/bams
 ```
-renaming the files so they are easier to work with
+renaming the bams I will work with for simplicity
 ```
 mv 03_24_25_R10_HCI_CUR_092401_GENOME.5mC_5hmC.sup.dorado.0.9.1.bam fc1.bam
 mv 03_24_25_R10_HCI_CUR_092401_GENOME_SS.5mC_5hmC.sup.dorado.0.9.1.bam fc2_SS.bam
@@ -54,9 +54,9 @@ Porechop uses a lot of memory, so it is going to be really challenging to run on
 srun --partition=short --nodes=1 --cpus-per-task=1 --mem=300G --time=48:00:00 --pty /bin/bash
 porechop -i hci2.fastq -o hci2_noadapters.fastq
 ```
-job name: porechop1
-job id: 48049716
-run time: 20:39:38
+- job name: porechop1
+- job id: 48049716
+- run time: 20:39:38
 ```
 module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/env
@@ -65,9 +65,9 @@ porechop -i /work/gatins/hci_genome/processing/hci1.fastq -o hci1_noadapters.fas
 
 # fastqc
 running fastqc on each fastq before and after adapter removal
-job name: fastqc
-job id: 48103789
-run time: 
+- job name: fastqc
+- job id: 48103789
+- run time: 
 ```
 module load fastqc/0.11.9
 fastqc /work/gatins/hci_genome/processing/*.fastq -o ./fastqc/
@@ -76,14 +76,14 @@ fastqc /work/gatins/hci_genome/processing/*.fastq -o ./fastqc/
 # concatenate to one big file
 now that things look good after Porechop, let's concatenate before we filter and assemble
 ```
-cat hci1.fastq hci2.fastq > hci_concat.fastq
+cat hci1_noadapters.fastq hci2_noadapters.fastq > hci_concat_noadapters.fastq
 ```
 
 # [seqkit](https://bioinf.shenwei.me/seqkit/usage/) - filtering
 we're filtering to a minimum sequence length of 2000 and minimum Q-score of 3
 ```
-cat hci_concat_noadapters.fastq | seqkit seq -m 2000 -Q 3 > hci_filtered.fastq
-seqkit stats hci_filtered.fastq -a
+cat hci_concat_noadapters.fastq | seqkit seq -m 2000 -Q 3 > hci_filtered_2kQ3.fastq
+seqkit stats hci_filtered_2kQ3.fastq -a
 ```
 
 # Estimating genome size with Jellyfish (k=21)
