@@ -118,7 +118,7 @@ mkdir fcs_output
 ./run_fcsadaptor.sh --fasta-input hci_concat_noadapters.fastq.gz --output-dir /work/gatins/hci_genome/processing/fcs_output --euk --container-engine singularity --image fcs-adaptor.sif
 ```
 
-# polish (Medaka - ONT recommendation)
+# polish
 
 # Blobtools - decontaminate and inspect
 ## BUSCO
