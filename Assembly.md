@@ -80,9 +80,15 @@ cat hci1_noadapters.fastq hci2_noadapters.fastq > hci_concat_noadapters.fastq
 ```
 
 # [seqkit](https://bioinf.shenwei.me/seqkit/usage/) - filtering
-we're filtering to a minimum sequence length of 2000 and minimum Q-score of 3
+we're filtering to a minimum sequence length of 2000 and minimum Q-score of 3 (I also allocated 10 threads to try and speed up the process). I also ran the concatenate function above with the seqkit filtering step as a batch job together:
+- job name: concatenate_filter
+- job id:
+- run time:
 ```
-cat hci_concat_noadapters.fastq | seqkit seq -m 2000 -Q 3 > hci_filtered_2kQ3.fastq
+cat hci_concat_noadapters.fastq | seqkit seq -m 2000 -Q 3 -j 10 > hci_filtered_2kQ3.fastq
+```
+running stats on filtered output
+```
 seqkit stats hci_filtered_2kQ3.fastq -a
 ```
 
