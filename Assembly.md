@@ -48,26 +48,42 @@ source activate /work/gatins/hci_genome/env
 seqkit stat /work/gatins/hci_genome/processing/*.fastq
 ```
 
-# concatenate to one big file
-```
-cat hci1.fastq hci2.fastq > hci_concat.fastq
-```
-
 # Porechop - trim adapters
-Porechop uses a lot of memory, so it is going to be really challenging to run on the concatenated file. I submitted a batch job on April 10 for hci1.fastq asking for 800G of memory (it is still in the queue) and I'm now interactively running Porechop on hci2.fastq with 300G of memory. **this step takes longer than 4 hours (short partition default), so make sure to indicate longer runtimes!**
+Porechop uses a lot of memory, so it is going to be really challenging to run on a concatenated file. I submitted a batch job on April 10 for hci1.fastq asking for 800G of memory (it is still in the queue) and I'm now interactively running Porechop on hci2.fastq with 300G of memory. **this step takes longer than 4 hours (short partition default), so make sure to indicate longer runtimes!**
 ```
 srun --partition=short --nodes=1 --cpus-per-task=1 --mem=300G --time=48:00:00 --pty /bin/bash
 porechop -i hci2.fastq -o hci2_noadapters.fastq
 ```
+job name: porechop1
+job id: 48049716
+run time: 20:39:38
+```
+module load anaconda3/2022.05
+source activate /work/gatins/hci_genome/env
+porechop -i /work/gatins/hci_genome/processing/hci1.fastq -o hci1_noadapters.fastq
+```
 
-now let's check and make sure the adapters came off with FCS from NCBI
+# fastqc
+running fastqc on each fastq before and after adapter removal
+job name: fastqc
+job id: 48103789
+run time: 
 ```
-module load singularity/3.10.3
-curl https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/latest/fcs-adaptor.sif -Lo fcs-adaptor.sif
+module load fastqc/0.11.9
+fastqc /work/gatins/hci_genome/processing/*.fastq -o ./fastqc/
 ```
+
+# concatenate to one big file
+now that things look good after Porechop, let's concatenate before we filter and assemble
 ```
-mkdir fcs_output
-./run_fcsadaptor.sh --fasta-input hci_concat_noadapters.fastq.gz --output-dir /work/gatins/hci_genome/processing/fcs_output --euk --container-engine singularity --image fcs-adaptor.sif
+cat hci1.fastq hci2.fastq > hci_concat.fastq
+```
+
+# [seqkit](https://bioinf.shenwei.me/seqkit/usage/) - filtering
+we're filtering to a minimum sequence length of 2000 and minimum Q-score of 3
+```
+cat hci_concat_noadapters.fastq | seqkit seq -m 2000 -Q 3 > hci_filtered.fastq
+seqkit stats hci_filtered.fastq -a
 ```
 
 # Estimating genome size with Jellyfish (k=21)
@@ -82,14 +98,19 @@ jellyfish count -m 21 -s 100M -t 10 -C -o hci_21mer_output /work/gatins/hci_geno
 jellyfish histo mer_counts.jf
 ```
 
-# seqkit - filtering
-```
-cat hci_concat_noadapters.fastq.gz | seqkit seq -m 2000 > hci_min2000.fast.gz
-seqkit stats hci_min2000.fast.gz
-```
-https://bioinf.shenwei.me/seqkit/usage/
+# ASSEMBLIES
+## Flye + polish with Medaka (ONT recommendation)
+## Hifiasm (newer and no polish required)
 
-# Flye - assemble (maybe Hifiasm or shasta... try Flye first based on ONT recommendation)
+now let's check and make sure the adapters came off with FCS from NCBI
+```
+module load singularity/3.10.3
+curl https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/latest/fcs-adaptor.sif -Lo fcs-adaptor.sif
+```
+```
+mkdir fcs_output
+./run_fcsadaptor.sh --fasta-input hci_concat_noadapters.fastq.gz --output-dir /work/gatins/hci_genome/processing/fcs_output --euk --container-engine singularity --image fcs-adaptor.sif
+```
 
 # polish (Medaka - ONT recommendation)
 
