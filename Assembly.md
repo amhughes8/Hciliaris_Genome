@@ -66,7 +66,7 @@ porechop -i /work/gatins/hci_genome/processing/hci1.fastq -o hci1_noadapters.fas
 # fastqc
 running fastqc on each fastq before and after adapter removal
 - job name: fastqc
-- job id: 48103789
+- job id: 48130637
 - run time: 
 ```
 module load fastqc/0.11.9
