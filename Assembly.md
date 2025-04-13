@@ -64,9 +64,9 @@ porechop -i /work/gatins/hci_genome/processing/hci1.fastq -o hci1_noadapters.fas
 ```
 
 # fastqc
-running fastqc on each fastq before and after adapter removal
+running fastqc on each fastq before and after adapter removal ** I'm struggling to make this work. It keeps running out of memory but not alerting me... I need to figure out how to run this more efficiently since these files are all so large **
 - job name: fastqc
-- job id: 48158385
+- job id:
 - run time: 
 ```
 module load fastqc/0.11.9
@@ -82,10 +82,13 @@ cat hci1_noadapters.fastq hci2_noadapters.fastq > hci_concat_noadapters.fastq
 # [seqkit](https://bioinf.shenwei.me/seqkit/usage/) - filtering
 we're filtering to a minimum sequence length of 2000 and minimum Q-score of 3 (I also allocated 10 threads to try and speed up the process). I also ran the concatenate function above with the seqkit filtering step as a batch job together:
 - job name: concatenate_filter
-- job id:
+- job id: 48175086
 - run time:
 ```
-cat hci_concat_noadapters.fastq | seqkit seq -m 2000 -Q 3 -j 10 > hci_filtered_2kQ3.fastq
+module load anaconda3/2022.05 discovery
+source activate /work/gatins/hci_genome/env
+cat /work/gatins/hci_genome/processing/hci1_noadapters.fastq /work/gatins/hci_genome/processing/hci2_noadapters.fastq > /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq
+cat /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq | seqkit seq -m 2000 -Q 3 -j 10 > /work/gatins/hci_genome/processing/hci_filtered_2kQ3.fastq
 ```
 running stats on filtered output
 ```
