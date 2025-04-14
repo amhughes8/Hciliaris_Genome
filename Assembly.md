@@ -98,7 +98,7 @@ seqkit stats hci_filtered_2kQ3.fastq -a
 # Estimating genome size with Jellyfish (k=21)
 - job name: jellyfish
 - job id: 48198203
-- run time:
+- run time: 03:08:30
 ```
 module load jellyfish/2.2.10
 jellyfish count -m 21 -s 100M -t 10 -C -o hci_21mer_output /work/gatins/hci_genome/processing/hci_filtered_2kQ3.fastq
