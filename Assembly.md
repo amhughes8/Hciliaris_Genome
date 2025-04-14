@@ -83,14 +83,14 @@ cat hci1_noadapters.fastq hci2_noadapters.fastq > hci_concat_noadapters.fastq
 we're filtering to a minimum sequence length of 2000 and minimum Q-score of 3 (I also allocated 10 threads to try and speed up the process). I also ran the concatenate function above with the seqkit filtering step as a batch job together:
 - job name: concatenate_filter
 - job id: 48175086
-- run time:
+- run time: 00:33:29
 ```
 module load anaconda3/2022.05 discovery
 source activate /work/gatins/hci_genome/env
 cat /work/gatins/hci_genome/processing/hci1_noadapters.fastq /work/gatins/hci_genome/processing/hci2_noadapters.fastq > /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq
 cat /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq | seqkit seq -m 2000 -Q 3 -j 10 > /work/gatins/hci_genome/processing/hci_filtered_2kQ3.fastq
 ```
-running stats on filtered output
+running stats on filtered output (saved output as .txt file)
 ```
 seqkit stats hci_filtered_2kQ3.fastq -a
 ```
