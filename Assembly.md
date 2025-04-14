@@ -119,7 +119,7 @@ flye --nano-raw /work/gatins/hci_genome/processing/hci_filtered_2kQ3.fastq --thr
 
 ## Hifiasm (newer and no polish required)
 
-now let's check and make sure the adapters came off with FCS from NCBI
+now let's check and make sure the adapters came off with **FCS from NCBI**
 ```
 module load singularity/3.10.3
 curl https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/latest/fcs-adaptor.sif -Lo fcs-adaptor.sif
@@ -127,6 +127,15 @@ curl https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/latest/fcs-adaptor.
 ```
 mkdir fcs_output
 ./run_fcsadaptor.sh --fasta-input hci_concat_noadapters.fastq.gz --output-dir /work/gatins/hci_genome/processing/fcs_output --euk --container-engine singularity --image fcs-adaptor.sif
+```
+
+## Busco after initial assembly
+first, find which dataset to run Busco against
+```
+busco --list-datasets
+```
+```
+busco -i flyeoutput --mode genome --lineage_dataset fromlist --cpu ?
 ```
 
 # polish with Medaka
