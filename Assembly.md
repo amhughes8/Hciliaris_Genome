@@ -134,8 +134,9 @@ first, find which dataset to run Busco against
 ```
 busco --list-datasets
 ```
+running against the **actinopterigyii_odb12** dataset
 ```
-busco -i flyeoutput --mode genome --lineage_dataset fromlist --cpu ?
+busco -i flyeoutput --mode genome --lineage_dataset actinopterigyii_odb12 --cpu ?
 ```
 
 # polish with Medaka
