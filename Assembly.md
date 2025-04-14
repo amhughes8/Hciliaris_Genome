@@ -96,12 +96,12 @@ seqkit stats hci_filtered_2kQ3.fastq -a
 ```
 
 # Estimating genome size with Jellyfish (k=21)
-job names: jellyfish
-job ids: 
-run times:
+job name: jellyfish
+job id: 48198203
+run time:
 ```
 module load jellyfish/2.2.10
-jellyfish count -m 21 -s 100M -t 10 -C -o hci_21mer_output /work/gatins/hci_genome/processing/hci_concat.fastq
+jellyfish count -m 21 -s 100M -t 10 -C -o hci_21mer_output /work/gatins/hci_genome/processing/hci_filtered_2kQ3.fastq
 ```
 ```
 jellyfish histo mer_counts.jf
@@ -109,6 +109,14 @@ jellyfish histo mer_counts.jf
 
 # ASSEMBLIES
 ## Flye + polish with Medaka (ONT recommendation)
+Flye is the method recommended by ONT for animal genome assemblies, so let's give it a shot. Requested 500G RAM and 32 threads:
+- job name: assembly_flye
+- job id: 48197184
+- run time:
+```
+flye --nano-raw /work/gatins/hci_genome/processing/hci_filtered_2kQ3.fastq --threads 32 --out-dir /work/gatins/hci_genome/processing/assembly_Flye
+```
+
 ## Hifiasm (newer and no polish required)
 
 now let's check and make sure the adapters came off with FCS from NCBI
@@ -121,7 +129,14 @@ mkdir fcs_output
 ./run_fcsadaptor.sh --fasta-input hci_concat_noadapters.fastq.gz --output-dir /work/gatins/hci_genome/processing/fcs_output --euk --container-engine singularity --image fcs-adaptor.sif
 ```
 
-# polish
+# polish with Medaka
+```
+medaka_consensus -i reads from basecaller -d assembly_flye.fasta -o medaka_out -t 32 -m basecaller model
+```
+to find model list:
+```
+medaka tools list\_models
+```
 
 # Blobtools - decontaminate and inspect
 ## BUSCO
