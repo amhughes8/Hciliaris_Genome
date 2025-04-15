@@ -63,16 +63,6 @@ source activate /work/gatins/hci_genome/env
 porechop -i /work/gatins/hci_genome/processing/hci1.fastq -o hci1_noadapters.fastq
 ```
 
-# fastqc
-running fastqc on each fastq before and after adapter removal ** I'm struggling to make this work. It keeps running out of memory but not alerting me... I need to figure out how to run this more efficiently since these files are all so large **
-- job name: fastqc
-- job id:
-- run time: 
-```
-module load fastqc/0.11.9
-fastqc /work/gatins/hci_genome/processing/*.fastq -o ./fastqc/
-```
-
 # concatenate to one big file
 now that things look good after Porechop, let's concatenate before we filter and assemble
 ```
