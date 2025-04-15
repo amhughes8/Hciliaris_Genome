@@ -136,7 +136,9 @@ busco --list-datasets
 ```
 running against the **actinopterigyii_odb12** dataset
 ```
-busco -i flyeoutput --mode genome --lineage_dataset actinopterigyii_odb12 --cpu ?
+module load anaconda3/2022.05
+source activate /work/gatins/hci_genome/busco
+busco -i /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta --mode genome --lineage_dataset actinopterygii_odb12 --cpu 10 --out initial_assembly_flye
 ```
 
 # polish with Medaka
