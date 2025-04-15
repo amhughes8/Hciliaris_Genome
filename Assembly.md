@@ -106,8 +106,15 @@ Flye is the method recommended by ONT for animal genome assemblies, so let's giv
 ```
 flye --nano-raw /work/gatins/hci_genome/processing/hci_filtered_2kQ3.fastq --threads 32 --out-dir /work/gatins/hci_genome/processing/assembly_Flye
 ```
+The output looks AWESOME (assembly.fasta). I'm going to run another assembly method (Hifiasm), polish this assembly with Medaka, and also run through the Flye-Medaka pipeline with data that I filter a bit harsher (min length 2500 and Q5). Find all of this below.
 
 ## Hifiasm (newer and no polish required)
+- job name: hifiasm_assembly
+- job id: 48242171
+- run time:
+```
+
+```
 
 now let's check and make sure the adapters came off with **FCS from NCBI**
 ```
@@ -139,10 +146,32 @@ not positive about the basecaller model... but got it from Dorado github. to fin
 ```
 medaka tools list\_models
 ```
+- job name: medaka_polish
+- job id: 48241944
+- run time:
 ```
 medaka_consensus -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq -d /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta -o medaka_out -t 32 -m r1041_e82_400bps_sup_v5.0.0
 ```
 
+# Re-filtering
+Using seqkit, I refiltered with harsher criteria to try and achieve an assembly with fewer contigs.
+- job name: filter_2.5kQ5
+- job id: 48242201
+- run time: 00:17:17
+```
+module load anaconda3/2022.05 discovery
+source activate /work/gatins/hci_genome/env
+cat /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq | seqkit seq -m 2500 -Q 5 -j 10 > /work/gatins/hci_genome/processing/hci_filtered_2.5kQ5.fastq
+```
+
+# Re-assembling
+Now, I will re-assemble with Flye with this new filtered data
+- job name:
+- job id: 48242538
+- run time:
+```
+flye --nano-raw /work/gatins/hci_genome/processing/hci_filtered_2.5kQ5.fastq --threads 32 --out-dir /work/gatins/hci_genome/processing/assembly_Flye_2.5kQ5
+```
 
 # Blobtools - decontaminate and inspect
 ## BUSCO
