@@ -129,12 +129,15 @@ mkdir fcs_output
 ./run_fcsadaptor.sh --fasta-input hci_concat_noadapters.fastq.gz --output-dir /work/gatins/hci_genome/processing/fcs_output --euk --container-engine singularity --image fcs-adaptor.sif
 ```
 
-## Busco after initial assembly
+## [BUSCO](https://busco.ezlab.org/busco_userguide.html#tips-for-running-busco) after initial assembly
 first, find which dataset to run Busco against
 ```
 busco --list-datasets
 ```
 running against the **actinopterygii_odb12** dataset
+- job name: busco_initial_assembly_flye
+- job id: 48238947
+- run time: 00:46:58
 ```
 module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/busco
