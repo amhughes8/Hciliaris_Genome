@@ -140,18 +140,19 @@ running against the **actinopterygii_odb12** dataset
 - run time: 00:46:58
 ```
 module load anaconda3/2022.05
-source activate /work/gatins/hci_genome/busco
+source activate medaka
 busco -i /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta --mode genome --lineage_dataset actinopterygii_odb12 --cpu 25 --out initial_assembly_flye_busco
 ```
 
 # polish with Medaka
-```
-medaka_consensus -i reads from basecaller -d assembly_flye.fasta -o medaka_out -t 32 -m basecaller model
-```
-to find model list:
+not positive about the basecaller model... but got it from Dorado github. to find model list:
 ```
 medaka tools list\_models
 ```
+```
+medaka_consensus -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq -d /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta -o medaka_out -t 32 -m r1041_e82_400bps_sup_v5.0.0
+```
+
 
 # Blobtools - decontaminate and inspect
 ## BUSCO
