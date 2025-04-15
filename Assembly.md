@@ -112,7 +112,7 @@ jellyfish histo mer_counts.jf
 Flye is the method recommended by ONT for animal genome assemblies, so let's give it a shot. Requested 500G RAM and 32 threads:
 - job name: assembly_flye
 - job id: 48197184
-- run time:
+- run time: 21:31:05
 ```
 flye --nano-raw /work/gatins/hci_genome/processing/hci_filtered_2kQ3.fastq --threads 32 --out-dir /work/gatins/hci_genome/processing/assembly_Flye
 ```
