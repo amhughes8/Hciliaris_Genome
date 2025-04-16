@@ -31,7 +31,7 @@ samtools bam2fq fc1.bam > hci1.fastq
 samtools bam2fq fc2_SS.bam > hci2.fastq
 ```
 
-## Check stats from each fastq using [NanoStat](https://github.com/wdecoster/nanostat) OR [SeqKit](https://bioinf.shenwei.me/seqkit/usage/)
+# Check stats from each fastq using [NanoStat](https://github.com/wdecoster/nanostat) OR [SeqKit](https://bioinf.shenwei.me/seqkit/usage/)
 - job name: flowcell_stats
 - job id: 48011288
 - run time: 02:54:42
@@ -204,6 +204,12 @@ testing on assembly #4:
 mkdir fcs_output
 ./run_fcsadaptor.sh --fasta-input /work/gatins/hci_genome/processing/assembly_Flye_2.5kQ5/assembly.fasta --output-dir /work/gatins/hci_genome/processing/fcs_output --euk --container-engine singularity --image fcs-adaptor.sif
 ```
+Output (fcs_adaptor_report.txt):
+| accession	| length	| action	| range	| name |
+|-----------|---------|---------|-------|------|
+|contig_1435	| 1811395	| ACTION_TRIM	| 141196..141220	| CONTAMINATION_SOURCE_TYPE_ADAPTOR:NGB00972.1:Pacific Biosciences Blunt Adapter |
+
+I'm not sure why it detected a PacBio adapter in my assembly...
 
 # Blobtools - decontaminate and inspect
 
