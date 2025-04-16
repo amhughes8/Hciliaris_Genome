@@ -42,6 +42,9 @@ NanoStat --fastq /work/gatins/hci_genome/processing/hci1.fastq --outdir /work/ga
 NanoStat --fastq /work/gatins/hci_genome/processing/hci2.fastq --outdir /work/gatins/hci_genome/processing/statreports --name hci2_Nanostat_fastqreport
 ```
 I'm curious about the difference in outputs from NanoStat and seqkit so let's run seqkit too
+- job name: stats_seqkit
+- job id: 48021445
+- run time: 00:07:34
 ```
 module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/env
