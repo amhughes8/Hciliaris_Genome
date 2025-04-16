@@ -4,7 +4,7 @@
 
 1. Using four tissue types to see which gives us the best quality extraction:
 | Tissue Type | Preservation Method | Freezer Storage | Sample ID |
-| ----------- | ------------------- | ----------------|----------|
+|-----------|-------------------|----------------|----------|
 | fin | ethanol | -80C | HCI_CUR_092401_FIE |
 | fin | flash frozen | -80C | HCI_CUR_092401_FFF |
 | gill | flash frozen | -80C | HCI_CUR_092401_GFF |
@@ -16,17 +16,25 @@
 
 ## Qubit Results:
 | Sample ID | Concentration [ng/uL] |
-| --------- | --------------------- |
+|---------|---------------------|
 | HCI_CUR_092401_FIE | 17.9 |
 | HCI_CUR_092401_FFF | 9.05 |
 | HCI_CUR_092401_GFF | 31.8 |
 | HCI_CUR_092401_SIE | 4.88 |
+
+## Nanodrop Results:
+| Sample ID | Concentration [ng/uL] | 260/280 | 260/230 |
+|---------|--------------------|---------|---------|
+| HCI_CUR_092401_FIE | 32.5 | 2.20 | 1.79 |
+| HCI_CUR_092401_FFF | 19.3 | 1.87 | 1.38 |
+| HCI_CUR_092401_GFF | 46.9 | 1.95 | 1.90 |
+| HCI_CUR_092401_SIE | 12 | 2.15 | 1.05 |
 
 ## Gel Results:
 2% gel, 90 V for 35 mins
 ![plot](photos/gel_results.png)
 
 ## Tapestation Results:
-gDNA tape
-![plot](photos_tapestation_gDNA.png)
+Ran a gDNA tape with FIE, FFF, and GFF. GFF looked the past through all quality checks:
+![plot](photos/tapestation_results_gDNA.png)
 
