@@ -102,8 +102,8 @@ Upload this histogram file to [GenomeScope](http://genomescope.org/genomescope2.
 - Ploidy: 2
 - Max k-mer coverage: -1 (left at default)
 - Average k-mer coverage for polyploid genome: -1 (left at default)
-![plot]()
-![plot]()
+![plot](photos/GenomeScope_plot.png)
+![plot](photos/GenomeScope_output.png)
 
 # ASSEMBLIES
 ## Method 1: [Flye](https://github.com/mikolmogorov/Flye)
