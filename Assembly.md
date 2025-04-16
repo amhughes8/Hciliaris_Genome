@@ -195,11 +195,14 @@ seqkit stats assembly.fasta -a
 now let's check and make sure the adapters came off with **FCS from NCBI**
 ```
 module load singularity/3.10.3
+curl -LO https://github.com/ncbi/fcs/raw/main/dist/run_fcsadaptor.sh
+chmod 755 run_fcsadaptor.sh
 curl https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/latest/fcs-adaptor.sif -Lo fcs-adaptor.sif
 ```
+testing on assembly #4:
 ```
 mkdir fcs_output
-./run_fcsadaptor.sh --fasta-input hci_concat_noadapters.fastq.gz --output-dir /work/gatins/hci_genome/processing/fcs_output --euk --container-engine singularity --image fcs-adaptor.sif
+./run_fcsadaptor.sh --fasta-input /work/gatins/hci_genome/processing/assembly_Flye_2.5kQ5/assembly.fasta --output-dir /work/gatins/hci_genome/processing/fcs_output --euk --container-engine singularity --image fcs-adaptor.sif
 ```
 
 # Blobtools - decontaminate and inspect
