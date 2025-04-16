@@ -26,5 +26,5 @@ Generating short reads to possibly use in polishing the reference genome assembl
 Final concentration=22.0 ng/uL
 
 ## Tapestation Results:
-This tapestation run looked pretty wonky... but I think it may be because I used a tape that had been open for a few days/weeks. We still sequenced it!
+Used a D1000 tape. This tapestation run looked pretty wonky... but I think it may be because I used a tape that had been open for a few days/weeks. We still sequenced it!
 ![post](photos/tapestation_result_HCI_CUR_092401_WGS.png)
