@@ -3,6 +3,7 @@
 ## Who: Annabel Hughes
 
 1. Using four tissue types to see which gives us the best quality extraction:
+
 | Tissue Type | Preservation Method | Freezer Storage | Sample ID |
 |-----------|-------------------|----------------|----------|
 | fin | ethanol | -80C | HCI_CUR_092401_FIE |
