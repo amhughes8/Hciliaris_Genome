@@ -209,7 +209,21 @@ Output (fcs_adaptor_report.txt):
 |-----------|---------|---------|-------|------|
 |contig_1435	| 1811395	| ACTION_TRIM	| 141196..141220	| CONTAMINATION_SOURCE_TYPE_ADAPTOR:NGB00972.1:Pacific Biosciences Blunt Adapter |
 
-I'm not sure why it detected a PacBio adapter in my assembly...
+I'm not sure why it detected a PacBio adapter in my assembly... Let's test it on the other assemblies. Assembly 1:
+```
+mkdir fcs2_output
+./run_fcsadaptor.sh --fasta-input /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta --output-dir /work/gatins/hci_genome/processing/fcs2_output --euk --container-engine singularity --image fcs-adaptor.sif
+```
+Output (fcs_adaptor_report.txt):
+| accession	| length	| action	| range	| name |
+|-----------|---------|---------|-------|------|
+
+No contamination detected here...??? Testing Hifiasm assembly now:
+```
+mkdir fcs3_output
+./run_fcsadaptor.sh --fasta-input test_hifiasm.fa --output-dir /work/gatins/hci_genome/processing/fcs3_output --euk --container-engine singularity --image fcs-adaptor.sif
+```
+No contamination detected. Going to investigate.
 
 # Blobtools - decontaminate and inspect
 
