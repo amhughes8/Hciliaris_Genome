@@ -203,8 +203,4 @@ mkdir fcs_output
 ```
 
 # Blobtools - decontaminate and inspect
-## BUSCO
-
-# 8. NCBI adapter check
-https://events.zoomgov.com/ej/Akmyb_uwsX0jDQtdW4EkddmRP2U7zDbJG3GwqFa2375b7pPpHMRS~A3Bfz_cM3xfiOOmt-OzkU9PoO_juK_MAF-VBZ_S2R9a6OUJSYJ-KCPNVdK2KaIQO3RZ-rva04f5PW1oUJEFC-AwyRCX9sVgyNkNgp-MLxkRBkdodc
 
