@@ -37,5 +37,5 @@
 
 ## Tapestation Results:
 Ran a gDNA tape with FIE, FFF, and GFF. GFF looked the past through all quality checks:
-![plot](photos/tapestation_results_gDNA.png)
+![plot](photos/tapestation_results_gDNA_GFF.png)
 
