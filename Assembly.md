@@ -155,7 +155,7 @@ medaka_consensus -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fas
 ## Method 3: Hifiasm
 - job name: hifiasm_assembly
 - job id: 48242171
-- run time:
+- run time: 18:00:21
 ```
 module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/env
