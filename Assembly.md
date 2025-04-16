@@ -166,12 +166,19 @@ cat /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq | seqkit seq 
 
 # Re-assembling
 Now, I will re-assemble with Flye with this new filtered data
-- job name:
+- job name: assembly_flye_2.5kQ5
 - job id: 48242538
-- run time:
+- run time: 14:49:18
 ```
 flye --nano-raw /work/gatins/hci_genome/processing/hci_filtered_2.5kQ5.fastq --threads 32 --out-dir /work/gatins/hci_genome/processing/assembly_Flye_2.5kQ5
 ```
+```
+seqkit stats assembly.fasta -a
+```
+
+|  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n |
+|----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|
+|assembly.fasta | FASTA |  DNA   |   432 | 594,482,202   |   545 | 1,376,116.2 | 22,923,120 | 5,083.5 | 16,907.5 | 797,175.5   |    0 | 9,307,019   |    21    |   0    |   0    |   0 | 41.38   |   0 |
 
 # Blobtools - decontaminate and inspect
 ## BUSCO
