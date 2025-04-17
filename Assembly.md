@@ -192,7 +192,7 @@ seqkit stats assembly.fasta -a
 |assembly_Flye_2.5kQ5/assembly.fasta | FASTA |  DNA   |   432 | 594,482,202   |   545 | 1,376,116.2 | 22,923,120 | 5,083.5 | 16,907.5 | 797,175.5   |    0 | 9,307,019   |    21    |   0    |   0    |   0 | 41.38   |   0 |  | 98.7%
 
 
-now let's check and make sure the adapters came off with **FCS from NCBI**
+now let's check and make sure the adapters came off with [FCS](https://github.com/ncbi/fcs) from NCBI
 ```
 module load singularity/3.10.3
 curl -LO https://github.com/ncbi/fcs/raw/main/dist/run_fcsadaptor.sh
