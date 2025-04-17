@@ -237,5 +237,5 @@ source activate /work/gatins/hci_genome/env
 ```
 Now let's generate a report by running the Hifiasm assembly against this database:
 ```
-kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_standard_db --output kraken2_hifiasm.output.txt --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/test_hifiasm.fa
+/work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_standard_db --output kraken2_hifiasm.output.txt --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/test_hifiasm.fa
 ```
