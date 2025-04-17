@@ -225,5 +225,14 @@ mkdir fcs3_output
 ```
 No contamination detected. Going to investigate.
 
-# Blobtools - decontaminate and inspect
+# Contamination Identification with [Kraken2](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown)
+First, I will create the standard Kraken2 database which contains "NCBI taxonomic information, as well as the complete genomes in RefSeq for the bacterial, archaeal, and viral domains, along with the human genome and a collection of known vectors (UniVec_Core)." I allocated 250G of memory to this job to try and build the database quickly.
+job name: kraken2db
+job id: 48295878
+run time: 
+```
+module load anaconda3/2022.05
+source activate /work/gatins/hci_genome/env
+kraken2-build --standard --threads 32 --db /work/gatins/hci_genome/processing/kraken2_standard_db
+```
 
