@@ -27,4 +27,4 @@ Final concentration=22.0 ng/uL
 
 ## Tapestation Results:
 Used a D1000 tape. This tapestation run looked pretty wonky... but I think it may be because I used a tape that had been open for a few days/weeks. We still sequenced it!
-![post](photos/tapestation_result_HCI_CUR_092401_WGS.png)
+![plot](photos/tapestation_result_HCI_CUR_092401_WGS.png)
