@@ -147,7 +147,7 @@ medaka tools list\_models
 ```
 - job name: medaka_polish
 - job id: 48241944
-- run time:
+- run time: 2-00:00:00 and  it didn't finish! TIMEOUT
 ```
 medaka_consensus -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq -d /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta -o medaka_out -t 32 -m r1041_e82_400bps_sup_v5.0.0
 ```
@@ -227,14 +227,23 @@ No contamination detected. Going to investigate.
 
 # Contamination Identification with [Kraken2](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown)
 First, I will create the standard Kraken2 database which contains "NCBI taxonomic information, as well as the complete genomes in RefSeq for the bacterial, archaeal, and viral domains, along with the human genome and a collection of known vectors (UniVec_Core)." I allocated 250G of memory to this job to try and build the database quickly.
-job name: kraken2db
-job id: 48300656
-run time: 
+- job name: kraken2db
 ```
 module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/env
-/work/gatins/hci_genome/kraken2/kraken2-build --standard --threads 32 --db /work/gatins/hci_genome/processing/kraken2_standard_db
+/work/gatins/hci_genome/kraken2/kraken2-build --standard --threads 32 --db /work/gatins/hci_genome/processing/kraken2_standard_db --use-ftp
 ```
+This quit in the middle of downloading the archaea database. Going to run each individually instead as follows:
+```
+module load anaconda3/2022.05
+source activate /work/gatins/hci_genome/env
+#./kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library archaea
+#./kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library viral
+#./kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library bacteria
+#./kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library plasmid
+#./kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library human --no-mask
+```
+
 Now let's generate a report by running the Hifiasm assembly against this database:
 ```
 /work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_standard_db --output kraken2_hifiasm.output.txt --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/test_hifiasm.fa
