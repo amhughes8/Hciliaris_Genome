@@ -152,7 +152,7 @@ medaka tools list\_models
 medaka_consensus -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq -d /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta -o medaka_out -t 32 -m r1041_e82_400bps_sup_v5.0.0
 ```
 
-## Method 3: Hifiasm
+## Method 3: [Hifiasm](https://github.com/chhylp123/hifiasm)
 - job name: hifiasm_assembly
 - job id: 48242171
 - run time: 18:00:21
