@@ -34,10 +34,10 @@
 ## Gel Results:
 2% gel, 90 V for 35 mins
 
-![plot](photos/gel_results.png)
+![plot](https://github.com/amhughes8/Hciliaris_Genome/blob/main/photos/gel_results.png)
 
 ## Tapestation Results:
 Ran a gDNA tape with FIE, FFF, and GFF. GFF looked the past through all quality checks:
 
-![plot](photos/tapestation_results_gDNA_GFF.png)
+![plot](https://github.com/amhughes8/Hciliaris_Genome/blob/main/photos/tapestation_results_gDNA_GFF.png)
 
