@@ -170,6 +170,13 @@ medaka tools list\_models
 ```
 medaka_consensus -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq -d /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta -o medaka_out -t 32 -m r1041_e82_400bps_sup_v5.0.0
 ```
+I need to try to parallellize this process a bit more because it is clearly very time intensive. [This Github issues thread](https://github.com/nanoporetech/medaka/issues/35) recommends breaking up the 3 steps of medaka_consensus (alignment, consensus, aggregation). So, let's run alignment first:
+- job name: medaka_align
+- job id: 48320968
+- run time:
+```
+mini_align -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq -r /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta -P -m -p medaka_align.bam -t 32
+```
 
 ## Method 3: [Hifiasm](https://github.com/chhylp123/hifiasm)
 - job name: hifiasm_assembly
