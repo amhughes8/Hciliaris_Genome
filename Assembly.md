@@ -229,8 +229,6 @@ No contamination detected. Going to investigate.
 First, I will create the standard Kraken2 database which contains "NCBI taxonomic information, as well as the complete genomes in RefSeq for the bacterial, archaeal, and viral domains, along with the human genome and a collection of known vectors (UniVec_Core)." I allocated 250G of memory to this job to try and build the database quickly.
 - job name: kraken2db
 ```
-module load anaconda3/2022.05
-source activate /work/gatins/hci_genome/env
 /work/gatins/hci_genome/kraken2/kraken2-build --standard --threads 24 --db /work/gatins/hci_genome/processing/kraken2_standard_db --use-ftp
 ```
 This quit in the middle of downloading the archaea database. Going to run each individually instead as follows:
