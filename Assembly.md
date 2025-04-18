@@ -223,23 +223,31 @@ No contamination detected here...??? Testing Hifiasm assembly now:
 mkdir fcs3_output
 ./run_fcsadaptor.sh --fasta-input test_hifiasm.fa --output-dir /work/gatins/hci_genome/processing/fcs3_output --euk --container-engine singularity --image fcs-adaptor.sif
 ```
-No contamination detected. Going to investigate.
+No adapter contamination detected. Going to investigate.
 
 # Contamination Identification with [Kraken2](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown)
-First, I will create the standard Kraken2 database which contains "NCBI taxonomic information, as well as the complete genomes in RefSeq for the bacterial, archaeal, and viral domains, along with the human genome and a collection of known vectors (UniVec_Core)." I allocated 250G of memory to this job to try and build the database quickly.
-- job name: kraken2db
+First, I will create the standard Kraken2 database which contains "NCBI taxonomic information, as well as the complete genomes in RefSeq for the bacterial, archaeal, and viral domains, along with the human genome and a collection of known vectors (UniVec_Core)." 
 ```
 /work/gatins/hci_genome/kraken2/kraken2-build --standard --threads 24 --db /work/gatins/hci_genome/processing/kraken2_standard_db --use-ftp
 ```
-This quit in the middle of downloading the archaea database. Going to run each individually instead as follows:
+This quit after downloading taxonomic information but in the middle of downloading the archaea database. I keep receiving timeout errors `Step 1/2: Performing ftp file transfer of requested files
+rsync_from_ncbi.pl: FTP connection error: Net::FTP: connect: timeout` Going to try and pull everything interactively one db at a time to see if I can avoid a timeout error with ftp:
 ```
-module load anaconda3/2022.05
-source activate /work/gatins/hci_genome/env
-#./kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library archaea
-#./kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library viral
-#./kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library bacteria
-#./kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library plasmid
-#./kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library human --no-mask
+srun --partition=short --nodes=1 --cpus-per-task=10 --mem=50G --pty /bin/bash
+/work/gatins/hci_genome/kraken2/kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library archaea
+/work/gatins/hci_genome/kraken2/kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library viral
+/work/gatins/hci_genome/kraken2/kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library bacteria
+/work/gatins/hci_genome/kraken2/kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library plasmid
+/work/gatins/hci_genome/kraken2/kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library human --no-mask
+```
+I keep receiving timeout errors `Step 1/2: Performing ftp file transfer of requested files
+rsync_from_ncbi.pl: FTP connection error: Net::FTP: connect: timeout`... Not sure what to do about this but I found [this GitHub issues page](https://github.com/DerrickWood/kraken2/issues/272) where people were running into the same problem. I'm going to take the approach recommended in this thread and use a [custom-built python script](https://github.com/R-Wright-1/peptides/blob/master/download_domain.py) to pull all of the data from NCBI.
+```
+python/3.8.1
+python download_domain.py --domain bacteria --complete True --ext dna
+python download_domain.py --domain archaea --complete True --ext dna
+python download_domain.py --domain viral --complete True --ext dna
+python download_domain.py --domain vertebrate_mammalian --complete True --ext dna --human True
 ```
 
 Now let's generate a report by running the Hifiasm assembly against this database:
