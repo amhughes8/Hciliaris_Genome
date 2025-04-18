@@ -240,8 +240,16 @@ seqkit stats assembly.fasta -a
 |----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
 |assembly_Flye_2.5kQ5/assembly.fasta | FASTA |  DNA   |   432 | 594,482,202   |   545 | 1,376,116.2 | 22,923,120 | 5,083.5 | 16,907.5 | 797,175.5   |    0 | 9,307,019   |    21    |   0    |   0    |   0 | 41.38   |   0 |  | 98.7%
 
+## Method 5: Flye, harsher filtering, --nano-hq and --scaffold
+I haven't been positive which --nano flag to use so I've used the default which is --nano-raw. I'm going to try --nano-hq mode now because it does say this is what you should use for "the most recent ONT data basecalled with Guppy5+ SUP." I'm also going to add a --scaffold flag to see what this does to my number of sequences.
+- job name: assembly_flye_hq_scaff
+- job id: 48323649
+- run time:
+```
+flye --nano-hq /work/gatins/hci_genome/processing/hci_filtered_2.5kQ5.fastq --threads 32 --scaffold --out-dir /work/gatins/hci_genome/processing/assembly_Flye_2.5kQ5
+```
 
-now let's check and make sure the adapters came off with [FCS](https://github.com/ncbi/fcs) from NCBI
+### now let's check and make sure the adapters came off with [FCS](https://github.com/ncbi/fcs) from NCBI
 ```
 module load singularity/3.10.3
 curl -LO https://github.com/ncbi/fcs/raw/main/dist/run_fcsadaptor.sh
