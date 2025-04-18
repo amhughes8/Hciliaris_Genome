@@ -173,9 +173,32 @@ medaka_consensus -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fas
 I need to try to parallellize this process a bit more because it is clearly very time intensive. [This Github issues thread](https://github.com/nanoporetech/medaka/issues/35) recommends breaking up the 3 steps of medaka_consensus (alignment, consensus, aggregation). So, let's run alignment first:
 - job name: medaka_align
 - job id: 48320968
-- run time:
+- run time: 
 ```
 mini_align -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq -r /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta -P -m -p medaka_align.bam -t 32
+```
+This resulted in x (STILL RUNNING!) medaka_align.bam files:
+```
+medaka_align.bam.bam.tmp.0000.bam
+medaka_align.bam.bam.tmp.0001.bam
+medaka_align.bam.bam.tmp.0002.bam
+medaka_align.bam.bam.tmp.0003.bam
+medaka_align.bam.bam.tmp.0004.bam
+medaka_align.bam.bam.tmp.0005.bam
+medaka_align.bam.bam.tmp.0006.bam
+medaka_align.bam.bam.tmp.0007.bam
+```
+Now running medaka inference on each smaller .bam file (UPDATE THIS ONCE THE JOB ACTUALLY FINISHES!):
+```
+mkdir results
+medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0000.bam /work/gatins/hci_genome/processing/medaka/results/part0.hdf
+medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0001.bam /work/gatins/hci_genome/processing/medaka/results/part1.hdf
+medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0002.bam /work/gatins/hci_genome/processing/medaka/results/part2.hdf
+medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0003.bam /work/gatins/hci_genome/processing/medaka/results/part3.hdf
+medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0004.bam /work/gatins/hci_genome/processing/medaka/results/part4.hdf
+medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0005.bam /work/gatins/hci_genome/processing/medaka/results/part5.hdf
+medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0006.bam /work/gatins/hci_genome/processing/medaka/results/part6.hdf
+medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0007.bam /work/gatins/hci_genome/processing/medaka/results/part7.hdf
 ```
 
 ## Method 3: [Hifiasm](https://github.com/chhylp123/hifiasm)
@@ -271,7 +294,7 @@ rsync_from_ncbi.pl: FTP connection error: Net::FTP: connect: timeout`... Not sur
 I started pulling the bacteria domain interactively and it's taking forever, so I'm submitting a batch job for the rest.
 - job name: kraken2db_datapull (accidentally have it named the same as medaka_align because i never changed it in batch job oops)
 - job id: 48321063
-- run time:
+- run time: 00:43:01
 ```
 module load python/3.8.1
 conda install -c conda-forge biopython
