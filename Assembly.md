@@ -172,7 +172,7 @@ medaka_consensus -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fas
 ```
 I need to try to parallellize this process a bit more because it is clearly very time intensive. [This Github issues thread](https://github.com/nanoporetech/medaka/issues/35) recommends breaking up the 3 steps of medaka_consensus (alignment, consensus, aggregation). So, let's run alignment first:
 - job name: medaka_align
-- job id: 48320968
+- job id: 48322513
 - run time: 
 ```
 mini_align -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq -r /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta -P -m -p medaka_align.bam -t 32
