@@ -97,7 +97,7 @@ module load jellyfish/2.2.10
 jellyfish count -m 21 -s 100M -t 10 -C -o hci_21mer_output /work/gatins/hci_genome/processing/hci_filtered_2kQ3.fastq
 ```
 ```
-jellyfish histo mer_counts.jf
+jellyfish histo hci_21mer_output
 ```
 Upload this histogram file to [GenomeScope](http://genomescope.org/genomescope2.0/) to look at sequencing coverage and get a genome size estimate.
 - Description: HCI_CUR_092401
