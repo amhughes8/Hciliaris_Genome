@@ -268,6 +268,10 @@ srun --partition=short --nodes=1 --cpus-per-task=10 --mem=50G --pty /bin/bash
 I keep receiving timeout errors `Step 1/2: Performing ftp file transfer of requested files
 rsync_from_ncbi.pl: FTP connection error: Net::FTP: connect: timeout`... Not sure what to do about this but I found [this GitHub issues page](https://github.com/DerrickWood/kraken2/issues/272) where people were running into the same problem. I'm going to take the approach recommended in this thread and use a [custom-built python script](https://github.com/R-Wright-1/peptides/blob/master/download_domain.py) to pull all of the data from NCBI.
 
+I started pulling the bacteria domain interactively and it's taking forever, so I'm submitting a batch job for the rest.
+- job name: kraken2db_datapull (accidentally have it named the same as medaka_align because i never changed it in batch job oops)
+- job id: 48321063
+- run time:
 ```
 module load python/3.8.1
 conda install -c conda-forge biopython
