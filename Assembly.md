@@ -231,7 +231,7 @@ First, I will create the standard Kraken2 database which contains "NCBI taxonomi
 ```
 module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/env
-/work/gatins/hci_genome/kraken2/kraken2-build --standard --threads 32 --db /work/gatins/hci_genome/processing/kraken2_standard_db --use-ftp
+/work/gatins/hci_genome/kraken2/kraken2-build --standard --threads 24 --db /work/gatins/hci_genome/processing/kraken2_standard_db --use-ftp
 ```
 This quit in the middle of downloading the archaea database. Going to run each individually instead as follows:
 ```
