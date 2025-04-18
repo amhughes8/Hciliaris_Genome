@@ -108,6 +108,25 @@ Upload this histogram file to [GenomeScope](http://genomescope.org/genomescope2.
 ![plot](photos/GenomeScope_plot.png)
 ![plot](photos/GenomeScope_output.png)
 
+I ran jellyfish again with a dataset I filtered to Q5 reads (hci_filtered_2.5KQ5). 
+- job name: jellyfishQ5
+- job id: 48316419
+- run time: 02:12:55
+```
+module load jellyfish/2.2.10
+jellyfish count -m 21 -s 500M -t 10 -C -o hciQ5_21mer_output /work/gatins/hci_genome/processing/hci_filtered_2.5kQ5.fastq
+```
+```
+jellyfish histo hciQ5_21mer_output
+```
+- Description: HCI_CUR_092401
+- K-mer length: 21
+- Ploidy: 2
+- Max k-mer coverage: -1 (left at default)
+- Average k-mer coverage for polyploid genome: -1 (left at default)
+![plot]
+![plot]
+
 # ASSEMBLIES
 ## Method 1: [Flye](https://github.com/mikolmogorov/Flye)
 Creating an initial assembly with the 2kQ3 filtered dataset created above. Requested 500G RAM and 32 threads:
@@ -230,8 +249,7 @@ First, I will create the standard Kraken2 database which contains "NCBI taxonomi
 ```
 /work/gatins/hci_genome/kraken2/kraken2-build --standard --threads 24 --db /work/gatins/hci_genome/processing/kraken2_standard_db --use-ftp
 ```
-This quit after downloading taxonomic information but in the middle of downloading the archaea database. I keep receiving timeout errors `Step 1/2: Performing ftp file transfer of requested files
-rsync_from_ncbi.pl: FTP connection error: Net::FTP: connect: timeout` Going to try and pull everything interactively one db at a time to see if I can avoid a timeout error with ftp:
+This quit after downloading taxonomic information but in the middle of downloading the archaea database. Going to try and pull everything interactively one db at a time to see if I can avoid a timeout error with ftp:
 ```
 srun --partition=short --nodes=1 --cpus-per-task=10 --mem=50G --pty /bin/bash
 /work/gatins/hci_genome/kraken2/kraken2-build --threads 6 --use-ftp --db /work/gatins/hci_genome/processing/kraken2_standard_db --download-library archaea
@@ -242,12 +260,20 @@ srun --partition=short --nodes=1 --cpus-per-task=10 --mem=50G --pty /bin/bash
 ```
 I keep receiving timeout errors `Step 1/2: Performing ftp file transfer of requested files
 rsync_from_ncbi.pl: FTP connection error: Net::FTP: connect: timeout`... Not sure what to do about this but I found [this GitHub issues page](https://github.com/DerrickWood/kraken2/issues/272) where people were running into the same problem. I'm going to take the approach recommended in this thread and use a [custom-built python script](https://github.com/R-Wright-1/peptides/blob/master/download_domain.py) to pull all of the data from NCBI.
+
 ```
-python/3.8.1
-python download_domain.py --domain bacteria --complete True --ext dna
-python download_domain.py --domain archaea --complete True --ext dna
-python download_domain.py --domain viral --complete True --ext dna
-python download_domain.py --domain vertebrate_mammalian --complete True --ext dna --human True
+module load python/3.8.1
+conda install -c conda-forge biopython
+conda install pandas
+python /work/gatins/hci_genome/kraken2/download_domain.py --domain bacteria --complete True --ext dna
+python /work/gatins/hci_genome/kraken2/download_domain.py --domain archaea --complete True --ext dna
+python /work/gatins/hci_genome/kraken2/download_domain.py --domain viral --complete True --ext dna
+python /work/gatins/hci_genome/kraken2/download_domain.py --domain plasmid --complete True --ext dna
+python /work/gatins/hci_genome/kraken2/download_domain.py --domain vertebrate_mammalian --complete True --ext dna --human True
+```
+Now that everything is installed in our directory kraken2_builtpython, we build the Kraken2 database:
+```
+/work/gatins/hci_genome/kraken2/kraken2-build --db /work/gatins/hci_genome/processing/kraken2_builtpython --build --threads 6
 ```
 
 Now let's generate a report by running the Hifiasm assembly against this database:
