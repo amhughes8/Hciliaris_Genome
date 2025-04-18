@@ -124,8 +124,8 @@ jellyfish histo hciQ5_21mer_output
 - Ploidy: 2
 - Max k-mer coverage: -1 (left at default)
 - Average k-mer coverage for polyploid genome: -1 (left at default)
-![plot]
-![plot]
+![plot](photos/GenomeScope_Q5.png)
+![plot](photos/GenomeScope_Q5_model.png)
 
 # ASSEMBLIES
 ## Method 1: [Flye](https://github.com/mikolmogorov/Flye)
