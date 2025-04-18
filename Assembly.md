@@ -312,7 +312,7 @@ Now that everything is installed in our directory kraken2_builtpython, we build 
 
 Now let's generate a report by running the Hifiasm assembly against this database:
 ```
-/work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_standard_db --output kraken2_hifiasm.output.txt --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/test_hifiasm.fa
+/work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_standard_db --output kraken2_hifiasm.output.txt --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa
 ```
 
 # Generating plots with Blobtools
