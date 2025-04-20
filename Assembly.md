@@ -166,39 +166,26 @@ medaka tools list\_models
 ```
 - job name: medaka_polish
 - job id: 48241944
-- run time: 2-00:00:00 and  it didn't finish! TIMEOUT
+- run time: 2-00:00:00 and  it didn't finish within 48 hrs! TIMEOUT
 ```
 medaka_consensus -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq -d /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta -o medaka_out -t 32 -m r1041_e82_400bps_sup_v5.0.0
 ```
-I need to try to parallellize this process a bit more because it is clearly very time intensive. [This Github issues thread](https://github.com/nanoporetech/medaka/issues/35) recommends breaking up the 3 steps of medaka_consensus (alignment, consensus, aggregation). So, let's run alignment first:
+I need to try to parallellize this process a bit more because it is clearly very time intensive. [This Github issues thread] (https://github.com/nanoporetech/medaka/issues/35) and the Medaka GitHub page both recommend breaking up the 3 steps of medaka_consensus (alignment, consensus, aggregation). So, let's run alignment first:
 - job name: medaka_align
 - job id: 48322513
-- run time: 
+- run time: 02:13:57
 ```
 mini_align -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq -r /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta -P -m -p medaka_align.bam -t 32
 ```
-This resulted in x (STILL RUNNING!) medaka_align.bam files:
+This resulted in a medaka_align.bam.bam file. Now running medaka inference on the .bam output:
+- job name: medaka_inference
+- job id: 48363197
+- run time:
+** if this doesn't work (/it times out and doesn't finish by the end of 48 hrs), I'll need to break this step up into smaller jobs) **
 ```
-medaka_align.bam.bam.tmp.0000.bam
-medaka_align.bam.bam.tmp.0001.bam
-medaka_align.bam.bam.tmp.0002.bam
-medaka_align.bam.bam.tmp.0003.bam
-medaka_align.bam.bam.tmp.0004.bam
-medaka_align.bam.bam.tmp.0005.bam
-medaka_align.bam.bam.tmp.0006.bam
-medaka_align.bam.bam.tmp.0007.bam
-```
-Now running medaka inference on each smaller .bam file (UPDATE THIS ONCE THE JOB ACTUALLY FINISHES!):
-```
-mkdir results
-medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0000.bam /work/gatins/hci_genome/processing/medaka/results/part0.hdf
-medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0001.bam /work/gatins/hci_genome/processing/medaka/results/part1.hdf
-medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0002.bam /work/gatins/hci_genome/processing/medaka/results/part2.hdf
-medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0003.bam /work/gatins/hci_genome/processing/medaka/results/part3.hdf
-medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0004.bam /work/gatins/hci_genome/processing/medaka/results/part4.hdf
-medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0005.bam /work/gatins/hci_genome/processing/medaka/results/part5.hdf
-medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0006.bam /work/gatins/hci_genome/processing/medaka/results/part6.hdf
-medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam.tmp.0007.bam /work/gatins/hci_genome/processing/medaka/results/part7.hdf
+module load anaconda3/2022.05
+source activate medaka
+medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam /work/gatins/hci_genome/processing/medaka/results --model r1041_e82_400bps_sup_v5.0.0 --threads 2
 ```
 
 ## Method 3: [Hifiasm](https://github.com/chhylp123/hifiasm)
@@ -246,7 +233,7 @@ I haven't been positive which --nano flag to use so I've used the default which 
 - job id: 48323649
 - run time:
 ```
-flye --nano-hq /work/gatins/hci_genome/processing/hci_filtered_2.5kQ5.fastq --threads 32 --scaffold --out-dir /work/gatins/hci_genome/processing/assembly_Flye_2.5kQ5
+flye --nano-hq /work/gatins/hci_genome/processing/hci_filtered_2.5kQ5.fastq --threads 32 --scaffold --out-dir /work/gatins/hci_genome/processing/assembly_Flye_hq_scaff
 ```
 
 ### now let's check and make sure the adapters came off with [FCS](https://github.com/ncbi/fcs) from NCBI
@@ -313,7 +300,13 @@ python /work/gatins/hci_genome/kraken2/download_domain.py --domain viral --compl
 python /work/gatins/hci_genome/kraken2/download_domain.py --domain plasmid --complete True --ext dna
 python /work/gatins/hci_genome/kraken2/download_domain.py --domain vertebrate_mammalian --complete True --ext dna --human True
 ```
-Now that everything is installed in our directory kraken2_builtpython, we build the Kraken2 database:
+
+Now that everything is downloaded into a /genomes directory in kraken2_builtpython, I need to --add-to-library:
+```
+find /work/gatins/hci_genome/processing/kraken2_builtpython/genomes/ -name '*.fna' -print0 | xargs -0 -I{} -n1 -P10 /work/gatins/hci_genome/kraken2/kraken2-build --add-to-library {} --db /work/gatins/hci_genome/processing/kraken2_builtpython
+```
+
+Next, we build the Kraken2 database:
 ```
 /work/gatins/hci_genome/kraken2/kraken2-build --db /work/gatins/hci_genome/processing/kraken2_builtpython --build --threads 6
 ```
