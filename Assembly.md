@@ -225,7 +225,7 @@ seqkit stats assembly.fasta -a
 
 |  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
 |----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
-|assembly_Flye_2.5kQ5/assembly.fasta | FASTA |  DNA   |   432 | 594,482,202   |   545 | 1,376,116.2 | 22,923,120 | 5,083.5 | 16,907.5 | 797,175.5   |    0 | 9,307,019   |    21    |   0    |   0    |   0 | 41.38   |   0 |  | 98.7%
+|assembly_Flye_2.5kQ5/assembly.fasta | FASTA |  DNA   |   442 | 594,793,216   |   290 | 1,345,686 | 23,421,175 | 5,149 | 17,279.5 | 753,846   |    0 | 9,307,034   |    21    |   0    |   0    |   0 | 41.38   |   0 | 98.7% |
 
 ## Method 5: Flye, harsher filtering, --nano-hq and --scaffold
 I haven't been positive which --nano flag to use so I've used the default which is --nano-raw. I'm going to try --nano-hq mode now because it does say this is what you should use for "the most recent ONT data basecalled with Guppy5+ SUP." I'm also going to add a --scaffold flag to see what this does to my number of sequences.
@@ -235,6 +235,9 @@ I haven't been positive which --nano flag to use so I've used the default which 
 ```
 flye --nano-hq /work/gatins/hci_genome/processing/hci_filtered_2.5kQ5.fastq --threads 32 --scaffold --out-dir /work/gatins/hci_genome/processing/assembly_Flye_hq_scaff
 ```
+|  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
+|----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
+| assembly_Flye_hq_scaff/assembly.fasta | FASTA  | DNA  |  507 | 597,798,499  | 512 | 1,179,089.7 | 25,627,744 | 5,811.5 | 18,433 | 325,102  |  0 | 11,446,352 | 18  |     0   |    0    |    0 | 41.38 | 3,800 | BUSCO|
 
 ### now let's check and make sure the adapters came off with [FCS](https://github.com/ncbi/fcs) from NCBI
 ```
