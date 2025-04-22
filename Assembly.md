@@ -237,7 +237,7 @@ flye --nano-hq /work/gatins/hci_genome/processing/hci_filtered_2.5kQ5.fastq --th
 ```
 |  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
 |----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
-| assembly_Flye_hq_scaff/assembly.fasta | FASTA  | DNA  |  507 | 597,798,499  | 512 | 1,179,089.7 | 25,627,744 | 5,811.5 | 18,433 | 325,102  |  0 | 11,446,352 | 18  |     0   |    0    |    0 | 41.38 | 3,800 | BUSCO|
+| assembly_Flye_hq_scaff/assembly.fasta | FASTA  | DNA  |  507 | 597,798,499  | 512 | 1,179,089.7 | 25,627,744 | 5,811.5 | 18,433 | 325,102  |  0 | 11,446,352 | 18  |     0   |    0    |    0 | 41.38 | 3,800 | 98.8% |
 
 ### now let's check and make sure the adapters came off with [FCS](https://github.com/ncbi/fcs) from NCBI
 ```
