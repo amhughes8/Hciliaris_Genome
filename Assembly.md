@@ -248,8 +248,9 @@ curl https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/latest/fcs-adaptor.
 ```
 testing on assembly #4:
 ```
-mkdir fcs_output
-./run_fcsadaptor.sh --fasta-input /work/gatins/hci_genome/processing/assembly_Flye_2.5kQ5/assembly.fasta --output-dir /work/gatins/hci_genome/processing/fcs_output --euk --container-engine singularity --image fcs-adaptor.sif
+module load singularity/3.10.3
+mkdir fcs_output_2.5kQ5
+./run_fcsadaptor.sh --fasta-input /work/gatins/hci_genome/processing/assembly_Flye_2.5kQ5/assembly.fasta --output-dir /work/gatins/hci_genome/processing/fcs_output_2.5kQ5 --euk --container-engine singularity --image fcs-adaptor.sif
 ```
 Output (fcs_adaptor_report.txt):
 | accession	| length	| action	| range	| name |
@@ -258,8 +259,8 @@ Output (fcs_adaptor_report.txt):
 
 I'm not sure why it detected a PacBio adapter in my assembly... Let's test it on the other assemblies. Assembly 1:
 ```
-mkdir fcs2_output
-./run_fcsadaptor.sh --fasta-input /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta --output-dir /work/gatins/hci_genome/processing/fcs2_output --euk --container-engine singularity --image fcs-adaptor.sif
+mkdir fcs_output_initial_assembly
+./run_fcsadaptor.sh --fasta-input /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta --output-dir /work/gatins/hci_genome/processing/fcs_output_initial_assembly --euk --container-engine singularity --image fcs-adaptor.sif
 ```
 Output (fcs_adaptor_report.txt):
 | accession	| length	| action	| range	| name |
@@ -267,8 +268,8 @@ Output (fcs_adaptor_report.txt):
 
 No contamination detected here...??? Testing Hifiasm assembly now:
 ```
-mkdir fcs3_output
-./run_fcsadaptor.sh --fasta-input test_hifiasm.fa --output-dir /work/gatins/hci_genome/processing/fcs3_output --euk --container-engine singularity --image fcs-adaptor.sif
+mkdir fcs_output_hifiasm
+./run_fcsadaptor.sh --fasta-input test_hifiasm.fa --output-dir /work/gatins/hci_genome/processing/fcs_output_hifiasm --euk --container-engine singularity --image fcs-adaptor.sif
 ```
 No adapter contamination detected. Going to investigate.
 
