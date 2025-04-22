@@ -181,7 +181,7 @@ This resulted in a medaka_align.bam.bam file. Now running medaka inference on th
 - job name: medaka_inference
 - job id: 48363197
 - run time:
-** if this doesn't work (/it times out and doesn't finish by the end of 48 hrs), I'll need to break this step up into smaller jobs) **
+**if this doesn't work (/it times out and doesn't finish by the end of 48 hrs), I'll need to break this step up into smaller jobs)**
 ```
 module load anaconda3/2022.05
 source activate medaka
@@ -304,13 +304,32 @@ python /work/gatins/hci_genome/kraken2/download_domain.py --domain plasmid --com
 python /work/gatins/hci_genome/kraken2/download_domain.py --domain vertebrate_mammalian --complete True --ext dna --human True
 ```
 
+I ended up needing to pull the bacteria with a batch job too:
+- job name: bacterial_data_kraken2
+- job id: 48322385
+- run time: 06:42:49
+```
+module load python/3.8.1
+module load anaconda3/2022.05
+source activate /work/gatins/hci_genome/env
+cd /work/gatins/hci_genome/processing/kraken2_builtpython
+python /work/gatins/hci_genome/kraken2/download_domain.py --domain bacteria --complete True --ext dna
+```
+
 Now that everything is downloaded into a /genomes directory in kraken2_builtpython, I need to --add-to-library:
+- job name: kraken_addtolib
+- job id: 48364282
+- run time: 01:50:18
 ```
 find /work/gatins/hci_genome/processing/kraken2_builtpython/genomes/ -name '*.fna' -print0 | xargs -0 -I{} -n1 -P10 /work/gatins/hci_genome/kraken2/kraken2-build --add-to-library {} --db /work/gatins/hci_genome/processing/kraken2_builtpython
 ```
 
 Next, we build the Kraken2 database:
+- job name: kraken_build
+- job id: 48392591
+- run time:
 ```
+module load gcc/9.2.0
 /work/gatins/hci_genome/kraken2/kraken2-build --db /work/gatins/hci_genome/processing/kraken2_builtpython --build --threads 6
 ```
 
