@@ -339,8 +339,12 @@ You'll know the Kraken database has been built properly when you have these thre
 - taxo.k2d: Contains taxonomy information used to build the database
 
 We have them! So let's go ahead and run the Hifiasm assembly against this database:
+- job name: kraken_classify
+- job id: 48439159
+- run time:
 ```
-/work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_standard_db --output kraken2_hifiasm.output.txt --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa
+module load gcc/9.2.0
+/work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_builtpython --use-names --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa
 ```
 
 # Generating plots with Blobtools
