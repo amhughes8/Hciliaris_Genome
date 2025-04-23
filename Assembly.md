@@ -170,7 +170,7 @@ medaka tools list\_models
 ```
 medaka_consensus -i /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq -d /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta -o medaka_out -t 32 -m r1041_e82_400bps_sup_v5.0.0
 ```
-I need to try to parallellize this process a bit more because it is clearly very time intensive. [This Github issues thread] (https://github.com/nanoporetech/medaka/issues/35) and the Medaka GitHub page both recommend breaking up the 3 steps of medaka_consensus (alignment, consensus, aggregation). So, let's run alignment first:
+I need to try to parallellize this process a bit more because it is clearly very time intensive. [This Github issues thread](https://github.com/nanoporetech/medaka/issues/35) and the Medaka GitHub page both recommend breaking up the 3 steps of medaka_consensus (alignment, consensus, aggregation). So, let's run alignment first:
 - job name: medaka_align
 - job id: 48322513
 - run time: 02:13:57
@@ -298,7 +298,6 @@ I started pulling the bacteria domain interactively and it's taking forever, so 
 module load python/3.8.1
 conda install -c conda-forge biopython
 conda install pandas
-python /work/gatins/hci_genome/kraken2/download_domain.py --domain bacteria --complete True --ext dna
 python /work/gatins/hci_genome/kraken2/download_domain.py --domain archaea --complete True --ext dna
 python /work/gatins/hci_genome/kraken2/download_domain.py --domain viral --complete True --ext dna
 python /work/gatins/hci_genome/kraken2/download_domain.py --domain plasmid --complete True --ext dna
@@ -328,13 +327,18 @@ find /work/gatins/hci_genome/processing/kraken2_builtpython/genomes/ -name '*.fn
 Next, we build the Kraken2 database:
 - job name: kraken_build
 - job id: 48392591
-- run time:
+- run time: 1-00:51:47
 ```
 module load gcc/9.2.0
 /work/gatins/hci_genome/kraken2/kraken2-build --db /work/gatins/hci_genome/processing/kraken2_builtpython --build --threads 6
 ```
 
-Now let's generate a report by running the Hifiasm assembly against this database:
+You'll know the Kraken database has been built properly when you have these three files: 
+- hash.k2d: Contains the minimizer to taxon mappings
+- opts.k2d: Contains information about the options used to build the database
+- taxo.k2d: Contains taxonomy information used to build the database
+
+We have them! So let's go ahead and run the Hifiasm assembly against this database:
 ```
 /work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_standard_db --output kraken2_hifiasm.output.txt --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa
 ```
