@@ -147,7 +147,7 @@ running against the **actinopterygii_odb12** dataset
 - run time: 00:46:58
 ```
 module load anaconda3/2022.05
-source activate medaka
+source activate /work/gatins/hci_genome/busco
 busco -i /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta --mode genome --lineage_dataset actinopterygii_odb12 --cpu 25 --out initial_assembly_flye_busco
 ```
 **will repeat this same BUSCO check after each assembly trial**
