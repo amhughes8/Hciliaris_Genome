@@ -197,7 +197,9 @@ medaka inference /work/gatins/hci_genome/processing/medaka/medaka_align.bam.bam 
 ```
 Now that we have all of the .hdf files from the inference step, we can collate the results with *medaka sequence* (a form of **medaka stitch**)
 ```
-medaka sequence --input /work/gatins/hci_genome/processing/medaka/results_inference/*.hdf --threads 10 --draft /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta --output polished.assembly.fasta
+module load anaconda3/2022.05
+source activate medaka
+medaka sequence "/work/gatins/hci_genome/processing/medaka/results_inference/"/*.hdf /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta polished.assembly.fasta --threads 10
 ```
 
 ## Method 3: [Hifiasm](https://github.com/chhylp123/hifiasm)
