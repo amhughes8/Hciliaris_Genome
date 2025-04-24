@@ -207,7 +207,7 @@ medaka sequence "/work/gatins/hci_genome/processing/medaka/results_inference/"/*
 
 |  file    | format | type | num_seqs  |  sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |  N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
 |----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|------|
-polished.assembly.fasta | FASTA |  DNA  |   624 | 594,350,740  |  283 | 952,485.2 | 23,379,206 | 3,325.5 | 9,728.5 | 479,931   |   0 | 5,706,798   |    25   |    0   |    0   |     0  | 41.4  |    0 | BUSCO |
+polished.assembly.fasta | FASTA |  DNA  |   624 | 594,350,740  |  283 | 952,485.2 | 23,379,206 | 3,325.5 | 9,728.5 | 479,931   |   0 | 5,706,798   |    25   |    0   |    0   |     0  | 41.4  |    0 | 98.7% |
 
 ## Method 3: [Hifiasm](https://github.com/chhylp123/hifiasm)
 - job name: hifiasm_assembly
@@ -366,6 +366,11 @@ We have them! So let's go ahead and run the Hifiasm assembly against this databa
 ```
 module load gcc/9.2.0
 /work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_builtpython --use-names --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa
+```
+
+```
+module load gcc/9.2.0
+/work/gatins/hci_genome/kraken2/kraken2 --db /work/gatins/hci_genome/processing/kraken2_builtpython work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa --threads 8 --report work/gatins/hci_genome/processing/kraken2_hifiasm.out > full_kraken_report_out_hifiasm.out
 ```
 
 # Generating plots with Blobtools
