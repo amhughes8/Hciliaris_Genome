@@ -19,7 +19,7 @@ cat /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq | seqkit seq 
 Next, we can align these reads to our reference
 ```
 module load minimap2/2.26
-minimap2 -ax map-ont reference.fa hci_filtered_3kQ10.fastq > HCI_aligned.sam
+minimap2 -t 30 -ax map-ont assembly_no_contaminants.fasta hci_filtered_3kQ10.fastq > HCI_aligned.sam
 ```
 Use samtools to convert sam->bam
 ```
