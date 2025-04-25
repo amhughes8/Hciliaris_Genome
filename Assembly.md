@@ -361,25 +361,123 @@ You'll know the Kraken database has been built properly when you have these thre
 
 We have them! So let's go ahead and run the Hifiasm assembly against this database:
 - job name: kraken_classify
-- job id: 48439159
-- run time:
+- job id: 48475381
+- run time: 00:02:20
 ```
 module load gcc/9.2.0
-/work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_builtpython --use-names --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa
+/work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_builtpython --use-names --report kraken2_hifiasm_report /work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa
 ```
+Now, to remove contamination, let's follow Remy's script from the *H. passer* assembly. Output files:
+```
+error_kraken2_classify.txt kraken2_hifiasm_report output_kraken2_classify.txt
+```
+We will use **output_kraken2_classify.txt** to get a list of just contigs from our output:
+```
+grep "ptg" /work/gatins/hci_genome/processing/outputs_errors/output_kraken2_classify.txt > kraken2_results.txt
+```
+Now get a list of human and unclassified contigs: By doing this, we are removing anything classified as bacteria, plasmids or viruses. We keep the unclassified because they might contain real contigs.
+```
+grep "unclassified\|Homo sapiens" kraken2_results.txt | cut -f2 > assembly.fasta.HsU.list
+```
+Using samtools, we will extract from the assembly only the contigs identified as Human or unclassified. Bacteria, viruses and plasmids will be excluded.
+```
+module load samtools/1.9
+xargs samtools faidx /work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa  < assembly.fasta.HsU.list > assembly_no_contaminants.fasta
+```
+seqkit stats on assembly_no_contaminants.fasta:
+|  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n |
+|----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|
+assembly_no_contaminants.fasta | FASTA  | DNA    |    292 | 607,773,636  |  3,041 | 2,081,416.6 | 31,942,965  |5,548 | 8,984.5 | 18,929.5    |    0 | 26,222,608   |    11   |    0   |    0     |   0 | 41.43   |   0 |
 
+So after Kraken2, we have removed 620,443 bp which is about 0.1% of the original assembly. Let's double check and make sure we aren't removing real sequence data.
+
+First, let's make a list of contigs in each file (pre and post contamination removal)
 ```
-module load gcc/9.2.0
-/work/gatins/hci_genome/kraken2/kraken2 --db /work/gatins/hci_genome/processing/kraken2_builtpython work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa --threads 8 --report work/gatins/hci_genome/processing/kraken2_hifiasm.out > full_kraken_report_out_hifiasm.out
+grep "ptg" /work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa > ctg_HCI.txt
+grep "ptg" assembly_no_contaminants.fasta > ctg_HCI_no_contaminants.txt
 ```
-None of my Kraken classification batch jobs are running... going to run interactively
+Let's compare these files
 ```
-srun --partition=short --nodes=1 --cpus-per-task=20 --mem=200G --pty /bin/bash
-module load anaconda3/2022.05
-module load gcc/9.2.0
-source activate /work/gatins/hci_genome/env
-/work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_builtpython --use-names --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa
+diff ctg_HCI.txt ctg_HCI_no_contaminants.txt > ctg_removed.txt
 ```
+```
+head ctg_removed.txt
+```
+```
+30,32d29
+< >ptg000030l
+< >ptg000031l
+< >ptg000032l
+52d48
+< >ptg000052l
+56d51
+< >ptg000056l
+63d57
+< >ptg000063l
+```
+Get a list with only the contig names
+```
+grep "ptg" ctg_removed.txt > ctg_removed_list.txt
+```
+we still end up with the < > symbols before each line so use a text editor (e.g, vim or nano) to remove these manually (I'm sure there are commands to dothis but I have very few contigs so this was faster.
+```
+cat ctg_removed_list.txt
+```
+```
+< >ptg000030l
+< >ptg000031l
+< >ptg000032l
+< >ptg000052l
+< >ptg000056l
+< >ptg000063l
+< >ptg000072l
+< >ptg000077l
+< >ptg000101l
+< >ptg000102l
+< >ptg000103l
+< >ptg000108l
+< >ptg000110l
+< >ptg000113l
+< >ptg000115l
+< >ptg000120l
+< >ptg000124l
+< >ptg000136l
+< >ptg000141l
+< >ptg000153l
+< >ptg000155l
+< >ptg000165l
+< >ptg000167l
+< >ptg000179l
+< >ptg000181l
+< >ptg000186l
+< >ptg000204l
+< >ptg000207l
+< >ptg000210l
+< >ptg000215l
+< >ptg000218l
+< >ptg000220l
+< >ptg000224l
+< >ptg000244l
+< >ptg000279l
+< >ptg000285l
+< >ptg000286l
+< >ptg000292l
+< >ptg000296l
+< >ptg000302l
+< >ptg000309l
+< >ptg000313l
+< >ptg000316l
+< >ptg000322l
+< >ptg000326l
+< >ptg000328l
+```
+Now we can use samtools to extract from the assembly only the contigs with sequences from our ctg_removed_list.txt and BLAST it
+```
+xargs samtools faidx /work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa  < ctg_removed_list.txt > HCI_contaminants.fasta
+```
+It seems like the mitochondrial sequences that I left in are messing this process up. I'm going to remove the mtDNA and redo this step.
+
+
 
 # Generating plots with Blobtools
 while i continue to troubleshoot Kraken, I will test on the hifiasm assembly
