@@ -1,4 +1,4 @@
-# Removing Mitochondrial DNA from Genome Assembly
+# Assembling the Mitochondrial Genome from Whole Genome Sequencing Data
 These instructions are from Giacomo Bernardi
 
 ## 1. Filter anything between 5kb-20kb
