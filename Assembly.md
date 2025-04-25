@@ -372,6 +372,14 @@ module load gcc/9.2.0
 module load gcc/9.2.0
 /work/gatins/hci_genome/kraken2/kraken2 --db /work/gatins/hci_genome/processing/kraken2_builtpython work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa --threads 8 --report work/gatins/hci_genome/processing/kraken2_hifiasm.out > full_kraken_report_out_hifiasm.out
 ```
+None of my Kraken classification batch jobs are running... going to run interactively
+```
+srun --partition=short --nodes=1 --cpus-per-task=20 --mem=200G --pty /bin/bash
+module load anaconda3/2022.05
+module load gcc/9.2.0
+source activate /work/gatins/hci_genome/env
+/work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_builtpython --use-names --report kraken2_hifiasm.report.txt work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa
+```
 
 # Generating plots with Blobtools
 while i continue to troubleshoot Kraken, I will test on the hifiasm assembly
