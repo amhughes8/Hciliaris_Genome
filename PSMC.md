@@ -28,7 +28,7 @@ samtools view -Sb -@ 30 -o HCI_aligned.bam HCI_aligned.sam
 Sort bam file
 ```
 module load samtools/1.9
-samtools sort -o HCI_aligned_sorted.bam -O bam -@ 20 HCI_aligned.bam | samtools index -b -@ 20 HCI_aligned_sorted.bam
+samtools sort -o HCI_aligned_sorted.bam -O bam -@ 20 HCI_aligned.bam
 ```
 Finally, index sorted bam file
 ```
