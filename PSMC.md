@@ -38,7 +38,7 @@ samtools index -b -@ 20 HCI_aligned_sorted.bam
 ## Generate the whole-genome diploid consensus sequence for input
 ```
 module load samtools/1.9
-bcftools/1.21
+module load bcftools/1.21
 samtools mpileup -C50 -f assembly_no_contaminants.fasta HCI_aligned_sorted.bam | bcftools view -c --threads 10 | vcfutils.pl vcf2fq -d 50 -D 300 | gzip > diploid_HCI_50_300.fq.gz
 ```
 - -d sets minimum read depth and is recommended to be set to 1/3 of average read depth (in this case 50)
