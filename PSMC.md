@@ -82,6 +82,7 @@ Just doing a quick test run, so using Remy's input (mutation rate=u, generation 
 ```
 Output:
 ```
+HCI_t30r5_plot_u1-8g5.eps  HCI_t30r5_plot_u1-8g5.par
 ```
 Download files to computer and visualize:
 
