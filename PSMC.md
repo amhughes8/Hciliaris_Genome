@@ -62,8 +62,8 @@ consensus.fq gzip > diploid_HCI_50_300.fq.gz
 /work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl diploid diploid_HCI.psmc
 ```
 PSMC parameters:
--p STR pattern of parameters [4+5*3+4]
--t FLOAT maximum 2N0 coalescent time [15]
--N INT maximum number of iterations [30]
--r FLOAT initial theta/rho ratio [4]
--o FILE output file [stdout]
+- p STR pattern of parameters [4+5*3+4]
+- t FLOAT maximum 2N0 coalescent time [15]
+- N INT maximum number of iterations [30]
+- r FLOAT initial theta/rho ratio [4]
+- o FILE output file [stdout]
