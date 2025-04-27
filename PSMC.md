@@ -85,6 +85,7 @@ Output:
 HCI_t30r5_plot_u1-8g5.eps  HCI_t30r5_plot_u1-8g5.par
 ```
 Download files to computer and visualize:
+![plot](photos/PSMC_HCI_10e8_g5.png)
 
 # Bootstrapping
 Follow all same steps as above and use your .psmc file for bootstrapping.
