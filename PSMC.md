@@ -50,16 +50,16 @@ It seems that this pipeline (specifically vcfutils.pl) has been deprecated and p
 ```
 module load samtools/1.19.2
 samtools consensus --ambig -f fastq -d 50 /work/gatins/hci_genome/processing/HCI_aligned_sorted.bam -o consensus.fq
-consensus.fq gzip > diploid_HCI_50_300.fq.gz
+consensus.fq gzip > diploid_HCI_consensus.fq.gz
 ```
 
 
 ## Run PSMC
 ```
-/work/gatins/hci_genome/PSMC/psmc/utils/fq2psmcfa -q20 diploid_HCI_50_300.fq.gz > diploid_HCI.psmcfa
+/work/gatins/hci_genome/PSMC/psmc/utils/fq2psmcfa -q20 diploid_HCI_consensus.fq.gz > diploid_HCI.psmcfa
 /work/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "4+30*2+4+6+10" -o diploid_HCI.psmc diploid_HCI.psmcfa
-/work/gatins/hci_genome/PSMC/psmc/utils/psmc2history.pl diploid_HCI.psmc | /work/gatins/hci_genome/PSMC/psmc/utils/history2ms.pl > ms-cmd.sh
-/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl diploid diploid_HCI.psmc
+#/work/gatins/hci_genome/PSMC/psmc/utils/psmc2history.pl diploid_HCI.psmc | /work/gatins/hci_genome/PSMC/psmc/utils/history2ms.pl > ms-cmd.sh
+#/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl diploid diploid_HCI.psmc
 ```
 PSMC parameters:
 - p STR pattern of parameters [4+5*3+4]
@@ -67,3 +67,7 @@ PSMC parameters:
 - N INT maximum number of iterations [30]
 - r FLOAT initial theta/rho ratio [4]
 - o FILE output file [stdout]
+
+```
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-08 -g 5 HCI_t30r5_plot_u1-8g5 diploid_HCI.psmc
+```
