@@ -100,3 +100,7 @@ mkdir bootstrapping
 cp diploid_HCI_split.psmcfa bootstrapping
 cp diploid_HCI.psmc bootstrapping
 ```
+Split into 100 separate files
+```
+echo split_HCI_{001..100}.psmcfa| xargs -n 1 cp diploid_HCI_split.psmcfa
+```
