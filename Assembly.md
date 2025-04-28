@@ -385,9 +385,9 @@ module load samtools/1.9
 xargs samtools faidx /work/gatins/hci_genome/processing/hifiasm_output/hifiasm_assembly.fa  < assembly.fasta.HsU.list > assembly_no_contaminants.fasta
 ```
 seqkit stats on assembly_no_contaminants.fasta:
-|  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n |
-|----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|
-assembly_no_contaminants.fasta | FASTA  | DNA    |    292 | 607,773,636  |  3,041 | 2,081,416.6 | 31,942,965  |5,548 | 8,984.5 | 18,929.5    |    0 | 26,222,608   |    11   |    0   |    0     |   0 | 41.43   |   0 |
+|  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
+|----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
+assembly_no_contaminants.fasta | FASTA  | DNA    |    292 | 607,773,636  |  3,041 | 2,081,416.6 | 31,942,965  |5,548 | 8,984.5 | 18,929.5    |    0 | 26,222,608   |    11   |    0   |    0     |   0 | 41.43   |   0 | 98.8% |
 
 So after Kraken2, we have removed 620,443 bp which is about 0.1% of the original assembly. Let's double check and make sure we aren't removing real sequence data.
 
