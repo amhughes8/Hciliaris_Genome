@@ -35,5 +35,5 @@ samtools fastq unmapped.bam > reads_no_mito.fastq
 ```
 module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/env
-hifiasm -o assembly_hifiasm.asm --ont -t32 /work/gatins/hci_genome/processing/hci_filtered_2kQ3.fastq
+hifiasm -o assembly_hifiasm_no_mito.asm --ont -t32 /work/gatins/hci_genome/processing/reads_no_mito.fastq
 ```
