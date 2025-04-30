@@ -12,6 +12,7 @@ minimap2 -t 40 -ax map-ont NC_027595.1_HCI_mito.fasta hci_filtered_2.5kQ5.fastq 
 ## Use samtools to extract sequences that mapped to mitochondrial genome
 Convert to BAM
 ```
+module load samtools/1.19.2
 samtools view -Sb aln_minimap2.sam > mito_aln.bam
 ```
 Sort BAM
@@ -35,5 +36,5 @@ samtools fastq unmapped.bam > reads_no_mito.fastq
 ```
 module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/env
-hifiasm -o assembly_hifiasm_no_mito.asm --ont -t32 /work/gatins/hci_genome/processing/reads_no_mito.fastq
+hifiasm -o assembly_hifiasm_no_mito.asm --ont -t32 /work/gatins/hci_genome/processing/mtdna/removal/reads_no_mito.fastq
 ```
