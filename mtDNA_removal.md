@@ -13,11 +13,11 @@ minimap2 -t 40 -ax map-ont NC_027595.1_HCI_mito.fasta hci_filtered_2.5kQ5.fastq 
 Convert to BAM
 ```
 module load samtools/1.19.2
-samtools view -Sb aln_minimap2.sam > mito_aln.bam
+samtools view -Sb -@ 30 aln_minimap2.sam > mito_aln.bam
 ```
 Sort BAM
 ```
-samtools sort mito_aln.bam -o mito_aln.sorted.bam
+samtools sort -@ 20 mito_aln.bam -o mito_aln.sorted.bam
 ```
 Index BAM
 ```
@@ -25,7 +25,7 @@ samtools index mito_aln.sorted.bam
 ```
 Extract sequences that were unmapped and save them to a new BAM file
 ```
-samtools view -b -f 4 mito_aln.sorted.bam > unmapped.bam
+samtools view -b -f 4 -@ 20 mito_aln.sorted.bam > unmapped.bam
 ```
 Convert BAM to FASTQ
 ```
