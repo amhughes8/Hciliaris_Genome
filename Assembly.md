@@ -477,7 +477,22 @@ xargs samtools faidx /work/gatins/hci_genome/processing/hifiasm_output/hifiasm_a
 ```
 It seems like the mitochondrial sequences that I left in are messing this process up. I'm going to remove the mtDNA and redo this step.
 
-
+## Rebuilding Kraken database with fish sequences as "positive controls"
+I copied over the library I created my first Kraken database with and am now adding three fish genomes to have positive controls. I'm adding sequences from Atlantic cod (*Gadus morhua*), bicolor damselfish (*Stegastes partitus*), and pinfish (*Lagodon rhomboides*). 
+```
+cd /work/gatins/hci_genome/processing/krakendb_fish
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/902/167/405/GCF_902167405.1_gadMor3.0/GCF_902167405.1_gadMor3.0_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/690/725/GCF_000690725.1_Stegastes_partitus-1.0.2/GCF_000690725.1_Stegastes_partitus-1.0.2_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/039/737/535/GCA_039737535.1_Lrho_1.0/GCA_039737535.1_Lrho_1.0_genomic.fna.gz
+```
+Now, let's add them to our new library
+```
+# Pinfish
+/work/gatins/hci_genome/kraken2/kraken2-build --add-to-library GCA_039737535.1_Lrho_1.0_genomic.fna.gz --db /work/gatins/hci_genome/processing/krakendb_fish
+# Atlantic cod
+/work/gatins/hci_genome/kraken2/kraken2-build --add-to-library GCF_902167405.1_gadMor3.0_genomic.fna.gz --db /work/gatins/hci_genome/processing/krakendb_fish
+# Bicolor damselfish
+/work/gatins/hci_genome/kraken2/kraken2-build --add-to-library GCF_000690725.1_Stegastes_partitus-1.0.2_genomic.fna.gz --db /work/gatins/hci_genome/processing/krakendb_fish
 
 # Generating plots with Blobtools
 while i continue to troubleshoot Kraken, I will test on the hifiasm assembly
