@@ -493,6 +493,7 @@ Now, let's add them to our new library
 /work/gatins/hci_genome/kraken2/kraken2-build --add-to-library GCF_902167405.1_gadMor3.0_genomic.fna.gz --db /work/gatins/hci_genome/processing/krakendb_fish
 # Bicolor damselfish
 /work/gatins/hci_genome/kraken2/kraken2-build --add-to-library GCF_000690725.1_Stegastes_partitus-1.0.2_genomic.fna.gz --db /work/gatins/hci_genome/processing/krakendb_fish
+```
 
 # Generating plots with Blobtools
 while i continue to troubleshoot Kraken, I will test on the hifiasm assembly
