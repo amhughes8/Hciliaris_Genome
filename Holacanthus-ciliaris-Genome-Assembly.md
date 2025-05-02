@@ -397,7 +397,7 @@ blobtools create \
     --taxdump /work/gatins/hci_genome/processing/blobtools2/taxdump \
     --cov /work/gatins/hci_genome/PSMC/no_mtdna/HCI_aligned_sorted.bam \
     --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_busco/run_actinopterygii_odb12/full_table.tsv \
-    --hits /work/gatins/hci_genome/processing/blobtools/uniprot/nomito_assembly.diamond.blastx.out \
+    --hits /work/gatins/hci_genome/processing/blobtools2/uniprot/nomito_assembly.diamond.blastx.out \
     /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_assembly_blobdir
 
 #need a .csi file for coverage bam! make sure to run samtools index -c input.bam output.bam.csi
@@ -410,6 +410,6 @@ blobtools create \
     --taxdump /work/gatins/hci_genome/processing/blobtools2/taxdump \
     --cov /work/gatins/hci_genome/PSMC/no_mtdna/HCI_aligned_sorted.bam \
     --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_nocontam_busco/run_actinopterygii_odb12/full_table.tsv \
-    --hits /work/gatins/hci_genome/processing/blobtools/uniprot/nomito_nocontam_assembly.diamond.blastx.out \
+    --hits /work/gatins/hci_genome/processing/blobtools2/uniprot/nomito_nocontam_assembly.diamond.blastx.out \
     /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_nocontam_assembly_blobdir
 ```
