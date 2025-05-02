@@ -239,6 +239,75 @@ We have them! So let's go ahead and run the Hifiasm assembly against this databa
 module load gcc/9.2.0
 /work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_builtpython --use-names --report kraken2_hifiasm_nomito_report /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_nomito/assembly_hifiasm_no_mito.fa
 ```
+Now, to remove contamination, let's follow Remy's script from the *H. passer* assembly. Output files:
+```
+error_kraken2_classify_nomito.txt kraken2_hifiasm_nomito_report output_kraken2_classify_nomito.txt
+```
+We will use **output_kraken2_classify.txt** to get a list of just contigs from our output:
+```
+grep "ptg" /work/gatins/hci_genome/processing/outputs_errors/output_kraken2_classify_nomito.txt > kraken2_nomito_results.txt
+```
+Now get a list of human and unclassified contigs: By doing this, we are removing anything classified as bacteria, plasmids or viruses. We keep the unclassified because they might contain real contigs.
+```
+grep "unclassified\|Homo sapiens" kraken2_nomito_results.txt | cut -f2 > assembly_nomito.fasta.HsU.list
+```
+Using samtools, we will extract from the assembly only the contigs identified as Human or unclassified. Bacteria, viruses and plasmids will be excluded.
+```
+module load samtools/1.9
+xargs samtools faidx /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_nomito/assembly_hifiasm_no_mito.fa  < assembly_nomito.fasta.HsU.list > assembly_nomito_nocontam.fasta
+```
+seqkit stats on assembly_nomito_nocontam.fasta:
+|  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
+|----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
+assembly_nomito_nocontam.fasta | FASTA |  DNA    |    157 | 605,950,390  |  3,221 | 3,859,556.6  | 31,961,345 | 7,286 | 11,079 | 86,501   |     0 | 25,061,566   |    11   |   0   |    0     |   0 | 41.41   |   0 |  |
+
+So after Kraken2, we have removed 272,534 bp which is about 0.04% of the original assembly. Let's double check and make sure we aren't removing real sequence data.
+
+First, let's make a list of contigs in each file (pre and post contamination removal)
+```
+grep "ptg" /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_nomito/assembly_hifiasm_no_mito.fa > ctg_HCI_nomito.txt
+grep "ptg" assembly_nomito_nocontam.fasta > ctg_HCI_nomito_nocontam.txt
+```
+Let's compare these files
+```
+diff ctg_HCI_nomito.txt ctg_HCI_nomito_nocontam.txt > ctg_removed_nomito.txt
+```
+```
+head ctg_removed_nomito.txt
+```
+```
+30d29
+< >ptg000030l
+42d40
+< >ptg000042l
+73d70
+< >ptg000073l
+76d72
+< >ptg000076l
+108d103
+< >ptg000108l
+```
+Get a list with only the contig names
+```
+grep "ptg" ctg_removed_nomito.txt > ctg_removed_nomito_list.txt
+```
+we still end up with the < > symbols before each line so use a text editor (e.g, vim or nano) to remove these manually (I'm sure there are commands to dothis but I have very few contigs so this was faster.
+```
+cat ctg_removed_nomito_list.txt
+```
+```
+< >ptg000030l
+< >ptg000042l
+< >ptg000073l
+< >ptg000076l
+< >ptg000108l
+< >ptg000135l
+< >ptg000145l
+```
+Now we can use samtools to extract from the assembly only the contigs with sequences from our ctg_removed_nomito_list.txt and BLAST it
+```
+xargs samtools faidx /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_nomito/assembly_hifiasm_no_mito.fa  < ctg_removed_nomito_list.txt > HCI_nomito_contaminants.fasta
+```
 
 So, I initially built this **kraken2_builtpython** database but I am also interested in testing this analysis with a "positive control" approach, meaning adding in other fish sequences to the database and tossing all contaminants that are not of fish origin.
 
