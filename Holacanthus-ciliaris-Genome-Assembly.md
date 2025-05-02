@@ -398,7 +398,7 @@ blobtools create \
     --cov /work/gatins/hci_genome/PSMC/no_mtdna/HCI_aligned_sorted.bam \ #need a .csi file for this! make sure to run samtools index -c input.bam output.bam.csi
     --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_busco/run_actinopterygii_odb12/full_table.tsv \
     --hits /work/gatins/hci_genome/processing/blobtools/uniprot/nomito_assembly.diamond.blastx.out \
-    /work/gatins/hci_genome/processing/blobtools2/hifiasm_nomito_assembly_blobdir
+    /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_assembly_blobdir
 ```
 Next, assembly_nomito_nocontam.fasta (contamination removed):
 ```
@@ -409,5 +409,5 @@ blobtools create \
     --cov /work/gatins/hci_genome/PSMC/no_mtdna/HCI_aligned_sorted.bam \ #need a .csi file for this! make sure to run samtools index -c input.bam output.bam.csi
     --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_nocontam_busco/run_actinopterygii_odb12/full_table.tsv \
     --hits /work/gatins/hci_genome/processing/blobtools/uniprot/nomito_nocontam_assembly.diamond.blastx.out \
-    /work/gatins/hci_genome/processing/blobtools2/hifiasm_nomito_nocontam_assembly_blobdir
+    /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_nocontam_assembly_blobdir
 ```
