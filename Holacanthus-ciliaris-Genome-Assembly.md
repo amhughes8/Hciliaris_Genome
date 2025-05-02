@@ -156,7 +156,7 @@ busco --list-datasets
 running against the **actinopterygii_odb12** dataset
 - job name: busco_hifiasm_nomito
 - job id: 48580072
-- run time: 
+- run time: 00:35:52
 ```
 module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/busco
@@ -166,7 +166,7 @@ busco -i /work/gatins/hci_genome/processing/assembly_Flye/assembly.fasta --mode 
 
 |  file    | format | type | num_seqs  |  sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |  N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
 |----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|------|
-assembly_hifiasm_no_mito.fa | FASTA  | DNA    |    164 | 606,222,924  |  3,221 | 3,696,481.2 | 31,961,345 | 7,125 | 10,976 | 82,991.5   |     0 | 25,061,566    |   11   |    0  |     0    |    0  | 41.41   |   0 |  |
+assembly_hifiasm_no_mito.fa | FASTA  | DNA    |    164 | 606,222,924  |  3,221 | 3,696,481.2 | 31,961,345 | 7,125 | 10,976 | 82,991.5   |     0 | 25,061,566    |   11   |    0  |     0    |    0  | 41.41   |   0 | 98.8% |
 
 ## 10. Adapter removal check with [FCS](https://github.com/ncbi/fcs) from NCBI
 Download:
