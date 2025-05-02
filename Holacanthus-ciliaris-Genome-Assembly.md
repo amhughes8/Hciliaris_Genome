@@ -259,7 +259,7 @@ xargs samtools faidx /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_no
 seqkit stats on assembly_nomito_nocontam.fasta:
 |  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
 |----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
-assembly_nomito_nocontam.fasta | FASTA |  DNA    |    157 | 605,950,390  |  3,221 | 3,859,556.6  | 31,961,345 | 7,286 | 11,079 | 86,501   |     0 | 25,061,566   |    11   |   0   |    0     |   0 | 41.41   |   0 |  |
+assembly_nomito_nocontam.fasta | FASTA |  DNA    |    157 | 605,950,390  |  3,221 | 3,859,556.6  | 31,961,345 | 7,286 | 11,079 | 86,501   |     0 | 25,061,566   |    11   |   0   |    0     |   0 | 41.41   |   0 | 98.8% |
 
 So after Kraken2, we have removed 272,534 bp which is about 0.04% of the original assembly. Let's double check and make sure we aren't removing real sequence data.
 
