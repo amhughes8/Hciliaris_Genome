@@ -331,3 +331,83 @@ Now, let's add them to our new library and build the database
 /work/gatins/hci_genome/kraken2/kraken2-build --add-to-library GCF_000690725.1_Stegastes_partitus-1.0.2_genomic.fna.gz --db /work/gatins/hci_genome/processing/krakendb_fish
 /work/gatins/hci_genome/kraken2/kraken2-build --db /work/gatins/hci_genome/processing/krakendb_fish --build --threads 10
 ```
+
+## 12. Exploration with [Blobtools2](https://blobtoolkit.genomehubs.org/blobtools2/)
+BlobToolKit is an assembly exploration program. With a FASTA file, a BUSCO report, taxonomic information, coverage data, and BLAST hits, we can create a BlobDirectory to visualize assembly statistics, contamination, and more.
+
+First, let's download BlobToolKit
+```
+pip install "blobtoolkit[full]"
+```
+Next, we need to manually install the API and viewer. We will use these in conjunction with SSH tunnels to access the interactive viewer in our browser. More on that later.
+```
+curl -L https://github.com/blobtoolkit/blobtoolkit/releases/download/4.1.5/blobtoolkit-api-linux > blobtoolkit-api
+curl -L https://github.com/blobtoolkit/blobtoolkit/releases/download/4.1.5/blobtoolkit-viewer-linux > blobtoolkit-viewer
+```
+Now, we can start to build a reference database to BLAST our assemblies against. I'm using Diamond to build a reference database with the Uniprot Reference Proteomes.
+```
+# download Uniprot Reference Proteomes
+wget https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/reference_proteomes/Reference_Proteomes_2025_02.tar.gz
+# extract .tar.gz file
+tar xf Reference_Proteomes_2025_02.tar.gz
+# create new file
+touch reference_proteomes.fasta.gz
+# fill new file with all .fasta.gz files downloaded with initial wget
+find . -mindepth 2 | grep "fasta.gz" | grep -v 'DNA' | grep -v 'additional' | xargs cat >> reference_proteomes.fasta.gz
+# build taxonomic ID map using taxid numbers in files
+echo -e "accession\taccession.version\ttaxid\tgi" > reference_proteomes.taxid_map
+zcat */*/*.idmapping.gz | grep "NCBI_TaxID" | awk '{print $1 "\t" $1 "\t" $3 "\t" 0}' >> reference_proteomes.taxid_map
+# NCBI updated some of their classifications (i.e. "superkingdom" is no longer used), but diamond does not recognize the replacements (domain, acellular root, cellular root, realm) as taxonomic ranks. We need to replace them in the original nodes.dmp file downloaded with the rest of the taxonomic information in the taxdump directory
+sed -i 's/\tdomain\t/\tsuperkingdom\t/g' nodes.dmp but diamond does not recognize this as a taxonomic rank
+sed -i 's/\tacellular root\t/\tsuperkingdom\t/g' nodes.dmp
+sed -i 's/\tcellular root\t/\tsuperkingdom\t/g' nodes.dmp
+sed -i 's/\trealm\t/\tclade\t/g' nodes.dmp
+# make database with Diamond
+./diamond makedb -p 10 --in reference_proteomes.fasta.gz --taxonmap reference_proteomes.taxid_map --taxonnodes ../taxdump/nodes.dmp -d reference_proteomes.dmnd
+```
+I'd like to compare the contamination from my assemblies before and after removing contamination with Kraken2. Let's use Diamond to BLAST assemblies to this new RefProt database.
+```
+# First assembly WITH contamination
+./diamond blastx \
+        --query /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_nomito/assembly_hifiasm_no_mito.fa \
+        --db reference_proteomes.dmnd \
+        --outfmt 6 qseqid staxids bitscore qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore \
+        --faster \
+        --max-target-seqs 1 \
+        --evalue 1e-25 \
+        --threads 60 \
+        > nomito_assembly.diamond.blastx.out
+
+# Next, assembly after contamination removal with Kraken2
+./diamond blastx \
+        --query /work/gatins/hci_genome/processing/assembly_nomito_nocontam.fasta \
+        --db reference_proteomes.dmnd \
+        --outfmt 6 qseqid staxids bitscore qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore \
+        --faster \
+        --max-target-seqs 1 \
+        --evalue 1e-25 \
+        --threads 60 \
+        > nomito_nocontam_assembly.diamond.blastx.out
+```
+Now, we can create BlobDirs for each of these assemblies. First, assembly_hifiasm_no_mito.fa (with contamination):
+```
+blobtools create \
+    --fasta /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_nomito/assembly_hifiasm_no_mito.fa \
+    --taxid 75024 \
+    --taxdump /work/gatins/hci_genome/processing/blobtools2/taxdump \
+    --cov /work/gatins/hci_genome/PSMC/no_mtdna/HCI_aligned_sorted.bam \ #need a .csi file for this! make sure to run samtools index -c input.bam output.bam.csi
+    --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_busco/run_actinopterygii_odb12/full_table.tsv \
+    --hits /work/gatins/hci_genome/processing/blobtools/uniprot/nomito_assembly.diamond.blastx.out \
+    /work/gatins/hci_genome/processing/blobtools2/hifiasm_nomito_assembly_blobdir
+```
+Next, assembly_nomito_nocontam.fasta (contamination removed):
+```
+blobtools create \
+    --fasta /work/gatins/hci_genome/processing/assembly_nomito_nocontam.fasta \
+    --taxid 75024 \
+    --taxdump /work/gatins/hci_genome/processing/blobtools2/taxdump \
+    --cov /work/gatins/hci_genome/PSMC/no_mtdna/HCI_aligned_sorted.bam \ #need a .csi file for this! make sure to run samtools index -c input.bam output.bam.csi
+    --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_nocontam_busco/run_actinopterygii_odb12/full_table.tsv \
+    --hits /work/gatins/hci_genome/processing/blobtools/uniprot/nomito_nocontam_assembly.diamond.blastx.out \
+    /work/gatins/hci_genome/processing/blobtools2/hifiasm_nomito_nocontam_assembly_blobdir
+```
