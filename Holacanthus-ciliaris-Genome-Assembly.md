@@ -234,7 +234,7 @@ You'll know the Kraken database has been built properly when you have these thre
 - opts.k2d: Contains information about the options used to build the database
 - taxo.k2d: Contains taxonomy information used to build the database
 
-We have them! So let's go ahead and run the Hifiasm assembly against this database:
+We have them! So let's go ahead and run the hifiasm assembly against this database:
 ```
 module load gcc/9.2.0
 /work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/kraken2_builtpython --use-names --report kraken2_hifiasm_nomito_report /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_nomito/assembly_hifiasm_no_mito.fa
@@ -318,18 +318,36 @@ wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/902/167/405/GCF_902167405.1_ga
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/690/725/GCF_000690725.1_Stegastes_partitus-1.0.2/GCF_000690725.1_Stegastes_partitus-1.0.2_genomic.fna.gz
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/039/737/535/GCA_039737535.1_Lrho_1.0/GCA_039737535.1_Lrho_1.0_genomic.fna.gz
 ```
+
+Make sure each FASTA file has a new header with the taxonomy ID for Kraken2 to read:
+```
+# Pinfish: taxid 50351
+>CM077784.1|kraken:taxid|50351 CM077784.1 Lagodon rhomboides ecotype Perdido Pass, Alabama, USA chromosome 1, whole genome shotgun sequence
+
+# Atlantic cod: taxid 8049
+>NC_044048.1|kraken:taxid|8049 NC_044048.1 Gadus morhua chromosome 1, gadMor3.0, whole genome shotgun sequence
+
+# Bicolor damselfish: taxid 144197
+>NW_007577731.1|kraken:taxid|144197 NW_007577731.1 Stegastes partitus isolate 25-593 unplaced genomic scaffold, Stegastes_partitus-1.0.2 Scaffold0, whole genome shotgun sequence
+```
+
 Now, let's add them to our new library and build the database
-- job name:
+- job name: add_fish_tolib_build
 - job id: 48573973
-- run time:
+- run time: 22:50:14
 ```
 # Pinfish
-/work/gatins/hci_genome/kraken2/kraken2-build --add-to-library GCA_039737535.1_Lrho_1.0_genomic.fna.gz --db /work/gatins/hci_genome/processing/krakendb_fish
+/work/gatins/hci_genome/kraken2/kraken2-build --threads 20 --add-to-library GCA_039737535.1_Lrho_1.0_genomic.fna --db /work/gatins/hci_genome/processing/krakendb_fish
 # Atlantic cod
-/work/gatins/hci_genome/kraken2/kraken2-build --add-to-library GCF_902167405.1_gadMor3.0_genomic.fna.gz --db /work/gatins/hci_genome/processing/krakendb_fish
+/work/gatins/hci_genome/kraken2/kraken2-build --threads 20 --add-to-library GCF_902167405.1_gadMor3.0_genomic.fna --db /work/gatins/hci_genome/processing/krakendb_fish
 # Bicolor damselfish
-/work/gatins/hci_genome/kraken2/kraken2-build --add-to-library GCF_000690725.1_Stegastes_partitus-1.0.2_genomic.fna.gz --db /work/gatins/hci_genome/processing/krakendb_fish
-/work/gatins/hci_genome/kraken2/kraken2-build --db /work/gatins/hci_genome/processing/krakendb_fish --build --threads 10
+/work/gatins/hci_genome/kraken2/kraken2-build --threads 20 --add-to-library GCF_000690725.1_Stegastes_partitus-1.0.2_genomic.fna --db /work/gatins/hci_genome/processing/krakendb_fish
+/work/gatins/hci_genome/kraken2/kraken2-build --db /work/gatins/hci_genome/processing/krakendb_fish --build --threads 40
+```
+We can now run our assembly against this new database:
+```
+module load gcc/9.2.0
+/work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/krakendb_fish --use-names --report krakendb_fish_hifiasm_nomito_report /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_nomito/assembly_hifiasm_no_mito.fa
 ```
 
 ## 12. Exploration with [Blobtools2](https://blobtoolkit.genomehubs.org/blobtools2/)
