@@ -78,6 +78,7 @@ PSMC parameters:
 
 Just doing a quick test run, so using Remy's input (mutation rate=u, generation time in years=g)
 ```
+module load gnuplot/5.2.7 #I haven't needed to run this every time but most times?
 /work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-08 -g 5 HCI_t30r5_plot_u1-8g5 diploid_HCI.psmc
 ```
 Output:
