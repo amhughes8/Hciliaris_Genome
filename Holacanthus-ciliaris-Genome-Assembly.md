@@ -350,6 +350,27 @@ We can now run our assembly against this new database:
 module load gcc/9.2.0
 /work/gatins/hci_genome/kraken2/kraken2 --threads 20 --db /work/gatins/hci_genome/processing/krakendb_fish --use-names --report krakendb_fish_hifiasm_nomito_report /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_nomito/assembly_hifiasm_no_mito.fa
 ```
+Output files:
+```
+error_kraken_fishdb_classify_nomito.txt krakendb_fish_hifiasm_nomito_report output_kraken_fishdb_classify_nomito.txt
+```
+We will use **output_kraken_fishdb_classify_nomito.txt** to get a list of just contigs from our output:
+```
+grep "ptg" /work/gatins/hci_genome/processing/output_kraken_fishdb_classify_nomito.txt > krakendb_fish_nomito_results.txt
+```
+Now, we want to remove anything of **non-fish origin**.
+```
+grep "Lagodon rhomboides\|Stegastes partitus\|Gadus morhua" krakendb_fish_nomito_results.txt | cut -f2 > assembly_nomito.fasta.actinopt.list
+```
+Using samtools, we will extract from the assembly only the contigs identified as Human or unclassified. Bacteria, viruses and plasmids will be excluded.
+```
+module load samtools/1.9
+xargs samtools faidx /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_nomito/assembly_hifiasm_no_mito.fa  < assembly_nomito.fasta.actinopt.list > assembly_fishdb_nomito_nocontam.fasta
+```
+seqkit stats on assembly_fishdb_nomito_nocontam.fasta:
+|  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
+|----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
+assembly_fishdb_nomito_nocontam.fasta | FASTA  | DNA    |    142 | 605,240,162  |  3,397 | 4,262,254.7 | 31,961,345 | 6,997 | 10,836 | 124,545    |    0 | 25,061,566   |    11   |    0   |    0    |    0 | 41.42    |  0 | ? |
 
 ## 12. Exploration with [Blobtools2](https://blobtoolkit.genomehubs.org/blobtools2/)
 BlobToolKit is an assembly exploration program. With a FASTA file, a BUSCO report, taxonomic information, coverage data, and BLAST hits, we can create a BlobDirectory to visualize assembly statistics, contamination, and more.
