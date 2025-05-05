@@ -309,6 +309,7 @@ Now we can use samtools to extract from the assembly only the contigs with seque
 xargs samtools faidx /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_nomito/assembly_hifiasm_no_mito.fa  < ctg_removed_nomito_list.txt > HCI_nomito_contaminants.fasta
 ```
 
+### New Kraken2 database: positive control method
 So, I initially built this **kraken2_builtpython** database but I am also interested in testing this analysis with a "positive control" approach, meaning adding in other fish sequences to the database and tossing all contaminants that are not of fish origin.
 
 To do this, I copied over the library I created my first Kraken database with and am now adding three fish genomes to have positive controls: Atlantic cod (*Gadus morhua*), bicolor damselfish (*Stegastes partitus*), and pinfish (*Lagodon rhomboides*). 
@@ -333,8 +334,8 @@ Make sure each FASTA file has a new header with the taxonomy ID for Kraken2 to r
 
 Now, let's add them to our new library and build the database
 - job name: add_fish_tolib_build
-- job id: 48573973
-- run time: 22:50:14
+- job id: 48594528
+- run time: 1-03:13:46
 ```
 # Pinfish
 /work/gatins/hci_genome/kraken2/kraken2-build --threads 20 --add-to-library GCA_039737535.1_Lrho_1.0_genomic.fna --db /work/gatins/hci_genome/processing/krakendb_fish
