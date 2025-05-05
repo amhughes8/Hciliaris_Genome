@@ -67,7 +67,7 @@ First, convert diploid FASTQ into a psmcfa file:
 ```
 Now, run PSMC:
 ```
-/work/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "4+30*2+4+6+10" -o diploid_HCI.psmc diploid_HCI.psmcfa
+/work/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "4+30*2+4+6+10" -o diploid_HCI_nomito.psmc diploid_HCI.psmcfa
 ```
 PSMC parameters:
 - p STR pattern of parameters [4+5*3+4]
@@ -78,8 +78,9 @@ PSMC parameters:
 
 Just doing a quick test run, so using Remy's input (mutation rate=u, generation time in years=g)
 ```
-module load gnuplot/5.2.7 #I haven't needed to run this every time but most times?
+module load gnuplot/5.2.7
 /work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-08 -g 5 HCI_t30r5_plot_u1-8g5 diploid_HCI.psmc
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-09 -g 5 HCI_t30r5_plot_u1-9g5 diploid_HCI.psmc
 ```
 Output:
 ```
@@ -99,9 +100,59 @@ Once you have your diploid_split.psmcfa file you will need to copy this file int
 ```
 mkdir bootstrapping
 cp diploid_HCI_split.psmcfa bootstrapping
-cp diploid_HCI.psmc bootstrapping
+cp diploid_HCI_nomito.psmc bootstrapping
 ```
 Split into 100 separate files
 ```
 echo split_HCI_{001..100}.psmcfa| xargs -n 1 cp diploid_HCI_split.psmcfa
 ```
+
+Run a SLURM array! This will allow all 100 replicate jobs to be run in parallel.
+```
+#!/bin/bash
+#SBATCH -J psmc_array1			    # Job name
+#SBATCH -p short                            # Partition
+#SBATCH -N 1                                # Number of nodes
+#SBATCH -n 2                                # Number of tasks/threads
+#SBATCH -o array_%A_%a.out    		    # Name of stdout output file
+#SBATCH -e array_%A_%a.err    		    # Name of stdout output file
+#SBATCH --array=1-100			    # Array index
+#SBATCH --mem=6000MB 			    # Memory to be allocated PER NODE
+#SBATCH --mail-user=hughes.annab@northeastern.edu  # Email
+#SBATCH --mail-type=END                     # Email notification at job completion
+#SBATCH --time=48:00:00                     # Maximum run time
+
+echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
+#
+# ----------------Your Commands------------------- #
+#
+echo "This job in the array has:"
+echo "- SLURM_JOB_ID=${SLURM_JOB_ID}"
+echo "- SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID}"
+
+# select our filename
+N=${SLURM_ARRAY_TASK_ID}
+# Comment one of the following two lines, depending on if the file names have leading zeros
+#FILENAME=run-${N}.inp # without leading zeros
+ FILENAME=split_HCI_$(printf "%03d" ${N}).psmcfa # with leading zeros
+# adjust "%03d" to as many digits as are in the numeric part of the file name
+echo "My input file is ${FILENAME}"
+
+#
+echo $P
+#
+/work/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -b -p "4+30*2+4+6+10" -o /work/gatins/hci_genome/PSMC/no_mtdna/bootstrapping/${FILENAME}.psmc /work/gatins/hci_genome/PSMC/no_mtdna/bootstrapping/${FILENAME}
+#
+
+echo "Job finished" `date`
+echo "My input file is ${FILENAME}"
+```
+Concatenate all PSMC files
+```
+cat *.psmc > HCI_combined.psmc
+```
+Plot PSMC results same as above using concatenated PSMC file:
+```
+module load gnuplot/5.2.7
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-08 -g 5 HCI_nomito_t30r5_plot_u1-8g5_boot HCI_combined.psmc
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-09 -g 5 HCI_nomito_t30r5_plot_u1-9g5_boot HCI_combined.psmc
