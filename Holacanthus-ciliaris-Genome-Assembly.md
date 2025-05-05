@@ -370,7 +370,7 @@ xargs samtools faidx /work/gatins/hci_genome/processing/mtdna/removal/hifiasm_no
 seqkit stats on assembly_fishdb_nomito_nocontam.fasta:
 |  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
 |----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
-assembly_fishdb_nomito_nocontam.fasta | FASTA  | DNA    |    142 | 605,240,162  |  3,397 | 4,262,254.7 | 31,961,345 | 6,997 | 10,836 | 124,545    |    0 | 25,061,566   |    11   |    0   |    0    |    0 | 41.42    |  0 | ? |
+assembly_fishdb_nomito_nocontam.fasta | FASTA  | DNA    |    142 | 605,240,162  |  3,397 | 4,262,254.7 | 31,961,345 | 6,997 | 10,836 | 124,545    |    0 | 25,061,566   |    11   |    0   |    0    |    0 | 41.42    |  0 | 98.8% |
 
 ## 12. Exploration with [Blobtools2](https://blobtoolkit.genomehubs.org/blobtools2/)
 BlobToolKit is an assembly exploration program. With a FASTA file, a BUSCO report, taxonomic information, coverage data, and BLAST hits, we can create a BlobDirectory to visualize assembly statistics, contamination, and more.
@@ -418,7 +418,7 @@ I'd like to compare the contamination from my assemblies before and after removi
         --threads 60 \
         > nomito_assembly.diamond.blastx.out
 
-# Next, assembly after contamination removal with Kraken2
+# Next, assembly after contamination removal with kraken2_builtpython
 ./diamond blastx \
         --query /work/gatins/hci_genome/processing/assembly_nomito_nocontam.fasta \
         --db reference_proteomes.dmnd \
@@ -428,6 +428,17 @@ I'd like to compare the contamination from my assemblies before and after removi
         --evalue 1e-25 \
         --threads 60 \
         > nomito_nocontam_assembly.diamond.blastx.out
+
+# Now, assembly after contamination removal with the positive control method (krakendb_fish)
+./diamond blastx \
+        --query /work/gatins/hci_genome/processing/assembly_fishdb_nomito_nocontam.fasta \
+        --db reference_proteomes.dmnd \
+        --outfmt 6 qseqid staxids bitscore qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore \
+        --faster \
+        --max-target-seqs 1 \
+        --evalue 1e-25 \
+        --threads 60 \
+        > nomito_nocontam_fishdb_assembly.diamond.blastx.out
 ```
 Now, we can create BlobDirs for each of these assemblies. First, assembly_hifiasm_no_mito.fa (with contamination):
 ```
@@ -452,4 +463,15 @@ blobtools create \
     --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_nocontam_busco/run_actinopterygii_odb12/full_table.tsv \
     --hits /work/gatins/hci_genome/processing/blobtools2/uniprot/nomito_nocontam_assembly.diamond.blastx.out \
     /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_nocontam_assembly_blobdir
+```
+Now, assembly_fishdb_nomito_nocontam.fasta (contamination removal with positive control method):
+```
+blobtools create \
+    --fasta /work/gatins/hci_genome/processing/assembly_fishdb_nomito_nocontam.fasta \
+    --taxid 75024 \
+    --taxdump /work/gatins/hci_genome/processing/blobtools2/taxdump \
+    --cov /work/gatins/hci_genome/PSMC/no_mtdna/HCI_aligned_sorted.bam \
+    --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_nocontam_fishdb_busco/run_actinopterygii_odb12/full_table.tsv \
+    --hits /work/gatins/hci_genome/processing/blobtools2/uniprot/nomito_nocontam_fishdb_assembly.diamond.blastx.out \
+    /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_nocontam_fishdb_assembly_blobdir
 ```
