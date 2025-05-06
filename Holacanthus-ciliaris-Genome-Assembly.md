@@ -485,6 +485,56 @@ blobtools create \
     --taxdump /work/gatins/hci_genome/processing/blobtools2/taxdump \
     --cov /work/gatins/hci_genome/processing/HCI_fishdb_aligned_sorted.bam \
     --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_nocontam_fishdb_busco/run_actinopterygii_odb12/full_table.tsv \
-    --hits /work/gatins/hci_genome/processing/blobtools2/uniprot/nomito_nocontam_fishdb_assembly.diamond.blastx.out \
-    /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_nocontam_fishdb_assembly_blobdir
+    --hits /work/gatins/hci_genome/processing/blobtools2/uniprot/nomito_nocontam_fishdb_assembly.diamond.blastx.out \    /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_nocontam_fishdb_assembly_blobdir
 ```
+
+### Removing additional contamination detected by BlobTools
+There are 40 hits to Nematoda as seen in the blob plot:
+![plot](.png)
+
+This is super weird... maybe some type of parasite? I'm going to remove the contigs that map to Nematoda and see if the BUSCO changes.
+
+First, I'm making nematoda.list with all of the contigs that hit this taxanomic group
+
+Next, removing them from my assembly with SeqKit (I'm working in a new "contamination_removal" directory)
+```
+seqkit grep -f nematoda.list -v ../assembly_fishdb_nomito_nocontam.fasta -o assembly_nematoda_removal.fasta
+```
+
+Now, just double checking that the correct contigs were removed
+```
+grep "ptg" assembly_nematoda_removal.fasta > contigs_nematoda_removed_assembly.txt
+grep "ptg" ../assembly_fishdb_nomito_nocontam.fasta > contigs_assembly.txt
+diff contigs_nematoda_removed_assembly.txt contigs_assembly.txt > nematoda_removed.txt
+cat nematoda_removed.txt
+```
+
+They match! Now we can rerun SeqKit stats and BUSCO and see how our assembly has changed.
+
+|  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
+|----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
+| assembly_nematoda_removal.fasta | FASTA  | DNA   |     102 | 604,914,273  |  3,412 | 5,930,532.1 | 31,961,345 | 7,643 | 18,307.5 | 5,584,061    |    0 | 25,061,566   |    11    |   0   |    0   |     0 | 41.41   |   0 |  |
+
+And we can re-visualize everything after removing the nematodes by first diamond blasting and then creating a new BlobDir.
+```
+module load anaconda3/2022.05
+source activate /work/gatins/hci_genome/env
+
+/work/gatins/hci_genome/processing/blobtools2/uniprot/diamond blastx \
+        --query /work/gatins/hci_genome/processing/contamination_removal/assembly_nematoda_removal.fasta \
+        --db reference_proteomes.dmnd \
+        --outfmt 6 qseqid staxids bitscore qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore \
+        --faster \
+        --max-target-seqs 1 \
+        --evalue 1e-25 \
+        --threads 60 \
+        > assembly_nematoda_removal.diamond.blastx.out
+
+blobtools create \
+    --fasta /work/gatins/hci_genome/processing/contamination_removal/assembly_nematoda_removal.fasta \
+    --taxid 75024 \
+    --taxdump /work/gatins/hci_genome/processing/blobtools2/taxdump \
+    --cov /work/gatins/hci_genome/processing/HCI_fishdb_aligned_sorted.bam \
+    --busco /work/gatins/hci_genome/processing/busco/nematoda_removed_busco/run_actinopterygii_odb12/full_table.tsv \
+    --hits /work/gatins/hci_genome/processing/contamination_removal/assembly_nematoda_removal.diamond.blastx.out \
+    /work/gatins/hci_genome/processing/blobtools2/BlobDirs/nematoda_removed_assembly_blobdir
