@@ -465,12 +465,25 @@ blobtools create \
     /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_nocontam_assembly_blobdir
 ```
 Now, assembly_fishdb_nomito_nocontam.fasta (contamination removal with positive control method):
+
+First, I re-mapped to the assembly
+```
+module load minimap2/2.26
+module load samtools/1.19.2
+
+minimap2 -t 30 -ax map-ont /work/gatins/hci_genome/processing/assembly_fishdb_nomito_nocontam.fasta /work/gatins/hci_genome/processing/hci_filtered_3kQ10.fastq > HCI_fishdb_aligned.sam
+samtools view -Sb -@ 30 -o HCI_fishdb_aligned.bam HCI_fishdb_aligned.sam
+samtools sort -o HCI_fishdb_aligned_sorted.bam -O bam -@ 20 HCI_fishdb_aligned.bam
+samtools index -b -@ 20 HCI_fishdb_aligned_sorted.bam
+samtools index -c -@ 20 HCI_fishdb_aligned_sorted.bam
+```
+Then, I could create the BlobDir
 ```
 blobtools create \
     --fasta /work/gatins/hci_genome/processing/assembly_fishdb_nomito_nocontam.fasta \
     --taxid 75024 \
     --taxdump /work/gatins/hci_genome/processing/blobtools2/taxdump \
-    --cov /work/gatins/hci_genome/PSMC/no_mtdna/HCI_aligned_sorted.bam \
+    --cov /work/gatins/hci_genome/processing/HCI_fishdb_aligned_sorted.bam \
     --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_nocontam_fishdb_busco/run_actinopterygii_odb12/full_table.tsv \
     --hits /work/gatins/hci_genome/processing/blobtools2/uniprot/nomito_nocontam_fishdb_assembly.diamond.blastx.out \
     /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_nocontam_fishdb_assembly_blobdir
