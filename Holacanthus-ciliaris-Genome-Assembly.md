@@ -513,7 +513,7 @@ They match! Now we can rerun SeqKit stats and BUSCO and see how our assembly has
 
 |  file    |        format | type | num_seqs  |    sum_len | min_len   |   avg_len  |   max_len   |    Q1   |     Q2    |     Q3 | sum_gap   |     N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
 |----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
-| assembly_nematoda_removal.fasta | FASTA  | DNA   |     102 | 604,914,273  |  3,412 | 5,930,532.1 | 31,961,345 | 7,643 | 18,307.5 | 5,584,061    |    0 | 25,061,566   |    11    |   0   |    0   |     0 | 41.41   |   0 |  |
+| assembly_nematoda_removal.fasta | FASTA  | DNA   |     102 | 604,914,273  |  3,412 | 5,930,532.1 | 31,961,345 | 7,643 | 18,307.5 | 5,584,061    |    0 | 25,061,566   |    11    |   0   |    0   |     0 | 41.41   |   0 | 98.8% |
 
 And we can re-visualize everything after removing the nematodes by first diamond blasting and then creating a new BlobDir.
 ```
