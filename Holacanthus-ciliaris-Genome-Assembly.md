@@ -372,7 +372,7 @@ seqkit stats on assembly_fishdb_nomito_nocontam.fasta:
 |----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
 assembly_fishdb_nomito_nocontam.fasta | FASTA  | DNA    |    142 | 605,240,162  |  3,397 | 4,262,254.7 | 31,961,345 | 6,997 | 10,836 | 124,545    |    0 | 25,061,566   |    11   |    0   |    0    |    0 | 41.42    |  0 | 98.8% |
 
-## 12. Exploration with [Blobtools2](https://blobtoolkit.genomehubs.org/blobtools2/)
+## 12. Exploration and more contamination removal with [Blobtools2](https://blobtoolkit.genomehubs.org/blobtools2/)
 BlobToolKit is an assembly exploration program. With a FASTA file, a BUSCO report, taxonomic information, coverage data, and BLAST hits, we can create a BlobDirectory to visualize assembly statistics, contamination, and more.
 
 First, let's download BlobToolKit
@@ -466,7 +466,7 @@ blobtools create \
 ```
 Now, assembly_fishdb_nomito_nocontam.fasta (contamination removal with positive control method):
 
-First, I re-mapped to the assembly
+First, I re-mapped to the assembly because I was getting an error
 ```
 module load minimap2/2.26
 module load samtools/1.19.2
@@ -490,7 +490,7 @@ blobtools create \
 
 ### Removing additional contamination detected by BlobTools
 There are 40 hits to Nematoda as seen in the blob plot:
-![plot](.png)
+![plot](/photos/hifiasm_nomito_nocontam_fishdb_assembly_blobdir.blob.circle.png)
 
 This is super weird... maybe some type of parasite? I'm going to remove the contigs that map to Nematoda and see if the BUSCO changes.
 
