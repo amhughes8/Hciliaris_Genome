@@ -156,3 +156,11 @@ Plot PSMC results same as above using concatenated PSMC file:
 module load gnuplot/5.2.7
 /work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-08 -g 5 HCI_nomito_t30r5_plot_u1-8g5_boot HCI_combined.psmc
 /work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-09 -g 5 HCI_nomito_t30r5_plot_u1-9g5_boot HCI_combined.psmc
+```
+mutation rate = 10^8
+![plot](photos/FINAL_HCI_t30r5_plot_u1-8g5_boot.png)
+
+mutation rate = 10^9
+![plot](photos/FINAL_HCI_t30r5_plot_u1-9g5_boot.png)
+
+
