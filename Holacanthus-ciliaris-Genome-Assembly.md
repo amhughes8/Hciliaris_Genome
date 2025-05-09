@@ -515,29 +515,48 @@ They match! Now we can rerun SeqKit stats and BUSCO and see how our assembly has
 |----------|---------------|------|-----------|------------|-----------|------------|-------------|---------|-----------|--------|-----------|---------|---------|--------|--------|---------|-------|-------|-------|
 | assembly_nematoda_removal.fasta | FASTA  | DNA   |     102 | 604,914,273  |  3,412 | 5,930,532.1 | 31,961,345 | 7,643 | 18,307.5 | 5,584,061    |    0 | 25,061,566   |    11    |   0   |    0   |     0 | 41.41   |   0 | 98.8% |
 
-And we can re-visualize everything after removing the nematodes by first diamond blasting and then creating a new BlobDir.
+And we can re-visualize everything after removing the nematodes by remapping filtered reads to this new assembly, diamond blasting, and then creating a new BlobDir.
 ```
 module load anaconda3/2022.05
+module load minimap2/2.26
+module load samtools/1.19.2
 source activate /work/gatins/hci_genome/env
+
+minimap2 -t 30 -ax map-ont /work/gatins/hci_genome/processing/contamination_removal/assembly_nematoda_removal.fasta /work/gatins/hci_genome/processing/hci_filtered_3kQ10.fastq > HCI_nematoda_removed_aligned.sam
+samtools view -Sb -@ 30 -o HCI_nematoda_removed_aligned.bam HCI_nematoda_removed_aligned.sam
+samtools sort -o HCI_nematoda_removed_aligned_sorted.bam -O bam -@ 20 HCI_nematoda_removed_aligned.bam
+samtools index -b -@ 20  HCI_nematoda_removed_aligned_sorted.bam
+samtools index -c -@ 20  HCI_nematoda_removed_aligned_sorted.bam
 
 /work/gatins/hci_genome/processing/blobtools2/uniprot/diamond blastx \
         --query /work/gatins/hci_genome/processing/contamination_removal/assembly_nematoda_removal.fasta \
-        --db reference_proteomes.dmnd \
+        --db /work/gatins/hci_genome/processing/blobtools2/uniprot/reference_proteomes.dmnd \
         --outfmt 6 qseqid staxids bitscore qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore \
         --faster \
         --max-target-seqs 1 \
         --evalue 1e-25 \
-        --threads 60 \
+        --threads 30 \
         > assembly_nematoda_removal.diamond.blastx.out
 
 blobtools create \
     --fasta /work/gatins/hci_genome/processing/contamination_removal/assembly_nematoda_removal.fasta \
     --taxid 75024 \
     --taxdump /work/gatins/hci_genome/processing/blobtools2/taxdump \
-    --cov /work/gatins/hci_genome/processing/HCI_fishdb_aligned_sorted.bam \
+    --cov /work/gatins/hci_genome/processing/contamination_removal/HCI_nematoda_removed_aligned_sorted.bam \
     --busco /work/gatins/hci_genome/processing/busco/nematoda_removed_busco/run_actinopterygii_odb12/full_table.tsv \
     --hits /work/gatins/hci_genome/processing/contamination_removal/assembly_nematoda_removal.diamond.blastx.out \
     /work/gatins/hci_genome/processing/blobtools2/BlobDirs/nematoda_removed_assembly_blobdir
 ```
 
+Blob circle plot:
+![plot](nematoda_removed_assembly_blobdir_redo.blob.circle.png)
+
+Snail plot:
+![plot](nematoda_removed_assembly_blobdir_redo.snail.png)
+
+Cumulative:
+![plot](nematoda_removed_assembly_blobdir_redo.cumulative.png)
+
 **I've now renamed assembly_nematoda_removal.fasta to assembly_FINAL.fasta in my /processing directory because this is the assembly I will move forward with!!!!!**
+
+**I also renamed the blob directory from nematoda_removed_assembly_blobdir to final_assembly_blobdir.**
