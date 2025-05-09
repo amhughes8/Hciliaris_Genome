@@ -1,3 +1,5 @@
+This markdown contains everything I tried in the process of creating [my final genome assembly pipeline for the queen angelfish](https://github.com/amhughes8/Hciliaris_Genome/blob/main/Holacanthus-ciliaris-Genome-Assembly.md).
+
 # Get basecalled data from Miten
 ```
 wget https://s3.amazonaws.com/gtl-public-data/miten/remy/03_24_25_R10_HCI_CUR_092401_GENOME.5mC_5hmC.sup.dorado.0.9.1.bam hughes.annab@xfer.discovery.neu.edu:/work/gatins/hci_genome/bams
