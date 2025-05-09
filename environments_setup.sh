@@ -1,6 +1,3 @@
-https://github.com/amhughes8/Hciliaris_Genome
-https://github.com/remygatins/Holacanthus_passer-ONT-Illumina-Genome-Assembly
-
 ssh hughes.annab@login.discovery.neu.edu
 cd /work/gatins/hci_genome
 
