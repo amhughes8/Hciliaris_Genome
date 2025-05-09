@@ -538,3 +538,6 @@ blobtools create \
     --busco /work/gatins/hci_genome/processing/busco/nematoda_removed_busco/run_actinopterygii_odb12/full_table.tsv \
     --hits /work/gatins/hci_genome/processing/contamination_removal/assembly_nematoda_removal.diamond.blastx.out \
     /work/gatins/hci_genome/processing/blobtools2/BlobDirs/nematoda_removed_assembly_blobdir
+```
+
+**I've now renamed assembly_nematoda_removal.fasta to assembly_FINAL.fasta in my /processing directory because this is the assembly I will move forward with!!!!!**
