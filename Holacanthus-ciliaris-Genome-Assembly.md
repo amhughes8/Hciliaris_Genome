@@ -549,13 +549,13 @@ blobtools create \
 ```
 
 Blob circle plot:
-![plot](nematoda_removed_assembly_blobdir_redo.blob.circle.png)
+![plot](photos/nematoda_removed_assembly_blobdir_redo.blob.circle.png)
 
 Snail plot:
-![plot](nematoda_removed_assembly_blobdir_redo.snail.png)
+![plot](photos/nematoda_removed_assembly_blobdir_redo.snail.png)
 
 Cumulative:
-![plot](nematoda_removed_assembly_blobdir_redo.cumulative.png)
+![plot](photos/nematoda_removed_assembly_blobdir_redo.cumulative.png)
 
 **I've now renamed assembly_nematoda_removal.fasta to assembly_FINAL.fasta in my /processing directory because this is the assembly I will move forward with!!!!!**
 
