@@ -89,3 +89,9 @@ curl -L https://github.com/blobtoolkit/blobtoolkit/releases/download/4.1.5/blobt
 curl -L https://github.com/blobtoolkit/blobtoolkit/releases/download/4.1.5/blobtoolkit-viewer-linux > blobtoolkit-viewer
 BTK_API_PORT=8880 BTK_PORT=8881 BTK_FILE_PATH=/work/gatins/hci_genome/processing/blobtools ./blobtoolkit-api
 BTK_API_PORT=8880 BTK_PORT=8881 ./blobtoolkit-viewer
+
+##RepeatModeler
+module load singularity
+curl -sSLO https://github.com/Dfam-consortium/TETools/raw/master/dfam-tetools.sh
+chmod +x dfam-tetools.sh
+./dfam-tetools.sh
