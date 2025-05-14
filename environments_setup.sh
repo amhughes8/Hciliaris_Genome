@@ -92,6 +92,11 @@ BTK_API_PORT=8880 BTK_PORT=8881 ./blobtoolkit-viewer
 
 ##RepeatModeler
 module load singularity
+### this is the wrapper script
 curl -sSLO https://github.com/Dfam-consortium/TETools/raw/master/dfam-tetools.sh
 chmod +x dfam-tetools.sh
 ./dfam-tetools.sh
+### this is specifically the singularity image file, I think running both should work
+module load singularity
+singularity pull dfam-tetools-latest.sif docker://dfam/tetools:latest
+singularity run dfam-tetools-latest.sif
