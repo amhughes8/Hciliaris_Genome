@@ -11,6 +11,9 @@ BuildDatabase -name hci_genome_repeats /work/gatins/hci_genome/processing/assemb
 ```
 
 Run RepeatModeler
+- job name: repeatmodeler
+- job id: 48737549
+- run time:
 ```
 #!/bin/bash
 #SBATCH -J repeatmodeler                    # Job name
