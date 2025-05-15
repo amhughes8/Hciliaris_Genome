@@ -94,5 +94,8 @@ singularity run /work/gatins/hci_genome/processing/mtdna/MitoZ_v3.6.sif mitoz al
 --memory 50 \
 --requiring_taxa Chordata
 ```
+Final assembly in FASTA format: **hci_mtdna_hci_mtdna.megahit.mitogenome.fa_mitoscaf.fa.gbf.fasta**
+
+
 Resulting circos plot:
 ![plot](photos/circos.png)
