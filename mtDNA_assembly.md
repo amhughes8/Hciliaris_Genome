@@ -40,6 +40,8 @@ flye --nano-hq HCI_dorado0.9.1_lessthan20000bp_morethan5000bp.fastq --out-dir /w
 ## 3. Look at assembly stats for a circular contig with high coverage
 size should be betwen 16K - 32K
 
+![plot](photos/contig_info_flye_assembly_mtdna.png)
+Here is a list of contigs that are circular from the Flye assembly. The first one has really high coverage, but the size is about double what we would expect the mitogenome to be based off of the published sequence. Let's try a different method.
 
 # Method 2:
 Trying something new. Using raw sequencing reads mapped to mitochondrial genome downloaded from NCBI (see steps in https://github.com/amhughes8/Hciliaris_Genome/blob/main/Holacanthus-ciliaris-Genome-Assembly.md)
