@@ -55,11 +55,12 @@ convert BAM to FASTQ
 samtools fastq mapped.bam > reads_mito.fastq
 ```
 
+## 2. Download the singularity container for [MitoZ](https://github.com/linzhi2013/MitoZ)
 ```
 module load singularity
 singularity pull MitoZ_v3.6.sif docker://guanliangmeng/mitoz:3.6
 ```
-test dataset:
+Make sure everything downloaded correctly using the provided test dataset:
 ```
 mkdir test
 cd test
@@ -80,8 +81,9 @@ singularity run /work/gatins/hci_genome/processing/mtdna/MitoZ_v3.6.sif mitoz al
 --memory 50 \
 --requiring_taxa Chordata
 ```
+Looks good!
 
-running on hci data:
+## 3. Run MitoZ on FASTQ file of sequencing reads mapped to reference mitogenome
 ```
 singularity run /work/gatins/hci_genome/processing/mtdna/MitoZ_v3.6.sif mitoz all  \
 --outprefix hci_mtdna \
@@ -96,8 +98,8 @@ singularity run /work/gatins/hci_genome/processing/mtdna/MitoZ_v3.6.sif mitoz al
 --memory 50 \
 --requiring_taxa Chordata
 ```
-Final assembly in FASTA format: **hci_mtdna_hci_mtdna.megahit.mitogenome.fa_mitoscaf.fa.gbf.fasta**
 
+Final assembly in FASTA format: **hci_mtdna_hci_mtdna.megahit.mitogenome.fa_mitoscaf.fa.gbf.fasta**
 
 Resulting circos plot:
 ![plot](photos/circos.png)
