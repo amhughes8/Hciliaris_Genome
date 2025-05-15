@@ -1,4 +1,6 @@
 # Assembling the Mitochondrial Genome from Whole Genome Sequencing Data
+
+# Method 1:
 These instructions are from Giacomo Bernardi
 
 ## 1. Filter anything between 5kb-20kb
