@@ -37,3 +37,62 @@ flye --nano-hq HCI_dorado0.9.1_lessthan20000bp_morethan5000bp.fastq --out-dir /w
 
 ## 3. Look at assembly stats for a circular contig with high coverage
 size should be betwen 16K - 32K
+
+
+# Method 2:
+Trying something new. Using raw sequencing reads mapped to mitochondrial genome downloaded from NCBI (see steps in https://github.com/amhughes8/Hciliaris_Genome/blob/main/Holacanthus-ciliaris-Genome-Assembly.md)
+
+## 1. Create fasta file containing all reads that mapped to the mitogenome
+extract mapped sequences
+```
+module load samtools
+samtools view -b -F 4 -@ 20 /work/gatins/hci_genome/processing/mtdna/removal/mito_aln.sorted.bam > mapped.bam
+```
+convert BAM to FASTQ
+```
+samtools fastq mapped.bam > reads_mito.fastq
+```
+
+```
+module load singularity
+singularity pull MitoZ_v3.6.sif docker://guanliangmeng/mitoz:3.6
+```
+test dataset:
+```
+mkdir test
+cd test
+wget -c https://raw.githubusercontent.com/linzhi2013/MitoZ/master/test/test.R1.fq.gz 
+wget -c https://raw.githubusercontent.com/linzhi2013/MitoZ/master/test/test.R2.fq.gz
+singularity run /work/gatins/hci_genome/processing/mtdna/MitoZ_v3.6.sif mitoz all  \
+--outprefix test \
+--thread_number 4 \
+--clade Chordata \
+--genetic_code 2 \
+--species_name "Homo sapiens" \
+--fq1 test.R1.fq.gz \
+--fq2 test.R2.fq.gz \
+--fastq_read_length 151 \
+--data_size_for_mt_assembly 3,0 \
+--assembler megahit \
+--kmers_megahit 71 99 \
+--memory 50 \
+--requiring_taxa Chordata
+```
+
+running on hci data:
+```
+singularity run /work/gatins/hci_genome/processing/mtdna/MitoZ_v3.6.sif mitoz all  \
+--outprefix hci_mtdna \
+--thread_number 10 \
+--clade Chordata \
+--genetic_code 2 \
+--species_name "Holacanthus ciliaris" \
+--fq1 reads_mito.fastq \
+--skip_filter \
+--assembler megahit \
+--kmers_megahit 71 99 \
+--memory 50 \
+--requiring_taxa Chordata
+```
+Resulting circos plot:
+![plot](photos/circos.png)
