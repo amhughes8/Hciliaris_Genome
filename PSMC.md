@@ -16,18 +16,18 @@ module load anaconda3/2022.05 discovery
 source activate /work/gatins/hci_genome/env
 cat /work/gatins/hci_genome/processing/hci_concat_noadapters.fastq | seqkit seq -m 3000 -Q 10 -j 10 > /work/gatins/hci_genome/processing/hci_filtered_3kQ10.fastq
 ```
-Next, we can align these reads to our reference
+Next, we can align these reads to our reference (assembly_FINAL.fasta in /processing)
 ```
 module load minimap2/2.26
-minimap2 -t 30 -ax map-ont assembly_no_contaminants.fasta hci_filtered_3kQ10.fastq > HCI_aligned.sam
+minimap2 -t 30 -ax map-ont /work/gatins/hci_genome/processing/assembly_FINAL.fasta /work/gatins/hci_genome/processing/hci_filtered_3kQ10.fastq > HCI_aligned.sam
 ```
 Use samtools to convert sam->bam
 ```
+module load samtools/1.19.2
 samtools view -Sb -@ 30 -o HCI_aligned.bam HCI_aligned.sam
 ```
 Sort bam file
 ```
-module load samtools/1.9
 samtools sort -o HCI_aligned_sorted.bam -O bam -@ 20 HCI_aligned.bam
 ```
 Finally, index sorted bam file
@@ -37,7 +37,6 @@ samtools index -b -@ 20 HCI_aligned_sorted.bam
 
 ## Generate the whole-genome diploid consensus sequence for input
 ```
-module load samtools/1.9
 module load bcftools/1.21
 bcftools mpileup -C50 -f assembly_no_contaminants.fasta HCI_aligned_sorted.bam | bcftools view -c --threads 10 | vcfutils.pl vcf2fq -d 50 -D 300 | gzip > diploid_HCI_50_300.fq.gz
 ```
@@ -47,9 +46,10 @@ bcftools mpileup -C50 -f assembly_no_contaminants.fasta HCI_aligned_sorted.bam |
 This script was designed to take a BAM and a reference assembly to create a VCF with genotype likelihoods for a diploid individual --> consensus call --> translate VCF to FASTQ --> gzip.
 
 It seems that this pipeline (specifically vcfutils.pl) has been deprecated and people have recently switched over to using *samtools consensus* to get a .fq.gz consensus sequence for the PSMC analysis. Let's try it:
+
+working in /work/gatins/hci_genome/PSMC/final_assembly_psmc
 ```
-module load samtools/1.19.2
-samtools consensus --ambig -f fastq -d 50 /work/gatins/hci_genome/processing/HCI_aligned_sorted.bam -o consensus.fq
+samtools consensus --ambig -f fastq -d 50 HCI_aligned_sorted.bam -o consensus.fq
 ```
 now gzip
 ```
@@ -67,7 +67,7 @@ First, convert diploid FASTQ into a psmcfa file:
 ```
 Now, run PSMC:
 ```
-/work/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "4+30*2+4+6+10" -o diploid_HCI_nomito.psmc diploid_HCI.psmcfa
+/work/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "4+30*2+4+6+10" -o diploid_HCI_final.psmc diploid_HCI.psmcfa
 ```
 PSMC parameters:
 - p STR pattern of parameters [4+5*3+4]
@@ -76,18 +76,19 @@ PSMC parameters:
 - r FLOAT initial theta/rho ratio [4]
 - o FILE output file [stdout]
 
-Just doing a quick test run, so using Remy's input (mutation rate=u, generation time in years=g)
+I'm going to plot with a few different mutation rates: [1e-08, 1e-09](https://www.sciencedirect.com/science/article/pii/S0169534703000181?via%3Dihub), and [5.97e-09](https://www.nature.com/articles/s41586-023-05752-y) with a generation time of 5 years.
 ```
 module load gnuplot/5.2.7
-/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-08 -g 5 HCI_t30r5_plot_u1-8g5 diploid_HCI.psmc
-/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-09 -g 5 HCI_t30r5_plot_u1-9g5 diploid_HCI.psmc
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-08 -g 5 HCI_t30r5_plot_u1-8g5 diploid_HCI_final.psmc
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-09 -g 5 HCI_t30r5_plot_u1-9g5 diploid_HCI_final.psmc
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5 diploid_HCI_final.psmc
 ```
 Output:
 ```
-HCI_t30r5_plot_u1-8g5.eps  HCI_t30r5_plot_u1-8g5.par
+HCI_t30r5_plot_u1-8g5.eps  HCI_t30r5_plot_u1-8g5.par HCI_t30r5_plot_u1-9g5.eps HCI_t30r5_plot_u1-9g5.par HCI_t30r5_plot_u597-9g5.eps HCI_t30r5_plot_u597-9g5.par
 ```
 Download files to computer and visualize:
-![plot](photos/PSMC_HCI_10e8_g5.png)
+![plot](photos/HCI_t30r5_plot_u597-9g5.png)
 
 # Bootstrapping
 Follow all same steps as above and use your .psmc file for bootstrapping.
@@ -100,7 +101,7 @@ Once you have your diploid_split.psmcfa file you will need to copy this file int
 ```
 mkdir bootstrapping
 cp diploid_HCI_split.psmcfa bootstrapping
-cp diploid_HCI_nomito.psmc bootstrapping
+cp diploid_HCI_final.psmc bootstrapping
 ```
 Split into 100 separate files
 ```
@@ -141,7 +142,7 @@ echo "My input file is ${FILENAME}"
 #
 echo $P
 #
-/work/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -b -p "4+30*2+4+6+10" -o /work/gatins/hci_genome/PSMC/no_mtdna/bootstrapping/${FILENAME}.psmc /work/gatins/hci_genome/PSMC/no_mtdna/bootstrapping/${FILENAME}
+/work/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -b -p "4+30*2+4+6+10" -o /work/gatins/hci_genome/PSMC/final_assembly_psmc/bootstrap/${FILENAME}.psmc /work/gatins/hci_genome/PSMC/final_assembly_psmc/bootstrap/${FILENAME}
 #
 
 echo "Job finished" `date`
@@ -156,11 +157,14 @@ Plot PSMC results same as above using concatenated PSMC file:
 module load gnuplot/5.2.7
 /work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-08 -g 5 HCI_nomito_t30r5_plot_u1-8g5_boot HCI_combined.psmc
 /work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-09 -g 5 HCI_nomito_t30r5_plot_u1-9g5_boot HCI_combined.psmc
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5 HCI_combined.psmc
 ```
-mutation rate = 10^8
+mutation rate = 10^-8
 ![plot](photos/FINAL_HCI_t30r5_plot_u1-8g5_boot.png)
 
-mutation rate = 10^9
+mutation rate = 10^-9
 ![plot](photos/FINAL_HCI_t30r5_plot_u1-9g5_boot.png)
 
+mutation rate = 5.97x10^-9
+![plot](photos/
 
