@@ -162,11 +162,11 @@ module load gnuplot/5.2.7
 /work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5 HCI_combined.psmc
 ```
 mutation rate = 10^-8
-![plot](photos/FINAL_HCI_t30r5_plot_u1-8g5_boot.png)
+![plot](photos/HCI_t30r5_plot_u1-8g5_boot.png)
 
 mutation rate = 10^-9
-![plot](photos/FINAL_HCI_t30r5_plot_u1-9g5_boot.png)
+![plot](photos/HCI_t30r5_plot_u1-9g5_boot.png)
 
 mutation rate = 5.97x10^-9
-![plot](photos/
+![plot](photos/HCI_t30r5_plot_u597-9g5.png)
 
