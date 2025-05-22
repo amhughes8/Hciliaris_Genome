@@ -88,6 +88,8 @@ Output:
 HCI_t30r5_plot_u1-8g5.eps  HCI_t30r5_plot_u1-8g5.par HCI_t30r5_plot_u1-9g5.eps HCI_t30r5_plot_u1-9g5.par HCI_t30r5_plot_u597-9g5.eps HCI_t30r5_plot_u597-9g5.par
 ```
 Download files to computer and visualize:
+
+mutation rate = 5.97e-09
 ![plot](photos/HCI_t30r5_plot_u597-9g5.png)
 
 # Bootstrapping
@@ -99,9 +101,9 @@ Use the splitfa command to split long chromosome sequences found in diploid_HCI.
 ```
 Once you have your diploid_split.psmcfa file you will need to copy this file into 100 independent files. I personally like to do this in a separate directory, so mkdir bootstrapping. Now, copy (or move) diploid_HCI_split.psmcfa and your original psmc run outfile into your new bootstrap directory. The psmc file will be used after you run the bootstrap to concatenate with the other output files.
 ```
-mkdir bootstrapping
-cp diploid_HCI_split.psmcfa bootstrapping
-cp diploid_HCI_final.psmc bootstrapping
+mkdir bootstrap
+cp diploid_HCI_split.psmcfa bootstrap
+cp diploid_HCI_final.psmc bootstrap
 ```
 Split into 100 separate files
 ```
@@ -111,7 +113,7 @@ echo split_HCI_{001..100}.psmcfa| xargs -n 1 cp diploid_HCI_split.psmcfa
 Run a SLURM array! This will allow all 100 replicate jobs to be run in parallel.
 ```
 #!/bin/bash
-#SBATCH -J psmc_array1			    # Job name
+#SBATCH -J psmc_array			    # Job name
 #SBATCH -p short                            # Partition
 #SBATCH -N 1                                # Number of nodes
 #SBATCH -n 2                                # Number of tasks/threads
@@ -155,8 +157,8 @@ cat *.psmc > HCI_combined.psmc
 Plot PSMC results same as above using concatenated PSMC file:
 ```
 module load gnuplot/5.2.7
-/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-08 -g 5 HCI_nomito_t30r5_plot_u1-8g5_boot HCI_combined.psmc
-/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-09 -g 5 HCI_nomito_t30r5_plot_u1-9g5_boot HCI_combined.psmc
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-08 -g 5 HCI_t30r5_plot_u1-8g5_boot HCI_combined.psmc
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-09 -g 5 HCI_t30r5_plot_u1-9g5_boot HCI_combined.psmc
 /work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5 HCI_combined.psmc
 ```
 mutation rate = 10^-8
