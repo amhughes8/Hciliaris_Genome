@@ -168,5 +168,5 @@ mutation rate = 10^-9
 ![plot](photos/HCI_t30r5_plot_u1-9g5_boot.png)
 
 mutation rate = 5.97x10^-9
-![plot](photos/HCI_t30r5_plot_u597-9g5.png)
+![plot](photos/HCI_t30r5_plot_u597-9g5_boot.png)
 
