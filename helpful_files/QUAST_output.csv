@@ -1,0 +1,21 @@
+Assembly	assembly_nematoda_removal_fasta
+# contigs (>= 0 bp)	102
+# contigs (>= 1000 bp)	102
+Total length (>= 0 bp)	604914273
+Total length (>= 1000 bp)	604914273
+# contigs	102
+Largest contig	31961345
+Total length	604914273
+Estimated reference length	604900000
+GC (%)	41.41
+N50	25061566
+NG50	25061566
+N90	17062146
+NG90	17062146
+auN	24162649.2
+auNG	24163219.3
+L50	11
+LG50	11
+L90	22
+LG90	22
+# N's per 100 kbp	0.00
