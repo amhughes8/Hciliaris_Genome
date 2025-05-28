@@ -117,17 +117,14 @@ module load minimap2/2.26
 minimap2 -t 40 -ax map-ont NC_027595.1_HCI_mito.fasta hci_filtered_2.5kQ5.fastq > aln_minimap2.sam
 ```
 ### Use samtools to extract sequences that mapped to mitochondrial genome
-Convert to BAM
+Convert to BAM, then sort and index
+- job name: convert_bam_sort_index
+- job id: 48549448
+- run time: 00:47:21
 ```
 module load samtools/1.19.2
-samtools view -Sb -@ 30 aln_minimap2.sam > mito_aln.bam
-```
-Sort BAM
-```
-samtools sort -@ 20 mito_aln.bam -o mito_aln.sorted.bam
-```
-Index BAM
-```
+samtools view -Sb -@ 30 aln_minimap2.sam > mtdna_aligned.bam
+samtools sort -@ 20 mtdna_aligned.bam -o mito_aln.sorted.bam
 samtools index mito_aln.sorted.bam
 ```
 Extract sequences that were unmapped and save them to a new BAM file
