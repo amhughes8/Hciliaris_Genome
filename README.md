@@ -1,6 +1,7 @@
 # Whole Genome Assembly and Annotation of the Queen Angelfish (*Holacanthus ciliaris*)
 ## Annabel M. Hughes, Remy Gatins
 
+![plot](photos/queenonly.png)
 ![plot](photos/queen-map-github.png)
 Figure 1. Geographic distribution of the queen angelfish (*H. ciliaris*) throughout the Tropical Western Atlantic.
 
