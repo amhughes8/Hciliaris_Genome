@@ -53,6 +53,10 @@ module load anaconda3/2022.05
 source activate /work/gatins/hci_genome/env
 seqkit stat /work/gatins/hci_genome/processing/*.fastq
 ```
+| file                        |                   format |  type   |  num_seqs    |      sum_len | min_len | avg_len  |  max_len |
+| --------------------------- | ------------------------| --------|--------------|--------------|---------|-----------|----------|
+| /work/gatins/hci_genome/processing/hci1.fastq | FASTQ |  DNA  | 124,984,200 | 143,083,975,445    |    5 | 1,144.8 | 1,377,944 |
+| /work/gatins/hci_genome/processing/hci2.fastq | FASTQ | DNA  |  46,516,340  | 66,135,264,358   |     5 | 1,421.8 | 1,042,921 |
 
 ## 4. Trim Adapters with [Porechop](https://github.com/rrwick/Porechop)
 Porechop uses a lot of memory, so it is going to be really challenging to run on a concatenated file. I submitted a batch job on April 10 for hci1.fastq asking for 800G of memory (it is still in the queue) and I'm now interactively running Porechop on hci2.fastq with 300G of memory. **this step takes longer than 4 hours (short partition default), so make sure to indicate longer runtimes!**
