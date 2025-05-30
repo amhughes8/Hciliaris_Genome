@@ -180,6 +180,6 @@ jellyfish count -m 21 -s 700000000 -t 10 -C <(zcat ../HCI_CUR_092401_merged.1.14
 jellyfish count -m 21 -s 700000000 -t 10 -C <(zcat ../HCI_CUR_092401_merged.2.142bp_3prime_val_2.fq.gz) -o HCI_CUR_092401_merged.2.142bp_3prime_val_2_21mer_output
 ```
 ```
-jellyfish histo HCI_CUR_092401_merged.1.142bp_3prime_val_1_21mer_output
-jellyfish histo HCI_CUR_092401_merged.2.142bp_3prime_val_2_21mer_output
+jellyfish histo HCI_CUR_092401_merged.1.142bp_3prime_val_1_21mer_output > HCI_CUR_092401_merged.1.histo
+jellyfish histo HCI_CUR_092401_merged.2.142bp_3prime_val_2_21mer_output > HCI_CUR_092401_merged.2.histo
 ```
