@@ -11,7 +11,7 @@ fastqc HCI_CUR_092401_merged.2.fq.gz -o fastqc
 ```
 
 The data looks great! But looks like the adapters are still on (see image below).
-![plot](adapters.png)
+![plot](photos/adapters.png)
 
 Let's remove them:
 ```
