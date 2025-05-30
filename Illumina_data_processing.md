@@ -3,10 +3,17 @@
 Remy demultiplexed the files from her large BSB WGS run, but I am now going to quality trim them.
 
 First, let's check them with fastqc
+
 ```
 module load fastqc/0.12.1
+fastqc HCI_CUR_092401_merged.1.fq.gz -o fastqc
+fastqc HCI_CUR_092401_merged.2.fq.gz -o fastqc
 ```
 
+The data looks great! But looks like the adapters are still on (see image below).
+![plot](adapters.png)
+
+Let's remove them:
 ```
 source activate /projects/gatins/programs/trimgalore_ex
 
@@ -21,6 +28,6 @@ trim_galore --fastqc -o /projects/gatins/hci_genome/illumina/clean/trimgalore_ha
 run multiqc from /projects/gatins/hci_genome/illumina/clean/trimgalore_hard
 
 ```
-source activate /projects/gatins/programs_explorer
+source activate /projects/gatins/programs_explorer/multiqc
 multiqc .
 ```
