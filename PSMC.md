@@ -178,3 +178,8 @@ module load anaconda3/2024.06
 source activate /projects/gatins/programs_explorer/jellyfish_2.2
 jellyfish count -m 21 -s 700000000 -t 10 -C <(zcat ../HCI_CUR_092401_merged.1.142bp_3prime_val_1.fq.gz) -o HCI_CUR_092401_merged.1.142bp_3prime_val_1_21mer_output
 jellyfish count -m 21 -s 700000000 -t 10 -C <(zcat ../HCI_CUR_092401_merged.2.142bp_3prime_val_2.fq.gz) -o HCI_CUR_092401_merged.2.142bp_3prime_val_2_21mer_output
+```
+```
+jellyfish histo HCI_CUR_092401_merged.1.142bp_3prime_val_1_21mer_output
+jellyfish histo HCI_CUR_092401_merged.2.142bp_3prime_val_2_21mer_output
+```
