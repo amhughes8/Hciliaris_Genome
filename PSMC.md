@@ -187,3 +187,23 @@ jellyfish histo HCI_CUR_092401_merged.2.142bp_3prime_val_2_21mer_output > HCI_CU
 ![plot](photos/illumina_2_genomescope.png)
 
 I don't know why it is cut off like that... but seems like our coverage is between 10-15x.
+
+Now, let's prepare the genome assembly for mapping.
+```
+module load bwa/0.7.18
+bwa index /projects/gatins/hci_genome/processing/assembly_FINAL.fasta
+```
+Now map the illumina data onto the reference
+```
+bwa mem -O 5 -B 3 -a -M /projects/gatins/hci_genome/processing/assembly_FINAL.fasta /projects/gatins/hci_genome/illumina/clean/trimgalore_hard/HCI_CUR_092401_merged.1.142bp_3prime_val_1.fq.gz /projects/gatins/hci_genome/illumina/clean/trimgalore_hard/HCI_CUR_092401_merged.2.142bp_3prime_val_2.fq.gz > /projects/gatins/hci_genome/illumina/clean/trimgalore_hard/mapped/HCI_CUR_092401_ill_aligned.sam
+```
+and convert sam to bam
+```
+module load samtools/1.21
+samtools view -Sb -@ 30 -O BAM -o /projects/gatins/hci_genome/PSMC/illumina/HCI_CUR_092401_ill_aligned.bam /projects/gatins/hci_genome/illumina/clean/trimgalore_hard/mapped/HCI_CUR_092401_ill_aligned.sam
+```
+and sort and index the bam file
+```
+samtools sort -o HCI_ill_aligned_sorted.bam -O bam -@ 20 HCI_CUR_092401_ill_aligned.bam
+samtools index -b -@ 20 HCI_ill_aligned_sorted.bam
+```
