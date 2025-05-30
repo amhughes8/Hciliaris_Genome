@@ -183,3 +183,7 @@ jellyfish count -m 21 -s 700000000 -t 10 -C <(zcat ../HCI_CUR_092401_merged.2.14
 jellyfish histo HCI_CUR_092401_merged.1.142bp_3prime_val_1_21mer_output > HCI_CUR_092401_merged.1.histo
 jellyfish histo HCI_CUR_092401_merged.2.142bp_3prime_val_2_21mer_output > HCI_CUR_092401_merged.2.histo
 ```
+![plot](photos/illumina_1_genomescope.png)
+![plot](photos/illumina_2_genomescope.png)
+
+I don't know why it is cut off like that... but seems like our coverage is between 10-15x.
