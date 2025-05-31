@@ -189,6 +189,7 @@ jellyfish histo HCI_CUR_092401_merged.2.142bp_3prime_val_2_21mer_output > HCI_CU
 I don't know why it is cut off like that... but seems like our coverage is between 10-15x.
 
 Now, let's prepare the genome assembly for mapping.
+*Started working on the new Explorer cluster, so my new working path has changed to start with /projects instead of /work*
 ```
 module load bwa/0.7.18
 bwa index /projects/gatins/hci_genome/processing/assembly_FINAL.fasta
@@ -206,4 +207,30 @@ and sort and index the bam file
 ```
 samtools sort -o HCI_ill_aligned_sorted.bam -O bam -@ 20 HCI_CUR_092401_ill_aligned.bam
 samtools index -b -@ 20 HCI_ill_aligned_sorted.bam
+```
+Samtools consensus with a min read depth of 5
+```
+samtools consensus --ambig -f fastq -d 5 HCI_ill_aligned_sorted.bam -o consensus.fq
+gzip consensus.fq
+```
+## Run PSMC
+First, convert diploid FASTQ into a psmcfa file:
+```
+/projects/gatins/hci_genome/PSMC/psmc/utils/fq2psmcfa -q20 consensus.fq.gz > diploid_HCI_ill.psmcfa
+```
+Now, run PSMC:
+```
+/projects/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "4+30*2+4+6+10" -o diploid_HCI_ill.psmc diploid_HCI_ill.psmcfa
+```
+PSMC parameters:
+- p STR pattern of parameters [4+5*3+4]
+- t FLOAT maximum 2N0 coalescent time [15]
+- N INT maximum number of iterations [30]
+- r FLOAT initial theta/rho ratio [4]
+- o FILE output file [stdout]
+
+Now plot!
+```
+module load gnuplot/5.2.7
+/projects/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5 diploid_HCI_ill.psmc
 ```
