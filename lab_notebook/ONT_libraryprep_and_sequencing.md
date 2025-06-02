@@ -8,11 +8,11 @@ March 24, 2025
 - [ ] [New England Biolabs NEBNext Companion Module for Oxford Nanopore Technologies Ligation Sequencing](https://www.neb.com/en-us/products/e7180-nebnext-companion-module-for-oxford-nanopore-technologies-ligation-sequencing?srsltid=AfmBOoolFKeTiV7UBu9KmPqxTmYM7KOrZ2i3qNgcyhTPVQcfE7X_77qI)
 
 ## Step 1: Prepare your input DNA
-I wanted to use 3 μg of DNA input in order to prepare a library sufficient for 3 loads on the PromethION. Based on my Nanodrop DNA concentration, I calculated the following:
+I used my extraction from gill tissue ([HCI_CUR_092401_GFF](https://github.com/amhughes8/Hciliaris_Genome/edit/main/lab_notebook/QiagenBT_DNA_extraction.md)) to prepare the ONT library. I wanted to use 3 μg of DNA input in order to prepare a library sufficient for 3 loads on the PromethION. Based on my Nanodrop DNA concentration, I calculated the following:
 
 | Sample ID | Concentration (ng/μL) | Volume to get to 3 μg |
 | --------|-----------|------------|
-| GFF | 46.9 | **63.97** |
+| HCI_CUR_092401_GFF | 46.9 | **63.97** |
 
 ## Step 2: DNA repair and end-prep
 > **Prep for this step:** 
