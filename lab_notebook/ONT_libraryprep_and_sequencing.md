@@ -26,18 +26,18 @@ I wanted to use 3 μg of DNA input in order to prepare a library sufficient for 
 | Ultra II End-prep reaction buffer | 3.5 μL |
 |**Total**|**75.97 μL**|
 
-- [] Incubate at 20°C for 30 minutes and 65°C for 30 minutes
-- [] Resuspend AMPure XP Beads (AXP) by vortexing
-- [] Transfer the DNA sample to a clean 1.5 mL Eppendorf DNA LoBind tube
-- [] Add 76 μL (same volume as above) of resuspended AMPure XP Beads to the end-prep reaction and mix by flicking the tube
-- [] Rotate by hand for 10 minutes at room temperature
-- [] Spin down the sample and pellet on a magnet until supernatant is clear and colorless. Keep the tube on the magnet and pipette off supernatant.
-- [] Keep the tube on the magnet and wash the beads with 300 μL of freshly prepared 80% ethanol without disturbing the pellet. Remove ethanol using a pipette and discard.
-- [] Repeat the previous step
-- [] Spin down and place the tube back on the magnet. Pipette off any residual ethanol. Allow to dry for ~30 seconds, but do not dry the pellet to the point of cracking.
-- [] Remove the tube from the magnetic rack and resuspend the pellet in 62 μL (60 + 2 μL for Qubit) nuclease-free water. Incubate for 30 minutes at 37°C.
-- [] Pellet the beads on a magnet until the eluate is clear and colorless, for at least 1 minute
-- [] Remove and retain 62 μL of eluate into a clean 1.5 mL Eppendorf DNA LoBind tube.
+- [ ] Incubate at 20°C for 30 minutes and 65°C for 30 minutes
+- [ ] Resuspend AMPure XP Beads (AXP) by vortexing
+- [ ] Transfer the DNA sample to a clean 1.5 mL Eppendorf DNA LoBind tube
+- [ ] Add 76 μL (same volume as above) of resuspended AMPure XP Beads to the end-prep reaction and mix by flicking the tube
+- [ ] Rotate by hand for 10 minutes at room temperature
+- [ ] Spin down the sample and pellet on a magnet until supernatant is clear and colorless. Keep the tube on the magnet and pipette off supernatant.
+- [ ] Keep the tube on the magnet and wash the beads with 300 μL of freshly prepared 80% ethanol without disturbing the pellet. Remove ethanol using a pipette and discard.
+- [ ] Repeat the previous step
+- [ ] Spin down and place the tube back on the magnet. Pipette off any residual ethanol. Allow to dry for ~30 seconds, but do not dry the pellet to the point of cracking.
+- [ ] Remove the tube from the magnetic rack and resuspend the pellet in 62 μL (60 + 2 μL for Qubit) nuclease-free water. Incubate for 30 minutes at 37°C.
+- [ ] Pellet the beads on a magnet until the eluate is clear and colorless, for at least 1 minute
+- [ ] Remove and retain 62 μL of eluate into a clean 1.5 mL Eppendorf DNA LoBind tube.
 
 **Checkpoint: Quantify 2 μL of eluted sample using a Qubit fluorometer.**
 
@@ -50,7 +50,7 @@ Qubit concentration: **37.4 ng/μL**
 3. Thaw Elution Buffer (EB) at room temperature and mix by vortexing. Then spin down and place on ice
 4. Thaw Long Fragment Buffer (LFB) at room temperature and mix by vortexing. Then spin down and keep at room temperature.
 
-- [] Mix the following in a 1.5 mL Eppendorf DNA LoBind tube in the following order:
+- [ ] Mix the following in a 1.5 mL Eppendorf DNA LoBind tube in the following order:
 | Reagent | Volume |
 |--------|--------|
 | DNA sample from previous step | 60 μL |
@@ -59,18 +59,18 @@ Qubit concentration: **37.4 ng/μL**
 | NEBNext Quick T4 DNA ligase | 10 μL |
 |**Total**|**100 μL**|
 
-- [] Thoroughly mix the reaction by gently flicking the tube and spin down
-- [] Incubate the reaction for 60 minutes at room temperature
-- [] Resuspend the AMPure XP Beads (AXP) by vortexing
-- [] Add 40 μL of resuspended AMPure XP Beads to the reaction and mix by flicking the tube
-- [] Rotate by hand for 5 minutes
-- [] Spin down the sample and pellet on a magnet. Keep the tube on the magnet and pipette off the supernatant when clear and colorless
-- [] Wash the beads by adding 250 μL Long Fragment Buffer. Spin down, then return the tube to the magnetic rack and allow the beads to pellet. Remove the supernatant using a pipette and discard.
-- [] Repeat the previous step
-- [] Spin down and place the tube back on the magnet. Pipette off any residual supernatant. Allow to dry for ~30 seconds but do not dry the pellet to the point of cracking
-- [] Remove the tube from the magnetic rak and resuspend the pellet in 27 μL (25 + 2 μL for Qubit) of Elution Buffer. Spin down and incubate for 30 minutes at 37°C.
-- [] Pellet the beads on a magnet until the eluate is clear and colorless, for at least one minute.
-- [] Remove and retain 27 μL of eluate containing the DNA library into a clean 1.5 mL Eppendorf DNA LoBind tube.
+- [ ] Thoroughly mix the reaction by gently flicking the tube and spin down
+- [ ] Incubate the reaction for 60 minutes at room temperature
+- [ ] Resuspend the AMPure XP Beads (AXP) by vortexing
+- [ ] Add 40 μL of resuspended AMPure XP Beads to the reaction and mix by flicking the tube
+- [ ] Rotate by hand for 5 minutes
+- [ ] Spin down the sample and pellet on a magnet. Keep the tube on the magnet and pipette off the supernatant when clear and colorless
+- [ ] Wash the beads by adding 250 μL Long Fragment Buffer. Spin down, then return the tube to the magnetic rack and allow the beads to pellet. Remove the supernatant using a pipette and discard.
+- [ ] Repeat the previous step
+- [ ] Spin down and place the tube back on the magnet. Pipette off any residual supernatant. Allow to dry for ~30 seconds but do not dry the pellet to the point of cracking
+- [ ] Remove the tube from the magnetic rak and resuspend the pellet in 27 μL (25 + 2 μL for Qubit) of Elution Buffer. Spin down and incubate for 30 minutes at 37°C.
+- [ ] Pellet the beads on a magnet until the eluate is clear and colorless, for at least one minute.
+- [ ] Remove and retain 27 μL of eluate containing the DNA library into a clean 1.5 mL Eppendorf DNA LoBind tube. 
 
 **Checkpoint: Quantify 2 μL of eluted sample using a Qubit fluorometer.**
 
