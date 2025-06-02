@@ -52,10 +52,10 @@ bash test3.sh
 ```
 
 There are 4 ways to run BRAKER3: 
-[] 1. genome only
-[] 2. genome + RNA-seq data
-[] 3. genome + protein database (when no RNA-seq data is available)
-[] 4. genome + RNA-seq data + protein database
+- [ ] 1. genome only
+- [ ] 2. genome + RNA-seq data
+- [ ] 3. genome + protein database (when no RNA-seq data is available)
+- [ ] 4. genome + RNA-seq data + protein database
 
 Before I get RNA-seq data, I'm going to try to annotate the genome using method 3: genome + protein database.
 
