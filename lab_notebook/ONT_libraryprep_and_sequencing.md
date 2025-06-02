@@ -1,4 +1,4 @@
-# Oxford Nanopore Technologies Long-Read Sequencing Library Preparation
+# Oxford Nanopore Technologies Ligation Sequencing Library Preparation + Sequencing
 ## [Ligation sequencing DNA V14 (SQK-LSK114)](https://nanoporetech.com/document/genomic-dna-by-ligation-sqk-lsk114)
 Annabel M. Hughes
 
