@@ -16,7 +16,7 @@ I wanted to use 3 μg of DNA input in order to prepare a library sufficient for 
 1. Thaw all reagents on ice (see list below) and spin them down before first use of the day (_Note: DO NOT vortex the FFPE DNA Repair Mix or the Enzyme_)
 2. Prepare 750 μL of fresh 80% ethanol in nuclease-free water
 
-- [] In a 0.2 mL PCR tube, mix the following:
+- [ ] In a 0.2 mL PCR tube, mix the following:
 | Reagent | Volume |
 |--------|--------|
 | Input DNA | 63.97 μL |
