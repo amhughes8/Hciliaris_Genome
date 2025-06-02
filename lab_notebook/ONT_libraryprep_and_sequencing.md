@@ -3,18 +3,18 @@ Annabel M. Hughes
 
 March 24, 2025
 
-## Materials:
+### Materials:
 - [ ] [Ligation sequencing DNA V14 (SQK-LSK114)](https://store.nanoporetech.com/us/ligation-sequencing-kit-v14.html)
 - [ ] [New England Biolabs NEBNext Companion Module for Oxford Nanopore Technologies Ligation Sequencing](https://www.neb.com/en-us/products/e7180-nebnext-companion-module-for-oxford-nanopore-technologies-ligation-sequencing?srsltid=AfmBOoolFKeTiV7UBu9KmPqxTmYM7KOrZ2i3qNgcyhTPVQcfE7X_77qI)
 
-### Step 1: Prepare your input DNA
+## Step 1: Prepare your input DNA
 I wanted to use 3 μg of DNA input in order to prepare a library sufficient for 3 loads on the PromethION. Based on my Nanodrop DNA concentration, I calculated the following:
 
 | Sample ID | Concentration (ng/μL) | Volume to get to 3 μg |
 | --------|-----------|------------|
 | GFF | 46.9 | **63.97** |
 
-### Step 2: DNA repair and end-prep
+## Step 2: DNA repair and end-prep
 > **Prep for this step:** 
 > 1. Thaw all reagents on ice (see list below) and spin them down before first use of the day (_Note: DO NOT vortex the FFPE DNA Repair Mix or the Enzyme Mix_)
 > 2. Prepare 750 μL of fresh 80% ethanol in nuclease-free water
@@ -46,7 +46,7 @@ I wanted to use 3 μg of DNA input in order to prepare a library sufficient for 
 
 Qubit concentration: **37.4 ng/μL**
 
-### Step 3: Adapter ligation and clean-up
+## Step 3: Adapter ligation and clean-up
 > **Prep for this step:** 
 > 1. Spin down the Ligation Adapter (LA) and NEBNext Quick T4 DNA Ligase and place on ice
 > 2. Thaw Ligation Buffer (LNB) at room temperature, spin down and mix by pipetting. Due to viscosity, vortexing this buffer is ineffective. Place on ice immediately after thawing and mixing.
@@ -79,7 +79,7 @@ Qubit concentration: **37.4 ng/μL**
 
 Qubit concentration: **47.5 ng/μL**
 
-### Step 4: Divide library into separate loads
+## Step 4: Divide library into separate loads
 Since we are planning to load and reload the PromethION flow cell 3 times, we will divide our final library into 3 separate aliquots to run individually. Washing the reloading the flow cell allows us to unclog some pores and increase the number of pores that are able to continue sequencing, thereby increasing our overall yield for each flow cell. The two subsequent washes and reloads will take place 24 and 48 hours after the initial load, respectively.
 
 Final library volume: 25 μL
@@ -96,7 +96,7 @@ Load 2: 8 μL --> **380 ng**
 
 Load 3: 8 μL --> **380 ng**
 
-### Step 5: Priming and loading the PromethION flow cell
+## Step 5: Priming and loading the PromethION flow cell
 > **Prep for this step:** 
 > 1. Thaw the Sequencing Buffer (SB), Library Beads (LIB), Flow Cell Tether (FCT), and Flow Cell Flush (FCF) at room temperature before mixing by vortexing. Then spin down and store on ice.
 
@@ -107,19 +107,19 @@ Load 3: 8 μL --> **380 ng**
 
 3 - DNA library 
 
-## To prepare Tube 1: Flow cell priming mix (Flow Cell Flush + Flow Cell Tether)
+### To prepare Tube 1: Flow cell priming mix (Flow Cell Flush + Flow Cell Tether)
 | Reagent | Volume |
 |--------|--------|
 | Flow Cell Flush | 1170 μL |
 | Flow Cell Tether | 30 μL |
 
-## To prepare Tube 2: Library loading prep mix
+### To prepare Tube 2: Library loading prep mix
 | Reagent | Volume |
 |--------|--------|
 | Sequencing Buffer | 100 μL |
 | Library Beads | 68 μL |
 
-## To prepare Tube 3: DNA library 
+### To prepare Tube 3: DNA library 
 I took 9 μL of my final library and left the remaining 16 μL in the 4°C fridge. This will eventually be added to the library loading prep mix, but keep it separate until just before loading!
 
 Physical priming and loading of the flow cell was done according to manufacturer's instructions. In the end, our first flow cell ended up running for the full 72 hours it was allotted before getting restarted for a few hours with a small amount of remaining pores. We then loaded the remaining 16 μL of library onto a second flow cell after size selecting for larger fragments.
