@@ -234,3 +234,7 @@ Now plot!
 module load gnuplot/5.2.7
 /projects/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5 diploid_HCI_ill.psmc
 ```
+
+![plot](photos/HCI_t30r5_plot_u597-9g5.png)
+
+The peak in recent history looks really weird... I'm going to try out some different time intervals to see if this is an artefact (idea based on [this paper](https://www.cell.com/current-biology/fulltext/S0960-9822(24)01239-9)!). 
