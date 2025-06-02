@@ -1,9 +1,11 @@
 # Oxford Nanopore Technologies Ligation Sequencing Library Preparation + Sequencing
-## [Ligation sequencing DNA V14 (SQK-LSK114)](https://store.nanoporetech.com/us/ligation-sequencing-kit-v14.html)
-## [New England Biolabs NEBNext Companion Module for Oxford Nanopore Technologies Ligation Sequencing](https://www.neb.com/en-us/products/e7180-nebnext-companion-module-for-oxford-nanopore-technologies-ligation-sequencing?srsltid=AfmBOoolFKeTiV7UBu9KmPqxTmYM7KOrZ2i3qNgcyhTPVQcfE7X_77qI)
 Annabel M. Hughes
 
 March 24, 2025
+
+## Materials:
+- [ ] [Ligation sequencing DNA V14 (SQK-LSK114)](https://store.nanoporetech.com/us/ligation-sequencing-kit-v14.html)
+- [ ] [New England Biolabs NEBNext Companion Module for Oxford Nanopore Technologies Ligation Sequencing](https://www.neb.com/en-us/products/e7180-nebnext-companion-module-for-oxford-nanopore-technologies-ligation-sequencing?srsltid=AfmBOoolFKeTiV7UBu9KmPqxTmYM7KOrZ2i3qNgcyhTPVQcfE7X_77qI)
 
 ### Step 1: Prepare your input DNA
 I wanted to use 3 μg of DNA input in order to prepare a library sufficient for 3 loads on the PromethION. Based on my Nanodrop DNA concentration, I calculated the following:
