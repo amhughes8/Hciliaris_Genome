@@ -86,7 +86,9 @@ Final library concentration: 47.5 ng/μL
 8.3 x 47.5 = 395 ng total library per load -- this is GREAT! Ultimately, I decided to split the loads up relatively evenly, with the first load acquiring the greatest volume since it will have the greatest number of pores active for sequencing.
 
 Load 1: 9 μL --> **427.5 ng**
+
 Load 2: 8 μL --> **380 ng**
+
 Load 3: 8 μL --> **380 ng**
 
 ### Step 5: Priming and loading the PromethION flow cell
@@ -95,7 +97,9 @@ Load 3: 8 μL --> **380 ng**
 
 **We will be preparing 3 tubes to bring with us for sequencing:**
 1 - Flow cell priming mix (Flow Cell Flush + Flow Cell Tether)
+
 2 - Library loading prep mix (Sequencing Buffer + Library Beads)
+
 3 - DNA library 
 
 ## To prepare Tube 1: Flow cell priming mix (Flow Cell Flush + Flow Cell Tether)
