@@ -1,5 +1,5 @@
 # Oxford Nanopore Technologies Ligation Sequencing Library Preparation + Sequencing
-## [Ligation sequencing DNA V14 (SQK-LSK114)]([https://nanoporetech.com/document/genomic-dna-by-ligation-sqk-lsk114](https://store.nanoporetech.com/us/ligation-sequencing-kit-v14.html))
+## [Ligation sequencing DNA V14 (SQK-LSK114)](https://store.nanoporetech.com/us/ligation-sequencing-kit-v14.html)
 ## [New England Biolabs NEBNext Companion Module for Oxford Nanopore Technologies Ligation Sequencing](https://www.neb.com/en-us/products/e7180-nebnext-companion-module-for-oxford-nanopore-technologies-ligation-sequencing?srsltid=AfmBOoolFKeTiV7UBu9KmPqxTmYM7KOrZ2i3qNgcyhTPVQcfE7X_77qI)
 Annabel M. Hughes
 
