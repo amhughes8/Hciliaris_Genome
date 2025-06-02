@@ -80,9 +80,11 @@ Qubit concentration: **47.5 ng/μL**
 Since we are planning to load and reload the PromethION flow cell 3 times, we will divide our final library into 3 separate aliquots to run individually. Washing the reloading the flow cell allows us to unclog some pores and increase the number of pores that are able to continue sequencing, thereby increasing our overall yield for each flow cell. The two subsequent washes and reloads will take place 24 and 48 hours after the initial load, respectively.
 
 Final library volume: 25 μL
+
 Final library concentration: 47.5 ng/μL
 
 25 ÷ 3 = 8.3 μL
+
 8.3 x 47.5 = 395 ng total library per load -- this is GREAT! Ultimately, I decided to split the loads up relatively evenly, with the first load acquiring the greatest volume since it will have the greatest number of pores active for sequencing.
 
 Load 1: 9 μL --> **427.5 ng**
