@@ -44,11 +44,11 @@ I wanted to use 3 μg of DNA input in order to prepare a library sufficient for 
 Qubit concentration: **37.4 ng/μL**
 
 ### Step 3: Adapter ligation and clean-up
-**Prep for this step:** 
-1. Spin down the Ligation Adapter (LA) and NEBNext Quick T4 DNA Ligase and place on ice
-2. Thaw Ligation Buffer (LNB) at room temperature, spin down and mix by pipetting. Due to viscosity, vortexing this buffer is ineffective. Place on ice immediately after thawing and mixing.
-3. Thaw Elution Buffer (EB) at room temperature and mix by vortexing. Then spin down and place on ice
-4. Thaw Long Fragment Buffer (LFB) at room temperature and mix by vortexing. Then spin down and keep at room temperature.
+> **Prep for this step:** 
+> 1. Spin down the Ligation Adapter (LA) and NEBNext Quick T4 DNA Ligase and place on ice
+> 2. Thaw Ligation Buffer (LNB) at room temperature, spin down and mix by pipetting. Due to viscosity, vortexing this buffer is ineffective. Place on ice immediately after thawing and mixing.
+> 3. Thaw Elution Buffer (EB) at room temperature and mix by vortexing. Then spin down and place on ice
+> 4. Thaw Long Fragment Buffer (LFB) at room temperature and mix by vortexing. Then spin down and keep at room temperature.
 
 - [ ] Mix the following in a 1.5 mL Eppendorf DNA LoBind tube in the following order:
 | Reagent | Volume |
@@ -94,8 +94,8 @@ Load 2: 8 μL --> **380 ng**
 Load 3: 8 μL --> **380 ng**
 
 ### Step 5: Priming and loading the PromethION flow cell
-**Prep for this step:** 
-1. Thaw the Sequencing Buffer (SB), Library Beads (LIB), Flow Cell Tether (FCT), and Flow Cell Flush (FCF) at room temperature before mixing by vortexing. Then spin down and store on ice.
+> **Prep for this step:** 
+> 1. Thaw the Sequencing Buffer (SB), Library Beads (LIB), Flow Cell Tether (FCT), and Flow Cell Flush (FCF) at room temperature before mixing by vortexing. Then spin down and store on ice.
 
 **We will be preparing 3 tubes to bring with us for sequencing:**
 1 - Flow cell priming mix (Flow Cell Flush + Flow Cell Tether)
