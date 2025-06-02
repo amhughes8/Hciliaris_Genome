@@ -1,5 +1,6 @@
 # Oxford Nanopore Technologies Ligation Sequencing Library Preparation + Sequencing
-## [Ligation sequencing DNA V14 (SQK-LSK114)](https://nanoporetech.com/document/genomic-dna-by-ligation-sqk-lsk114)
+## [Ligation sequencing DNA V14 (SQK-LSK114)]([https://nanoporetech.com/document/genomic-dna-by-ligation-sqk-lsk114](https://store.nanoporetech.com/us/ligation-sequencing-kit-v14.html))
+## [New England Biolabs NEBNext Companion Module for Oxford Nanopore Technologies Ligation Sequencing](https://www.neb.com/en-us/products/e7180-nebnext-companion-module-for-oxford-nanopore-technologies-ligation-sequencing?srsltid=AfmBOoolFKeTiV7UBu9KmPqxTmYM7KOrZ2i3qNgcyhTPVQcfE7X_77qI)
 Annabel M. Hughes
 
 March 24, 2025
@@ -13,7 +14,7 @@ I wanted to use 3 μg of DNA input in order to prepare a library sufficient for 
 
 ### Step 2: DNA repair and end-prep
 > **Prep for this step:** 
-> 1. Thaw all reagents on ice (see list below) and spin them down before first use of the day (_Note: DO NOT vortex the FFPE DNA Repair Mix or the Enzyme_)
+> 1. Thaw all reagents on ice (see list below) and spin them down before first use of the day (_Note: DO NOT vortex the FFPE DNA Repair Mix or the Enzyme Mix_)
 > 2. Prepare 750 μL of fresh 80% ethanol in nuclease-free water
 
 - [ ] In a 0.2 mL PCR tube, mix the following:
@@ -22,7 +23,7 @@ I wanted to use 3 μg of DNA input in order to prepare a library sufficient for 
 | Input DNA | 63.97 μL |
 | NEBNext FFPE DNA Repair Buffer | 3.5 μL |
 | NEBNext FFPE DNA Repair Mix | 2 μL |
-| Ultra II End-prep Enzyme | 3 μL |
+| Ultra II End-prep Enzyme Mix | 3 μL |
 | Ultra II End-prep reaction buffer | 3.5 μL |
 |**Total**|**75.97 μL**|
 
