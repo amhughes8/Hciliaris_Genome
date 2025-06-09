@@ -238,3 +238,14 @@ module load gnuplot/5.2.7
 ![plot](photos/HCI_t30r5_plot_u597-9g5_ill.png)
 
 The peak in recent history looks really weird... I'm going to try out some different time intervals to see if this is an artefact (idea based on [this paper](https://www.cell.com/current-biology/fulltext/S0960-9822(24)01239-9)!). 
+
+Hilgers et al. (2025) report that there is a common technical artifact associated with PSMC parameter settings. Many users (including myself) use the default setting for splitting time intervals, which was optimized for humans. The authors tested splitting the first time interval into pieces (i.e. instead of -p "4+30*2+4+6+10", using -p "2+2+30*2+4+6+10"). Let's try it:
+```
+/projects/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "2+2+30*2+4+6+10" -o diploid_HCI_ill_22.psmc diploid_HCI_ill.psmcfa
+```
+
+Now, re-plot:
+```
+module load gnuplot/5.2.7
+/projects/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5 diploid_HCI_ill_22.psmc
+```
