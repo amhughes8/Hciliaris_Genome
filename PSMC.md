@@ -255,13 +255,16 @@ Still looks weird...
 Trying new parameters:
 ```
 /projects/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "2+2+25*2+4+6" -o diploid_HCI_ill_22_25_246.psmc /projects/gatins/hci_genome/PSMC/illumina/diploid_HCI_ill.psmcfa
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5_22_25_246 diploid_HCI_ill_22_25_246.psmc
 ```
 and 
 ```
-/projects/gatins/hci_genome/PSMC/psmc/psmc -N25 -t30 -r5 -p "2+2+25*2+4+6" -o diploid_HCI_ill_22_25_246.psmc /projects/gatins/hci_genome/PSMC/illumina/diploid_HCI_ill.psmcfa
+/projects/gatins/hci_genome/PSMC/psmc/psmc -N25 -t30 -r5 -p "2+2+25*2+4+6" -o diploid_HCI_ill_22_25_246_N25.psmc /projects/gatins/hci_genome/PSMC/illumina/diploid_HCI_ill.psmcfa
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5_22_25_246_N25 diploid_HCI_ill_22_25_246_N25.psmc
 ```
 
 I'll also try the following:
 ```
 /projects/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "1+1+1+1+30*2+4+6" -o diploid_HCI_ill_1111_30.psmc /projects/gatins/hci_genome/PSMC/illumina/diploid_HCI_ill.psmcfa
+/work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5_1111_30 diploid_HCI_ill_1111_30.psmc
 ```
