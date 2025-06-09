@@ -265,3 +265,54 @@ I'll also try the following:
 /work/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5_1111_30 diploid_HCI_ill_1111_30.psmc
 ```
 ![plot](photos/HCI_t30r5_plot_u597-9g5_1111_30.png)
+
+I'm going to move forward with diploid_HCI_ill_22_25_246_N25.psmc and see what my bootstrap results tell me:
+```
+mkdir bootstrapping
+/projects/gatins/hci_genome/PSMC/psmc/utils/splitfa diploid_HCI_ill.psmcfa > diploid_HCI_ill_split.psmcfa
+cp diploid_HCI_ill_split.psmcfa bootstrapping
+cp diploid_HCI_ill_22_25_246_N25.psmc bootstrapping
+cd bootstrapping
+echo split_HCI_{001..100}.psmcfa| xargs -n 1 cp diploid_HCI_ill_split.psmcfa
+```
+
+SLURM array:
+```
+#!/bin/bash
+#SBATCH -J psmc_array_illumina_22_25_246			    # Job name
+#SBATCH -p short                            # Partition
+#SBATCH -N 1                                # Number of nodes
+#SBATCH -n 2                                # Number of tasks/threads
+#SBATCH -o array_%A_%a.out    		    # Name of stdout output file
+#SBATCH -e array_%A_%a.err    		    # Name of stdout output file
+#SBATCH --array=1-100			    # Array index
+#SBATCH --mem=6000MB 			    # Memory to be allocated PER NODE
+#SBATCH --mail-user=hughes.annab@northeastern.edu  # Email
+#SBATCH --mail-type=END                     # Email notification at job completion
+#SBATCH --time=48:00:00                     # Maximum run time
+
+echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
+#
+# ----------------Your Commands------------------- #
+#
+echo "This job in the array has:"
+echo "- SLURM_JOB_ID=${SLURM_JOB_ID}"
+echo "- SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID}"
+
+# select our filename
+N=${SLURM_ARRAY_TASK_ID}
+# Comment one of the following two lines, depending on if the file names have leading zeros
+#FILENAME=run-${N}.inp # without leading zeros
+ FILENAME=split_HCI_$(printf "%03d" ${N}).psmcfa # with leading zeros
+# adjust "%03d" to as many digits as are in the numeric part of the file name
+echo "My input file is ${FILENAME}"
+
+#
+echo $P
+#
+/projects/gatins/hci_genome/PSMC/psmc/psmc -N25 -t30 -r5 -b -p "2+2+25*2+4+6" -o /projects/gatins/hci_genome/PSMC/illumina/bootstrapping/${FILENAME}.psmc /projects/gatins/hci_genome/PSMC/illumina/bootstrapping/${FILENAME}
+#
+
+echo "Job finished" `date`
+echo "My input file is ${FILENAME}"
+```
