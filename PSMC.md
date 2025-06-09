@@ -247,5 +247,21 @@ Hilgers et al. (2025) report that there is a common technical artifact associate
 Now, re-plot:
 ```
 module load gnuplot/5.2.7
-/projects/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5 diploid_HCI_ill_22.psmc
+/projects/gatins/hci_genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HCI_t30r5_plot_u597-9g5_22 diploid_HCI_ill_22.psmc
+```
+Still looks weird...
+![plot](photos/HCI_t30r5_plot_u597-9g5_22.png)
+
+Trying new parameters:
+```
+/projects/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "2+2+25*2+4+6" -o diploid_HCI_ill_22_25_246.psmc /projects/gatins/hci_genome/PSMC/illumina/diploid_HCI_ill.psmcfa
+```
+and 
+```
+/projects/gatins/hci_genome/PSMC/psmc/psmc -N25 -t30 -r5 -p "2+2+25*2+4+6" -o diploid_HCI_ill_22_25_246.psmc /projects/gatins/hci_genome/PSMC/illumina/diploid_HCI_ill.psmcfa
+```
+
+I'll also try the following:
+```
+/projects/gatins/hci_genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "1+1+1+1+30*2+4+6" -o diploid_HCI_ill_1111_30.psmc /projects/gatins/hci_genome/PSMC/illumina/diploid_HCI_ill.psmcfa
 ```
