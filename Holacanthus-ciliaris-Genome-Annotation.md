@@ -33,6 +33,14 @@ module load singularity/3.5.3
 singularity exec dfam-tetools-latest.sif RepeatModeler -LTRStruct -database hci_genome_repeats -threads 50
 ```
 
+Working directory:  /work/gatins/hci_genome/annotation/RM_44655.FriJun131036432025
+RepeatModeler output:
+```
+hci_genome_repeats-families.fa  #Consensus sequences for each family identified.
+hci_genome_repeats-families.stk  #Seed alignments for each family identified.
+hci_genome_repeats-rmod.log  #Execution log.  Useful for reproducing results.
+```
+
 ## 2. RepeatMasker to mask repetitive elements before annotating
 
 ## 3. Gene prediction with [BRAKER3](https://github.com/Gaius-Augustus/BRAKER)
