@@ -11,15 +11,18 @@ BuildDatabase -name hci_genome_repeats /work/gatins/hci_genome/processing/assemb
 ```
 
 Run RepeatModeler
+
+I actually requested and received access to the long partition to make this finally run because my previous runs were taking longer than the allotted 48 hours on the short partition. In the end, my final job ended up running for only 32 hours (!??), likely because I bumped up the threads and got a bit lucky with this specific run (each round can grab different portions of the genome and some rounds may take longer in separate runs). I also ran this on Discovery even though Northeastern is trying to move everything over to Explorer because I had Singularity already installed on Discovery...
+
 - job name: repeatmodeler
-- job id: 48737549
-- run time:
+- job id: 48960035
+- run time: 1-08:29:28
 ```
 #!/bin/bash
 #SBATCH -J repeatmodeler                    # Job name
-#SBATCH -p short                            # Partition
+#SBATCH -p long                            # Partition
 #SBATCH -N 1                                # Number of nodes
-#SBATCH -n 20                               # Number of tasks/threads
+#SBATCH -n 50                               # Number of tasks/threads
 #SBATCH --mem=50G                           # Memory
 #SBATCH -o output_%j.txt                    # Standard output file
 #SBATCH -e error_%j.txt                     # Standard error file
@@ -27,10 +30,11 @@ Run RepeatModeler
 #SBATCH --mail-type=END                     # Email notification at job completion
 #SBATCH --time=48:00:00                     # Maximum run time
 module load singularity/3.5.3
-singularity exec dfam-tetools-latest.sif RepeatModeler -LTRStruct -database hci_genome_repeats -threads 20
+singularity exec dfam-tetools-latest.sif RepeatModeler -LTRStruct -database hci_genome_repeats -threads 50
 ```
 
 ## 2. RepeatMasker to mask repetitive elements before annotating
+
 ## 3. Gene prediction with [BRAKER3](https://github.com/Gaius-Augustus/BRAKER)
 
 Download singularity container
