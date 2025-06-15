@@ -41,6 +41,16 @@ hci_genome_repeats-families.stk  #Seed alignments for each family identified.
 hci_genome_repeats-rmod.log  #Execution log.  Useful for reproducing results.
 ```
 
+Following [this tutorial](https://darencard.net/blog/2022-07-09-genome-repeat-annotation/), we will now use the output FASTA file to get a better understanding of how many sequences were known vs unknown:
+```
+cat hci_genome_repeats-families.fa | seqkit fx2tab | grep -v "Unknown" | seqkit tab2fx > hci_genome_repeats-families.fa.known
+cat hci_genome_repeats-families.fa | seqkit fx2tab | grep "Unknown" | seqkit tab2fx > hci_genome_repeats-families.fa.unknown
+# quantify number of classified elements
+grep -c ">" hci_genome_repeats-families.fa.known #811
+# quantify number of unknown elements
+grep -c ">" hci_genome_repeats-families.fa.unknown #1204
+```
+
 ## 2. RepeatMasker to mask repetitive elements before annotating
 
 ## 3. Gene prediction with [BRAKER3](https://github.com/Gaius-Augustus/BRAKER)
