@@ -53,6 +53,18 @@ grep -c ">" hci_genome_repeats-families.fa.unknown #1204
 
 ## 2. RepeatMasker to mask repetitive elements before annotating
 
+I created a RepeatMasker conda environment: /projects/gatins/programs_explorer/RepeatMasker.
+
+This environment really only contains h5py and all other requirements as well as the program itself are located in /projects/gatins/hci_genome/annotation.
+
+To run RepeatMasker:
+```
+/projects/gatins/hci_genome/annotation/RepeatMasker/RepeatMasker -pa 10 -lib hci_genome_repeats-families.fa -xsmall -gff /projects/gatins/hci_genome/processing/assembly_FINAL.fasta
+```
+-pa: indicates the number of parallel sequence batch jobs running against the database at a time. **Since I designated 10 parallel runs and am using the RMBlast database, I am running this job with 40 threads (10*40).**
+-xsmall: soft masks
+-gff: creates an additional Gene Feature Finding format output
+
 ## 3. Gene prediction with [BRAKER3](https://github.com/Gaius-Augustus/BRAKER)
 
 Download singularity container
