@@ -165,14 +165,13 @@ gunzip Vertebrata.fa.gz
 
 Next, I had to copy over my final genome assembly to the directory I'm working in (I had to specify my working directory in the command so I guess this is why? I tried providing a path but it didn't work).
 
-From /work/gatins/hci_genome/processing:
+From /projects/gatins/hci_genome/processing:
 ```
-cp assembly_FINAL.fasta ../annotation/braker
+cp assembly_FINAL.fasta.masked ../annotation/braker
 ```
 
 Now, let's run BRAKER
 ```
-singularity exec -B ${PWD}:${PWD} braker3.sif braker.pl --genome=assembly_FINAL.fasta --prot_seq=Vertebrata.fa --workingdir=/work/gatins/hci_genome/annotation/braker/ --threads 8 --skipOptimize --busco_lineage actinopterygii_odb12 &> initial_run_braker3.log
+singularity exec -B ${PWD}:${PWD} braker3.sif braker.pl --genome=assembly_FINAL.fasta.masked --prot_seq=Vertebrata.fa --workingdir=/projects/gatins/hci_genome/annotation/braker/ --threads 8 --skipOptimize --busco_lineage actinopterygii_odb12 &> initial_run_braker3.log
 ```
 
-**I need to rerun this once I mask the genome. This is just a trial.**
