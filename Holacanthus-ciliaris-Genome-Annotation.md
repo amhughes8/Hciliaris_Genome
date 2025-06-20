@@ -65,6 +65,70 @@ To run RepeatMasker:
 -xsmall: soft masks
 -gff: creates an additional Gene Feature Finding format output
 
+RepeatMasker run time: ~3 days
+Output:
+```
+[hughes.annab@explorer-01 processing]$ cat assembly_FINAL.fasta.tbl
+==================================================
+file name: assembly_FINAL.fasta
+sequences:           102
+total length:  604914273 bp  (604914273 bp excl N/X-runs)
+GC level:         41.41 %
+bases masked:  114112123 bp ( 18.86 %)
+==================================================
+               number of      length   percentage
+               elements*    occupied  of sequence
+--------------------------------------------------
+Retroelements        95872     18091213 bp    2.99 %
+   SINEs:            13898      1507537 bp    0.25 %
+   Penelope:          5482       453553 bp    0.07 %
+   LINEs:            57154     11048343 bp    1.83 %
+    CRE/SLACS            0            0 bp    0.00 %
+     L2/CR1/Rex      43215      8039610 bp    1.33 %
+     R1/LOA/Jockey    1189       330372 bp    0.05 %
+     R2/R4/NeSL       1033       250114 bp    0.04 %
+     RTE/Bov-B        5826       811435 bp    0.13 %
+     L1/CIN4          3051       924195 bp    0.15 %
+   LTR elements:     19338      5081780 bp    0.84 %
+     BEL/Pao          1658       898697 bp    0.15 %
+     Ty1/Copia           0            0 bp    0.00 %
+     Gypsy/DIRS1      2848      1715396 bp    0.28 %
+       Retroviral     8539      1312047 bp    0.22 %
+
+DNA transposons     181164     26362430 bp    4.36 %
+   hobo-Activator    60136      8744061 bp    1.45 %
+   Tc1-IS630-Pogo    41633      7224934 bp    1.19 %
+   En-Spm                0            0 bp    0.00 %
+   MULE-MuDR           461        84157 bp    0.01 %
+   PiggyBac            596       102241 bp    0.02 %
+   Tourist/Harbinger  8982      1625562 bp    0.27 %
+   Other (Mirage,     2957       670965 bp    0.11 %
+    P-element, Transib)
+
+Rolling-circles        977       191287 bp    0.03 %
+
+Unclassified:       412076     52186314 bp    8.63 %
+
+Total interspersed repeats:    96639957 bp   15.98 %
+
+
+Small RNA:            8549      1799805 bp    0.30 %
+
+Satellites:           2686      1660952 bp    0.27 %
+Simple repeats:     286580     12544883 bp    2.07 %
+Low complexity:      35635      1990489 bp    0.33 %
+==================================================
+
+* most repeats fragmented by insertions or deletions
+  have been counted as one element
+
+
+RepeatMasker version 4.1.9 , default mode
+run with rmblastn version 2.14.1+
+The query was compared to classified sequences in "hci_genome_repeats-families.fa"
+FamDB:
+```
+
 ## 3. Gene prediction with [BRAKER3](https://github.com/Gaius-Augustus/BRAKER)
 
 Download singularity container
