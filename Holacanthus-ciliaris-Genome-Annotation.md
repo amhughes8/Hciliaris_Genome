@@ -175,7 +175,7 @@ Now, let's run BRAKER
 apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins/hci_genome/annotation/braker/braker3.sif braker.pl \
 --genome=/projects/gatins/hci_genome/annotation/braker/assembly_FINAL.fasta.masked \
 --prot_seq=/projects/gatins/hci_genome/annotation/braker/Vertebrata.fa \
---threads=10 --species=Hciliaris --softmasking --busco_lineage=actinopterygii_odb12 \
---AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &
+--threads=10 --species=Hciliaris --softmasking --busco_lineage=actinopterygii \
+--AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_braker.log
 ```
 
