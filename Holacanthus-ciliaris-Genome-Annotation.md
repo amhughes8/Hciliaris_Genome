@@ -179,3 +179,7 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 --AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_braker.log
 ```
 
+## 4. Transcript filtering with [TSEBRA](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-021-04482-0)
+
+
+
