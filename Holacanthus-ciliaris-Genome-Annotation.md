@@ -179,6 +179,16 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 --threads=10 --species=Hciliaris --softmasking --busco_lineage=actinopterygii \
 --AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_braker.log
 ```
+I ended up deleting the output from this run because it seems like it may be better to not run BRAKER with a BUSCO lineage. I can't figure out how to rerun BRAKER without deleting the initial run... like it wants to override the previous run but can't so it just doesn't work? So odd. Luckily I'm just troubleshooting so if this doesn't work I can just rerun what I initially ran!
+
+started at 13:35 on July 29
+```
+apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins/hci_genome/annotation/braker/braker3.sif braker.pl \
+--genome=/projects/gatins/hci_genome/annotation/braker/assembly_FINAL.fasta.masked \
+--prot_seq=/projects/gatins/hci_genome/annotation/braker/Vertebrata.fa \
+--threads=10 --species=Hciliaris --softmasking \
+--AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_braker.log
+```
 
 ## 4. Transcript filtering with [TSEBRA](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-021-04482-0)
 
