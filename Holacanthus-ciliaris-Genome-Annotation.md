@@ -201,5 +201,10 @@ busco -i (input protein fasta file) --mode proteins --lineage_dataset actinopter
 ```
 
 ## 6. Functional annotation with [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
-
+following formatting from red sea urchin genome annotation
+```
+/path/to/EnTAP --runP -i /path/to/input/transcriptome \
+-d /path/to/diamond/database1.dmnd,/path/to/diamond/database2.dmnd \
+--entap-ini /path/to/entap_config.ini -t 8
+```
 
