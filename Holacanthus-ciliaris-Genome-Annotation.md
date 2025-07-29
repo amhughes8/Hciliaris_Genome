@@ -193,6 +193,13 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 ## 4. Transcript filtering with [TSEBRA](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-021-04482-0)
 I'm confused by this... I thought TSEBRA was incorporated into the BRAKER3 pipeline?
 
-## 5. Functional annotation with [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
+## 5. BUSCO
+```
+module load anaconda3/2024.06
+source activate /projects/gatins/programs_explorer/busco
+busco -i (input protein fasta file) --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 25 --out hci_proteins_busco
+```
+
+## 6. Functional annotation with [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
 
 
