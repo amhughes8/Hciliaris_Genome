@@ -219,7 +219,7 @@ Combines multiple gene sets and reports the transcript with the longest coding r
 ```
 module load anaconda3/2024.06
 source activate /projects/gatins/programs_explorer/busco
-busco -i (input protein fasta file) --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 25 --out hci_proteins_busco
+busco -i braker.aa --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 25 --out hci_proteins_busco
 ```
 
 ## 6. Functional annotation with [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
