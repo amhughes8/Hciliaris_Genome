@@ -208,6 +208,8 @@ apptainer exec braker3.sif tsebra.py \
 -e /projects/gatins/hci_genome/annotation/braker/braker/hintsfile.gff \
 --filter_single_exon_genes \
 -c /opt/TSEBRA/bin/../config/braker3.cfg -o seg_filtered.gtf
+```
+
 ### Step 2: Getting the longest isoform of each gene loci from different gene sets
 Combines multiple gene sets and reports the transcript with the longest coding region for each cluster of overlapping transcripts (one transcript per gene loci), e.g.
 ```
@@ -221,6 +223,7 @@ module load anaconda3/2024.06
 source activate /projects/gatins/programs_explorer/busco
 busco -i braker.aa --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 25 --out hci_proteins_busco
 ```
+Initial BUSCO run before any filtering: 95.3%[S:85.8%,D:9.5%],F:2.9%,M:1.7%,n:7207
 
 ## 6. Functional annotation with [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
 following formatting from red sea urchin genome annotation
