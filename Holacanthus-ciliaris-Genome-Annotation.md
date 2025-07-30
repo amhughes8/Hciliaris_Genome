@@ -181,7 +181,7 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 ```
 I ended up deleting the output from this run because it seems like it may be better to not run BRAKER with a BUSCO lineage. I can't figure out how to rerun BRAKER without deleting the initial run... like it wants to override the previous run but can't so it just doesn't work? So odd. Luckily I'm just troubleshooting so if this doesn't work I can just rerun what I initially ran!
 
-started at 13:35 on July 29 -- finished on July 30 at 08:27 
+started at 13:35 on July 29 -- finished on July 30 at 10:59 
 ```
 apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins/hci_genome/annotation/braker/braker3.sif braker.pl \
 --genome=/projects/gatins/hci_genome/annotation/braker/assembly_FINAL.fasta.masked \
@@ -191,7 +191,22 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 ```
 
 ## 4. Transcript filtering with [TSEBRA](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-021-04482-0)
-I'm confused by this... I thought TSEBRA was incorporated into the BRAKER3 pipeline?
+I'm confused by this... I thought TSEBRA was incorporated into the BRAKER3 pipeline? I guess technically I've been running BRAKER2 so maybe that is why I haven't seen a TSEBRA output.
+
+```
+apptainer exec braker3.sif tsebra.py --help
+```
+TSEBRA takes a list of gene prediciton files, a list of hintfiles and a configuration file as mandatory input.
+
+TSEBRA's initial purpose was to combine gene predictions from BRAKER1 and BRAKER2 runs. 
+
+### Step 1: Filter single-exon genes out
+### Step 2: Getting the longest isoform of each gene loci from different gene sets
+Combines multiple gene sets and reports the transcript with the longest coding region for each cluster of overlapping transcripts (one transcript per gene loci), e.g.
+```
+./bin/get_longest_isoform.py --gtf gene_set1.gtf,gene_set2.gtf --out longest_insoforms.gtf
+```
+### Step 3: Remove overlapping transcripts with AGAT
 
 ## 5. BUSCO
 ```
