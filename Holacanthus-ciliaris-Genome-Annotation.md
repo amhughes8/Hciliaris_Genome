@@ -201,6 +201,13 @@ TSEBRA takes a list of gene prediciton files, a list of hintfiles and a configur
 TSEBRA's initial purpose was to combine gene predictions from BRAKER1 and BRAKER2 runs. 
 
 ### Step 1: Filter single-exon genes out
+```
+apptainer exec braker3.sif tsebra.py \
+-g /projects/gatins/hci_genome/annotation/braker/braker/GeneMark-EP/genemark.gtf \
+-k /projects/gatins/hci_genome/annotation/braker/braker/Augustus/augustus.hints.gtf \
+-e /projects/gatins/hci_genome/annotation/braker/braker/hintsfile.gff \
+--filter_single_exon_genes \
+-c /opt/TSEBRA/bin/../config/braker3.cfg -o seg_filtered.gtf
 ### Step 2: Getting the longest isoform of each gene loci from different gene sets
 Combines multiple gene sets and reports the transcript with the longest coding region for each cluster of overlapping transcripts (one transcript per gene loci), e.g.
 ```
