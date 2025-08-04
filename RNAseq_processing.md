@@ -20,7 +20,7 @@ hisat2-build -p 20 /projects/gatins/hci_genome/processing/assembly_FINAL.fasta.m
 Map
 ```
 cd /projects/gatins/hci_genome/rnaseq/HCI_CUR_092401_RNAseq/01.RawData
-hisat2 -x HCI_masked -q \
+hisat2 -x HCI_masked -q 20 \
 -1 ./BRAIN_RNA/BRAIN_RNA_1.fq.gz,./FIN_RNA/FIN_RNA_1.fq.gz,./GILL_RNA/GILL_RNA_1.fq.gz,./LIVER_RNA/LIVER_RNA_1.fq.gz,./MUSCLE_RNA/MUSCLE_RNA_1.fq.gz \
 -2 ./BRAIN_RNA/BRAIN_RNA_2.fq.gz,./FIN_RNA/FIN_RNA_2.fq.gz,./GILL_RNA/GILL_RNA_2.fq.gz,./LIVER_RNA/LIVER_RNA_2.fq.gz,./MUSCLE_RNA/MUSCLE_RNA_2.fq.gz \
 -S HCI_mapped_RNA.sam
