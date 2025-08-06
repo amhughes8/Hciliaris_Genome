@@ -187,7 +187,7 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 --genome=/projects/gatins/hci_genome/annotation/braker/assembly_FINAL.fasta.masked \
 --prot_seq=/projects/gatins/hci_genome/annotation/braker/Vertebrata.fa \
 --threads=10 --species=Hciliaris --softmasking \
---AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_braker.log
+--AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_nobusco_braker.log
 ```
 
 NOW, let's try BRAKER with RNAseq! Bumping up the threads to process it quicker :)
@@ -197,7 +197,7 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 --prot_seq=/projects/gatins/hci_genome/annotation/braker/Vertebrata.fa \
 --bam=/projects/gatins/hci_genome/rnaseq/hci_all-rnaseq.bam \
 --threads=30 --species=Hciliaris --softmasking \
---AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_braker.log
+--AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_nobusco_rnaseq_braker.log
 ```
 
 ## 4. Transcript filtering with [TSEBRA](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-021-04482-0)
