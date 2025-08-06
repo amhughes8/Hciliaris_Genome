@@ -195,7 +195,7 @@ NOW, let's try BRAKER with RNAseq! Bumping up the threads to process it quicker 
 apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins/hci_genome/annotation/braker/braker3.sif braker.pl \
 --genome=/projects/gatins/hci_genome/annotation/braker/assembly_FINAL.fasta.masked \
 --prot_seq=/projects/gatins/hci_genome/annotation/braker/Vertebrata.fa \
---bam=/projects/gatins/hci_genome/rnaseq/hci_all-rnaseq.bam \
+--bam=/projects/gatins/hci_genome/annotation/braker/hci_all-rnaseq.bam \
 --threads=30 --species=Hciliaris --softmasking \
 --AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_nobusco_rnaseq_braker.log
 ```
