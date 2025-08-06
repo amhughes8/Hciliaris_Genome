@@ -191,6 +191,8 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 ```
 
 NOW, let's try BRAKER with RNAseq! Bumping up the threads to process it quicker :)
+
+Started running at 15:38 on August 6
 ```
 apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins/hci_genome/annotation/braker/braker3.sif braker.pl \
 --genome=/projects/gatins/hci_genome/annotation/braker/assembly_FINAL.fasta.masked \
