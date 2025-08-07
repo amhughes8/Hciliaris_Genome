@@ -190,7 +190,7 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 --AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_nobusco_braker.log
 ```
 
-NOW, let's try BRAKER with RNAseq! Bumping up the threads to process it quicker :)
+NOW, let's try BRAKER with RNAseq! Bumping up the threads
 
 Started running at 15:38 on August 6
 ```
