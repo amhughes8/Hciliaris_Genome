@@ -9,7 +9,7 @@ I think Novogene already performed filtering... here are the steps they list in 
 (3) Remove reads containing low quality (Qscore<= 5) base which is over 50% of the total base.
 
 I checked a couple of samples with fastqc and it seems like the adapters are gone but they still have PolyA contamination?
-![plot](Hciliaris_Genome/photos/polyA_liver.png)
+![plot](photos/polyA_liver.png)
 
 I'm going to use cutadapt to try and remove this. This took ~35 mins with 1 core:
 ```
