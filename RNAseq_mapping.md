@@ -46,6 +46,19 @@ for i in `cat files_all`;
   done
 ```
 
+FastQC all files:
+```
+# name all files
+ls *.fq.gz > all_trimmed
+
+# load fastqc
+module load fastqc
+
+# run fastqc
+for i in `cat all_trimmed`;
+  do fastqc ${i} -o /projects/gatins/hci_genome/rnaseq/fastqs/fastqc/trimmed
+```
+
 ## Mapping RNAseq data to reference genome
 Index the genome -- total time = 00:04:50
 ```
