@@ -11,7 +11,7 @@ I think Novogene already performed filtering... here are the steps they list in 
 I checked a couple of samples with fastqc and it seems like the adapters are gone but they still have PolyA contamination?
 ![plot](photos/PolyA_liver.png)
 
-I'm going to use cutadapt to try and remove this.
+I'm going to use cutadapt to try and remove this. This took ~35 mins with 1 core:
 ```
 # Create and activate conda env for cutadapt
 conda create --prefix=/projects/gatins/programs_explorer/cutadapt python=3.13.5 anaconda
@@ -34,6 +34,15 @@ source activate /projects/gatins/programs_explorer/cutadapt
 # run cutadapt
 for i in `cat files_all`;
   do cutadapt --poly-a -o ${i}_polyAremoved.fq.gz ${i}.fq.gz;
+  done
+```
+
+Now I'm going to trim the ends
+```
+# hardtrim3 will keep sequence from the 3' end (thus removing bp's from the 5' end)
+# all my sequences are 150bps
+for i in `cat files_all`;
+  do trim_galore --fastqc --hardtrim3 142 -o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed --paired --cores 2 ${i}_1_polyAremoved.fq.gz ${i}_2_polyAremoved.fq.gz;
   done
 ```
 
