@@ -18,10 +18,23 @@ conda create --prefix=/projects/gatins/programs_explorer/cutadapt python=3.13.5 
 source activate /projects/gatins/programs_explorer/cutadapt
 
 # Install cutadapt
-conda install bioconda::cutadapt
+pip install cutadapt
 
-# Trim Poly-A
-cutadapt --poly-a 
+# move to wd
+cd /projects/gatins/hci_genome/rnaseq/fastqs
+
+# make 'files_all'
+ls *.fq.gz > files_all
+sed -i -e 's/.fq.gz//g' files_all
+
+# activate conda env
+module load anaconda3/2024.06
+source activate /projects/gatins/programs_explorer/cutadapt
+
+# run cutadapt
+for i in `cat files_all`;
+  do cutadapt --poly-a -o ${i}_polyAremoved.fq.gz ${i}.fq.gz;
+  done
 ```
 
 ## Mapping RNAseq data to reference genome
