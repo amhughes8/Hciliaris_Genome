@@ -8,7 +8,21 @@ I think Novogene already performed filtering... here are the steps they list in 
 
 (3) Remove reads containing low quality (Qscore<= 5) base which is over 50% of the total base.
 
-I checked a couple of samples with fastqc and they are looking ok, so let's proceed.
+I checked a couple of samples with fastqc and it seems like the adapters are gone but they still have PolyA contamination?
+![plot](photos/PolyA_liver.png)
+
+I'm going to use cutadapt to try and remove this.
+```
+# Create and activate conda env for cutadapt
+conda create --prefix=/projects/gatins/programs_explorer/cutadapt python=3.13.5 anaconda
+source activate /projects/gatins/programs_explorer/cutadapt
+
+# Install cutadapt
+conda install bioconda::cutadapt
+
+# Trim Poly-A
+cutadapt --poly-a 
+```
 
 ## Mapping RNAseq data to reference genome
 Index the genome -- total time = 00:04:50
