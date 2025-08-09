@@ -84,14 +84,15 @@ hisat2-build -p 20 /projects/gatins/hci_genome/processing/assembly_FINAL.fasta.m
 
 Map
 ```
-# making SAM files in the scratch directory
-cd /hughes.annab/scratch
+pwd
+/projects/gatins/hci_genome/rnaseq
 
 # -x indicates the reference genome index. hisat2 looks for the specified index first in the current directory, then in the directory specified in the HISAT2_INDEXES environment variable.
 export HISAT2_INDEXES=/projects/gatins/hci_genome/rnaseq
 
 # map to genome and create SAM file
-for i in `cat files`; do hisat2 -x HCI_masked -1 ${i}_1.fq.gz -2 ${i}_2.fq.gz -S $i.sam; done
+cd /projects/gatins/hci_genome/rnaseq/fastqs/trimmed
+for i in `cat files`; do hisat2 -x HCI_masked -1 ${i}_1_polyAremoved.142bp_3prime.fq.gz -2 ${i}_2_polyAremoved.142bp_3prime.fq.gz -S $i.sam; done
 
 # load modules
 module load samtools/1.21
