@@ -42,9 +42,18 @@ for i in `cat files_all`;
 
 Next, I'm going to trim the ends with trimgalore:
 ```
-# hardtrim3 will keep sequence from the 3' end (thus removing bp's from the 5' end)
-# all my sequences are 150bps
-for i in `cat files_all`;
+cd /projects/gatins/hci_genome/rnaseq/fastqs
+
+# activate conda env
+module load anaconda3/2024.06
+source activate /projects/gatins/programs/trimgalore_ex
+
+# make a list of all file names without extensions
+ls *_1.fq.gz > files
+sed -i -e 's/_1.fq.gz//g' files
+
+# hard trim
+for i in `cat files`;
   do trim_galore --fastqc --hardtrim3 142 -o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed --paired --cores 2 ${i}_1_polyAremoved.fq.gz ${i}_2_polyAremoved.fq.gz;
   done
 ```
@@ -75,37 +84,21 @@ hisat2-build -p 20 /projects/gatins/hci_genome/processing/assembly_FINAL.fasta.m
 
 Map
 ```
-cd /projects/gatins/hci_genome/rnaseq/HCI_CUR_092401_RNAseq/01.RawData
-hisat2 -x HCI_masked -q 20 \
--1 ./BRAIN_RNA/BRAIN_RNA_1.fq.gz,./FIN_RNA/FIN_RNA_1.fq.gz,./GILL_RNA/GILL_RNA_1.fq.gz,./LIVER_RNA/LIVER_RNA_1.fq.gz,./MUSCLE_RNA/MUSCLE_RNA_1.fq.gz \
--2 ./BRAIN_RNA/BRAIN_RNA_2.fq.gz,./FIN_RNA/FIN_RNA_2.fq.gz,./GILL_RNA/GILL_RNA_2.fq.gz,./LIVER_RNA/LIVER_RNA_2.fq.gz,./MUSCLE_RNA/MUSCLE_RNA_2.fq.gz \
--S HCI_mapped_RNA.sam
-```
-okay this did not work because i need to run hisat2 for each tissue type separately i think... running the following instead:
-```
-for i in /projects/gatins/hci_genome/rnaseq/fastqs; do
-hisat2 -x HCI_masked -1 ${i}_1.fastq -2 ${i}_2.fastq -S HCI_mapped_RNA.sam
-done
-```
-this didn't work because i guess my first line is indicating that the command should be looking for fastqs_1.fastq? idk, trying again
+# making SAM files in the scratch directory
+cd /hughes.annab/scratch
 
-based on Jen's code for red sea urchin:
-```
-cd /projects/gatins/hci_genome/rnaseq/fastqs
-ls *_1.fq.gz > files
-sed -i -e 's/_1.fq.gz//g' files
+# -x indicates the reference genome index. hisat2 looks for the specified index first in the current directory, then in the directory specified in the HISAT2_INDEXES environment variable.
 export HISAT2_INDEXES=/projects/gatins/hci_genome/rnaseq
-for i in `cat files`; do hisat2 -x HCI_masked -1 ${i}_1.fq.gz -2 ${i}_2.fq.gz -S $i.sam; done
-```
 
-OK this is working! Now from within /projects/gatins/hci_genome/rnaseq/fastqs
-```
-# Convert SAM to BAM
+# map to genome and create SAM file
+for i in `cat files`; do hisat2 -x HCI_masked -1 ${i}_1.fq.gz -2 ${i}_2.fq.gz -S $i.sam; done
+
+# load modules
 module load samtools/1.21
+
+# convert SAM to BAM
 for i in `cat files`; do samtools view -u $i.sam | samtools sort -o $i.bam; done
-```
-```
-# Merge all sample BAM files
-cd ../
-samtools merge -@ 32 hci_all-rnaseq.bam ./fastqs/*bam
+
+# merge all sample BAM files
+samtools merge -@ 32 hci_all_trimmed_rnaseq.bam ./*bam
 ```
