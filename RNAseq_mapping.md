@@ -126,7 +126,53 @@ Let's try using TrimGalore to remove short reads. Here is a blurb from there man
 module load anaconda3/2024.06
 source activate /projects/gatins/programs/trimgalore_ex
 
-# remove sequences shorter than 20 bp (default)
+# remove sequences shorter than 20 bp (default) -- testing on brain sample
 trim_galore --length 20 --paired --cores 5 \
 -o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/trimmed_length \
 BRAIN_RNA_1_polyAremoved.142bp_3prime.fq.gz BRAIN_RNA_2_polyAremoved.142bp_3prime.fq.gz
+```
+
+Now, rerunning HISAT2 interactively to see if there is a difference in mapping success
+```
+hisat2 -x HCI_masked -1 BRAIN_RNA_1_polyAremoved.142bp_3prime_val_1.fq.gz -2 BRAIN_RNA_2_polyAremoved.142bp_3prime_val_2.fq.gz -S brain.sam -p 10
+```
+Mapping increased from 86.35% to 89.85%! Trying on the fin now
+
+```
+# activate conda env
+module load anaconda3/2024.06
+source activate /projects/gatins/programs/trimgalore_ex
+
+# remove sequences shorter than 20 bp (default) -- testing on fin sample
+trim_galore --length 20 --paired --cores 5 \
+-o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/trimmed_length \
+FIN_RNA_1_polyAremoved.142bp_3prime.fq.gz FIN_RNA_2_polyAremoved.142bp_3prime.fq.gz
+```
+Yeah, over 47% of reads were removed for being too short and this is one of the ones that had very low mapping success. Let's run HISAT2 now
+```
+hisat2 -x HCI_masked -1 FIN_RNA_1_polyAremoved.142bp_3prime_val_1.fq.gz -2 FIN_RNA_2_polyAremoved.142bp_3prime_val_2.fq.gz -S fin.sam -p 10
+```
+YES! Alignment rate increased from 39.21% to 82.05%! The length was definitely the problem here
+
+I'm going to test one more thing and that's having not completed a hard trim on the 3' end of the sequence. Let's run TrimGalore on one of the .fq.gz sample pairs where we only removed PolyA contamination (FIN):
+```
+pwd
+/projects/gatins/hci_genome/rnaseq/fastqs
+
+# activate conda env
+module load anaconda3/2024.06
+source activate /projects/gatins/programs/trimgalore_ex
+
+# remove sequences shorter than 20 bp (default) -- testing on fin sample pre-hard trim
+trim_galore --length 20 --paired --cores 5 \
+-o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/trimmed_length \
+FIN_RNA_1_polyAremoved.fq.gz FIN_RNA_2_polyAremoved.fq.gz
+```
+```
+hisat2 -x HCI_masked -1 FIN_RNA_1_polyAremoved_val_1.fq.gz -2 FIN_RNA_2_polyAremoved_val_2.fq.gz -S fin_polyAonly.sam -p 10
+```
+
+Okay, I think I need to trim a bit more off the ends and keep this filtering for length. Going back to the PolyA trimmed reads and adding more:
+```
+trim_galore --fastqc --hardtrim3 135 --hardtrim5 10 --length 20 -o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed_dual --paired --cores 5 FIN_RNA_1_polyAremoved.fq.gz FIN_RNA_2_polyAremoved.fq.gz
+```
