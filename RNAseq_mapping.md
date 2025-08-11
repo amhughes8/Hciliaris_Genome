@@ -56,6 +56,11 @@ sed -i -e 's/_1.fq.gz//g' files
 for i in `cat files`;
   do trim_galore --fastqc --hardtrim3 142 -o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed --paired --cores 2 ${i}_1_polyAremoved.fq.gz ${i}_2_polyAremoved.fq.gz;
   done
+
+# remove remnant adapters and quality/length trim
+for i in `cat files`;
+  do trim_galore --fastqc -o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed --paired --cores 2 ${i}_1_polyAremoved.fq.gz ${i}_2_polyAremoved.fq.gz;
+  done
 ```
 
 FastQC all files:
@@ -171,8 +176,49 @@ FIN_RNA_1_polyAremoved.fq.gz FIN_RNA_2_polyAremoved.fq.gz
 ```
 hisat2 -x HCI_masked -1 FIN_RNA_1_polyAremoved_val_1.fq.gz -2 FIN_RNA_2_polyAremoved_val_2.fq.gz -S fin_polyAonly.sam -p 10
 ```
+This resulted in alignment of 82.18%. I think I'm going to move forward with the following steps for each sample:
+[1] Remove Poly-A contamination with cutadapt (done!)
+[2] Filter sequences for remnant adapters, quality, and a minimum length cutoff of 20 bp with TrimGalore
 
-Okay, I think I need to trim a bit more off the ends and keep this filtering for length. Going back to the PolyA trimmed reads and adding more:
+Going to delete my first pass at trimmed sequences and redo it this way.
 ```
-trim_galore --fastqc --hardtrim3 135 --hardtrim5 10 --length 20 -o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed_dual --paired --cores 5 FIN_RNA_1_polyAremoved.fq.gz FIN_RNA_2_polyAremoved.fq.gz
+rm -r /projects/gatins/hci_genome/rnaseq/fastqs/trimmed
+```
+
+```
+cd /projects/gatins/hci_genome/rnaseq/fastqs
+
+# activate conda env
+module load anaconda3/2024.06
+source activate /projects/gatins/programs/trimgalore_ex
+
+# make a list of all file names without extensions
+ls *_1.fq.gz > files
+sed -i -e 's/_1.fq.gz//g' files
+
+# remove remnant adapters and quality/length trim
+for i in `cat files`;
+  do trim_galore --fastqc -o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed --paired --cores 2 ${i}_1_polyAremoved.fq.gz ${i}_2_polyAremoved.fq.gz;
+  done
+```
+Now, remap
+```
+pwd
+/projects/gatins/hci_genome/rnaseq
+
+# -x indicates the reference genome index. hisat2 looks for the specified index first in the current directory, then in the directory specified in the HISAT2_INDEXES environment variable.
+export HISAT2_INDEXES=/projects/gatins/hci_genome/rnaseq
+
+# map to genome and create SAM file
+cd /projects/gatins/hci_genome/rnaseq/fastqs/trimmed
+for i in `cat files`; do hisat2 -x HCI_masked -1 ${i}_1_polyAremoved.fq.gz -2 ${i}_2_polyAremoved.fq.gz -S $i.sam; done
+
+# load modules
+module load samtools/1.21
+
+# convert SAM to BAM
+for i in `cat files`; do samtools view -u $i.sam | samtools sort -o $i.bam; done
+
+# merge all sample BAM files
+samtools merge -@ 32 hci_all_trimmed_rnaseq.bam ./*bam
 ```
