@@ -103,3 +103,20 @@ for i in `cat files`; do samtools view -u $i.sam | samtools sort -o $i.bam; done
 # merge all sample BAM files
 samtools merge -@ 32 hci_all_trimmed_rnaseq.bam ./*bam
 ```
+Mapping has not improved following trimming steps. I think this is because there are so many short sequences (for example, here are the errors I've gotten only when mapping the trimmed reads):
+```
+Warning: skipping mate #1 of read 'LH00328:636:22V3VWLT4:8:2498:39476:29417 1:N:0:TAATGCCGAC+AGCGTTCTTG' because it was < 2 characters long
+Warning: skipping mate #2 of read 'LH00328:636:22V3VWLT4:8:2498:7626:29431 2:N:0:TAATGCCGAC+AGCGTTCTTG' because length (0) <= # seed mismatches (0)
+Warning: skipping mate #2 of read 'LH00328:636:22V3VWLT4:8:2498:7626:29431 2:N:0:TAATGCCGAC+AGCGTTCTTG' because it was < 2 characters long
+Warning: skipping mate #1 of read 'LH00328:636:22V3VWLT4:8:2498:8564:29431 1:N:0:TAATGCCGAC+AGCGTTCTTG' because length (0) <= # seed mismatches (0)
+Warning: skipping mate #1 of read 'LH00328:636:22V3VWLT4:8:2498:8564:29431 1:N:0:TAATGCCGAC+AGCGTTCTTG' because it was < 2 characters long
+Warning: skipping mate #2 of read 'LH00328:636:22V3VWLT4:8:2498:20602:29431 2:N:0:TAATGCCGAC+AGCGTTCTTG' because length (0) <= # seed mismatches (0)
+Warning: skipping mate #2 of read 'LH00328:636:22V3VWLT4:8:2498:20602:29431 2:N:0:TAATGCCGAC+AGCGTTCTTG' because it was < 2 characters long
+Warning: skipping mate #2 of read 'LH00328:636:22V3VWLT4:8:2498:22722:29431 2:N:0:TAATGCCGAC+AGCGTTCTTG' because length (0) <= # seed mismatches (0)
+Warning: skipping mate #2 of read 'LH00328:636:22V3VWLT4:8:2498:22722:29431 2:N:0:TAATGCCGAC+AGCGTTCTTG' because it was < 2 characters long
+Warning: skipping mate #2 of read 'LH00328:636:22V3VWLT4:8:2498:8621:29417 2:N:0:TAATGCCGAC+AGCGTTCTTG' because it was < 2 characters long
+Warning: skipping mate #1 of read 'LH00328:636:22V3VWLT4:8:2498:41846:29431 1:N:0:TAATGCCGAC+AGCGTTCTTG' because length (0) <= # seed mismatches (0)
+```
+Let's try using TrimGalore to remove short reads. Here is a blurb from there manual:
+>## Paired-End Data
+>Note that it is not recommended to remove too-short sequences if the analysed FastQ file is one of a pair of paired-end files, since this confuses the sequence-by-sequence order of paired-end reads which is again required by many aligners. For paired-end files, Trim Galore! has an option --paired which runs a paired-end validation on both trimmed _1 and _2 FastQ files once the trimming has completed. This step removes entire read pairs if at least one of the two sequences became shorter than a certain threshold. If only one of the two reads is longer than the set threshold, e.g. when one read has very poor qualities throughout, this singleton read can be written out to unpaired files (see option retain_unpaired) which may be aligned in a single-end manner.
