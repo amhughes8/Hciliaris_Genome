@@ -198,7 +198,7 @@ sed -i -e 's/_1.fq.gz//g' files
 
 # remove remnant adapters and quality/length trim
 for i in `cat files`;
-  do trim_galore --fastqc -o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed --paired --cores 2 ${i}_1_polyAremoved.fq.gz ${i}_2_polyAremoved.fq.gz;
+  do trim_galore --fastqc -o /projects/gatins/hci_genome/rnaseq/fastqs/trimmed --length 20 --paired --cores 2 ${i}_1_polyAremoved.fq.gz ${i}_2_polyAremoved.fq.gz;
   done
 ```
 Now, remap
