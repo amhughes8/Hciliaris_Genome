@@ -211,8 +211,9 @@ export HISAT2_INDEXES=/projects/gatins/hci_genome/rnaseq
 
 # map to genome and create SAM file
 cd /projects/gatins/hci_genome/rnaseq/fastqs/trimmed
-for i in `cat files`; do hisat2 -x HCI_masked -1 ${i}_1_polyAremoved.fq.gz -2 ${i}_2_polyAremoved.fq.gz -S $i.sam; done
-
+for i in `cat files`; do hisat2 -x HCI_masked -1 ${i}_1_polyAremoved_val_1.fq.gz -2 ${i}_2_polyAremoved_val_2.fq.gz -S $i.sam -p 20; done
+```
+```
 # load modules
 module load samtools/1.21
 
