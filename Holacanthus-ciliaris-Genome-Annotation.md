@@ -202,31 +202,45 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 --AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_nobusco_rnaseq_braker.log
 ```
 
+Initial protein BUSCO run after BRAKER:
+C:95.0%[S:79.3%,D:15.7%],F:0.8%,M:4.2%,n:7207
+	6846	Complete BUSCOs (C)
+	5712	Complete and single-copy BUSCOs (S)
+	1134	Complete and duplicated BUSCOs (D)
+	61	Fragmented BUSCOs (F)
+	300	Missing BUSCOs (M)
+	7207	Total BUSCO groups searched
+
+Lots of duplicated BUSCOs. Let's see how filtering with TSEBRA alters this.
+
 ## 4. Transcript filtering with [TSEBRA](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-021-04482-0)
-I'm confused by this... I thought TSEBRA was incorporated into the BRAKER3 pipeline? I guess technically I've been running BRAKER2 so maybe that is why I haven't seen a TSEBRA output.
 
 ```
 apptainer exec braker3.sif tsebra.py --help
 ```
+
 TSEBRA takes a list of gene prediciton files, a list of hintfiles and a configuration file as mandatory input.
 
 TSEBRA's initial purpose was to combine gene predictions from BRAKER1 and BRAKER2 runs. 
 
 ### Step 1: Filter single-exon genes out
+*Downloaded default.cfg from TSEBRA github*
 ```
 apptainer exec braker3.sif tsebra.py \
--g /projects/gatins/hci_genome/annotation/braker/braker/GeneMark-EP/genemark.gtf \
+-g /projects/gatins/hci_genome/annotation/braker/braker/GeneMark-ETP/genemark.gtf \
 -k /projects/gatins/hci_genome/annotation/braker/braker/Augustus/augustus.hints.gtf \
 -e /projects/gatins/hci_genome/annotation/braker/braker/hintsfile.gff \
 --filter_single_exon_genes \
--c /opt/TSEBRA/bin/../config/braker3.cfg -o seg_filtered.gtf
+-c /projects/gatins/hci_genome/annotation/braker/default.cfg \
+-o hci_braker_filtered.gtf
 ```
 
 ### Step 2: Getting the longest isoform of each gene loci from different gene sets
 Combines multiple gene sets and reports the transcript with the longest coding region for each cluster of overlapping transcripts (one transcript per gene loci), e.g.
 ```
-./bin/get_longest_isoform.py --gtf gene_set1.gtf,gene_set2.gtf --out longest_insoforms.gtf
+apptainer exec braker3.sif get_longest_isoform.py --gtf hci_braker_filtered.gtf --out hci_longest_insoforms.gtf
 ```
+
 ### Step 3: Remove overlapping transcripts with AGAT
 
 ## 5. BUSCO
