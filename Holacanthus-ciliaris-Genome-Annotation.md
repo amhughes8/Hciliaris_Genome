@@ -192,7 +192,7 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 
 NOW, let's try BRAKER with RNAseq! Bumping up the threads
 
-Started running at 15:38 on August 6
+Started running at 15:38 on August 6 -- finished 22:17 on August 7
 ```
 apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins/hci_genome/annotation/braker/braker3.sif braker.pl \
 --genome=/projects/gatins/hci_genome/annotation/braker/assembly_FINAL.fasta.masked \
@@ -201,6 +201,11 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 --threads=30 --species=Hciliaris --softmasking \
 --AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_nobusco_rnaseq_braker.log
 ```
+Total number of protein-coding genes predicted:
+```
+grep -c "^>" braker.aa
+```
+**27032**
 
 Initial protein BUSCO run after BRAKER:
 C:95.0%[S:79.3%,D:15.7%],F:0.8%,M:4.2%,n:7207
