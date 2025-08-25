@@ -138,17 +138,6 @@ singularity build braker3.sif docker://teambraker/braker3:latest
 singularity exec braker3.sif braker.pl
 ```
 
-test:
-```
-singularity exec -B $PWD:$PWD braker3.sif cp /opt/BRAKER/example/singularity-tests/test1.sh .
-singularity exec -B $PWD:$PWD braker3.sif cp /opt/BRAKER/example/singularity-tests/test2.sh .
-singularity exec -B $PWD:$PWD braker3.sif cp /opt/BRAKER/example/singularity-tests/test3.sh .
-export BRAKER_SIF=/projects/gatins/hci_genome/annotation/braker/braker3.sif # may need to modify
-bash test1.sh
-bash test2.sh
-bash test3.sh
-```
-
 There are 4 ways to run BRAKER3: 
 - [ ] 1. genome only
 - [ ] 2. genome + RNA-seq data
@@ -226,8 +215,6 @@ apptainer exec braker3.sif tsebra.py --help
 
 TSEBRA takes a list of gene prediciton files, a list of hintfiles and a configuration file as mandatory input.
 
-TSEBRA's initial purpose was to combine gene predictions from BRAKER1 and BRAKER2 runs. 
-
 ### Step 1: Filter single-exon genes out
 *Downloaded default.cfg from TSEBRA github*
 ```
@@ -246,17 +233,63 @@ Combines multiple gene sets and reports the transcript with the longest coding r
 apptainer exec braker3.sif get_longest_isoform.py --gtf hci_braker_filtered.gtf --out hci_longest_insoforms.gtf
 ```
 
-### Step 3: Remove overlapping transcripts with AGAT
+### Step 3: Extract protein sequences from filtered dataset using [gffread](https://ccb.jhu.edu/software/stringtie/gff.shtml#gffread)
+```
+/projects/gatins/programs_explorer/gffread/bin/gffread -w hci_transcripts_li_nseg.fa -y hci_transcripts_li_nseg.aa -g /projects/gatins/hci_genome/processing/assembly_FINAL.fasta.masked hci_longest_insoforms.gtf
+```
+> li = longest isoform
+> nseg = no single exon genes
 
-## 5. BUSCO
+## 5. Protein BUSCO
 ```
 module load anaconda3/2024.06
 source activate /projects/gatins/programs_explorer/busco
-busco -i braker.aa --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 25 --out hci_proteins_busco
+busco -i hci_transcripts_li_nseg.aa --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 10 --out hci_filtered_busco
 ```
-Initial BUSCO run before any filtering: 95.3%[S:85.8%,D:9.5%],F:2.9%,M:1.7%,n:7207
+C:99.1%[S:98.7%,D:0.4%],F:0.6%,M:0.2%,n:7207
+	7143	Complete BUSCOs (C)
+	7114	Complete and single-copy BUSCOs (S)
+	29	Complete and duplicated BUSCOs (D)
+	46	Fragmented BUSCOs (F)
+	18	Missing BUSCOs (M)
+	7207	Total BUSCO groups searched
 
-## 6. Functional annotation with [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
+I'm going to try running this all over again from the braker output but exclude the step where I filter out single-exon genes. I just don't really understand this step and I want to see what impact it has on these BUSCO results.
+
+```
+# generate consensus gtf
+apptainer exec braker3.sif tsebra.py \
+-g /projects/gatins/hci_genome/annotation/braker/braker/GeneMark-ETP/genemark.gtf \
+-k /projects/gatins/hci_genome/annotation/braker/braker/Augustus/augustus.hints.gtf \
+-e /projects/gatins/hci_genome/annotation/braker/braker/hintsfile.gff \
+-c /projects/gatins/hci_genome/annotation/braker/default.cfg \
+-o hci_braker_filtered_2.gtf
+
+# longest isoform
+apptainer exec braker3.sif get_longest_isoform.py --gtf hci_braker_filtered_2.gtf --out hci_longest_insoforms_2.gtf
+
+# extract protein sequences
+/projects/gatins/programs_explorer/gffread/bin/gffread -w hci_transcripts_li.fa -y hci_transcripts_li.aa -g /projects/gatins/hci_genome/processing/assembly_FINAL.fasta.masked hci_longest_insoforms_2.gtf
+
+# busco
+module load anaconda3/2024.06
+source activate /projects/gatins/programs_explorer/busco
+busco -i hci_transcripts_li.aa --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 10 --out hci_filtered_busco_2
+```
+
+C:99.1%[S:98.7%,D:0.4%],F:0.6%,M:0.2%,n:7207
+	7143	Complete BUSCOs (C)
+	7114	Complete and single-copy BUSCOs (S)
+	29	Complete and duplicated BUSCOs (D)
+	46	Fragmented BUSCOs (F)
+	18	Missing BUSCOs (M)
+	7207	Total BUSCO groups searched
+
+Hmm... so it doesn't change the completeness. I'm going to move on to the InterProScan step and see what happens. Jen said she doesn't always just filter out single exon genes because they may have function so we'll see which ones map. 
+
+## 6. Functional annotation with [InterProScan](https://www.ebi.ac.uk/interpro/) and [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
+
+
 following formatting from red sea urchin genome annotation
 ```
 /path/to/EnTAP --runP -i /path/to/input/transcriptome \
