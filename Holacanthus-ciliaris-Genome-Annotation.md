@@ -295,7 +295,7 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 --bam=/projects/gatins/hci_genome/annotation/braker/hci_all_trimmed_rnaseq_withheart.bam \
 --workingdir=/projects/gatins/hci_genome/annotation/braker/hci_braker_final \
 --threads=30 --species=Hciliaris_full --softmasking \
---AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_nobusco_rnaseq_braker.log
+--AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_nobusco_ALLrnaseq_braker.log
 ```
 
 ## 6. Functional annotation with [InterProScan](https://www.ebi.ac.uk/interpro/) and [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
