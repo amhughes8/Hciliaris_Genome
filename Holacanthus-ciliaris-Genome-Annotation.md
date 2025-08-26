@@ -287,6 +287,17 @@ C:99.1%[S:98.7%,D:0.4%],F:0.6%,M:0.2%,n:7207
 
 Hmm... so it doesn't change the completeness. I'm going to move on to the InterProScan step and see what happens. Jen said she doesn't always just filter out single exon genes because they may have function so we'll see which ones map. 
 
+Got the heart RNAseq data! Re-running BRAKER with the full RNAseq dataset:
+```
+apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins/hci_genome/annotation/braker/braker3.sif braker.pl \
+--genome=/projects/gatins/hci_genome/annotation/braker/assembly_FINAL.fasta.masked \
+--prot_seq=/projects/gatins/hci_genome/annotation/braker/Vertebrata.fa \
+--bam=/projects/gatins/hci_genome/annotation/braker/hci_all_trimmed_rnaseq_withheart.bam \
+--workingdir=/projects/gatins/hci_genome/annotation/braker/hci_braker_final \
+--threads=30 --species=Hciliaris_full --softmasking \
+--AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_nobusco_rnaseq_braker.log
+```
+
 ## 6. Functional annotation with [InterProScan](https://www.ebi.ac.uk/interpro/) and [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
 
 
