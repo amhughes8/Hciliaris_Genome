@@ -282,15 +282,15 @@ pwd
 
 # running a search in blastx mode
 # GILL
-../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/GILL_RNA_1_polyAremoved_val_1.fq.gz -o gill_1_matches.tsv
-../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/GILL_RNA_2_polyAremoved_val_2.fq.gz -o gill_2_matches.tsv
+../diamond blastx -d ../reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/GILL_RNA_1_polyAremoved_val_1.fq.gz -o gill_1_matches.tsv
+../diamond blastx -d ../reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/GILL_RNA_2_polyAremoved_val_2.fq.gz -o gill_2_matches.tsv
 
 # HEART
-../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/HEART_mixed_1_polyAremoved_val_1.fq.gz -o heart_1_matches.tsv
-../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/HEART_mixed_2_polyAremoved_val_2.fq.gz -o heart_2_matches.tsv
+../diamond blastx -d ../reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/HEART_mixed_1_polyAremoved_val_1.fq.gz -o heart_1_matches.tsv
+../diamond blastx -d ../reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/HEART_mixed_2_polyAremoved_val_2.fq.gz -o heart_2_matches.tsv
 
 # LIVER
-../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/LIVER_RNA_1_polyAremoved_val_1.fq.gz -o liver_1_matches.tsv
-../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/LIVER_RNA_2_polyAremoved_val_2.fq.gz -o liver_2_matches.tsv
+../diamond blastx -d ../reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/LIVER_RNA_1_polyAremoved_val_1.fq.gz -o liver_1_matches.tsv
+../diamond blastx -d ../reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/LIVER_RNA_2_polyAremoved_val_2.fq.gz -o liver_2_matches.tsv
 ```
 
