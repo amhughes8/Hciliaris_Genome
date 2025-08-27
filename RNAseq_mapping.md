@@ -259,6 +259,12 @@ find . -mindepth 2 | grep "fasta.gz" | grep -v 'DNA' | grep -v 'additional' | xa
 echo -e "accession\taccession.version\ttaxid\tgi" > reference_proteomes.taxid_map
 zcat */*/*.idmapping.gz | grep "NCBI_TaxID" | awk '{print $1 "\t" $1 "\t" $3 "\t" 0}' >> reference_proteomes.taxid_map
 
+# download NCBI taxonomic classifications
+mkdir -p taxdump
+cd taxdump
+wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/new_taxdump.tar.gz
+tar xzf new_taxdump.tar.gz
+
 # NCBI updated some of their classifications (i.e. "superkingdom" is no longer used), but diamond does not recognize the replacements (domain, acellular root, cellular root, realm) as taxonomic ranks. We need to replace them in the original nodes.dmp file downloaded with the rest of the taxonomic information in the taxdump directory
 sed -i 's/\tdomain\t/\tsuperkingdom\t/g' nodes.dmp
 sed -i 's/\tacellular root\t/\tsuperkingdom\t/g' nodes.dmp
@@ -266,7 +272,7 @@ sed -i 's/\tcellular root\t/\tsuperkingdom\t/g' nodes.dmp
 sed -i 's/\trealm\t/\tclade\t/g' nodes.dmp
 
 # make database with DIAMOND
-./diamond makedb -p 10 --in reference_proteomes.fasta.gz --taxonmap reference_proteomes.taxid_map --taxonnodes ../taxdump/nodes.dmp -d reference_proteomes.dmnd
+./diamond makedb -p 10 --in reference_proteomes.fasta.gz --taxonmap reference_proteomes.taxid_map --taxonnodes ./taxdump/nodes.dmp -d reference_proteomes.dmnd
 ```
 
 Now, let's use DIAMOND to blast our RNAseq data against this database
