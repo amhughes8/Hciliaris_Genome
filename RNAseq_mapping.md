@@ -223,3 +223,68 @@ for i in `cat files`; do samtools view -u $i.sam | samtools sort -o $i.bam; done
 # merge all sample BAM files
 samtools merge -@ 32 hci_all_trimmed_rnaseq.bam ./*bam
 ```
+
+I'm getting really low alignment rates for some of the samples... here are the outputs:
+BRAIN: 89.75%
+FIN: 82.18%
+GILL: 39.56%
+HEART: 58.84%
+LIVER: 57.82%
+MUSCLE: 89.88%
+
+The brain, fin, and muscle are fine, but I don't understand why the others are so low. Let's take a look at them using DIAMOND and see if they contain contaminated reads.
+
+First, let's make a DIAMOND database using uniprot data (this is following the same steps I took to decontaminate the reference genome assembly. I accidentally deleted these files because they were quite large so we need to remake them)
+```
+pwd
+/projects/gatins/hci_genome/processing/diamond
+
+# download DIAMOND
+wget http://github.com/bbuchfink/diamond/releases/download/v2.1.13/diamond-linux64.tar.gz
+tar xzf diamond-linux64.tar.gz
+
+# download Uniprot Reference Proteomes
+wget https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/reference_proteomes/Reference_Proteomes_2025_03.tar.gz
+
+# extract .tar.gz file
+tar xf Reference_Proteomes_2025_03.tar.gz
+
+# create new file
+touch reference_proteomes.fasta.gz
+
+# fill new file with all .fasta.gz files downloaded with initial wget
+find . -mindepth 2 | grep "fasta.gz" | grep -v 'DNA' | grep -v 'additional' | xargs cat >> reference_proteomes.fasta.gz
+
+# build taxonomic ID map using taxid numbers in files
+echo -e "accession\taccession.version\ttaxid\tgi" > reference_proteomes.taxid_map
+zcat */*/*.idmapping.gz | grep "NCBI_TaxID" | awk '{print $1 "\t" $1 "\t" $3 "\t" 0}' >> reference_proteomes.taxid_map
+
+# NCBI updated some of their classifications (i.e. "superkingdom" is no longer used), but diamond does not recognize the replacements (domain, acellular root, cellular root, realm) as taxonomic ranks. We need to replace them in the original nodes.dmp file downloaded with the rest of the taxonomic information in the taxdump directory
+sed -i 's/\tdomain\t/\tsuperkingdom\t/g' nodes.dmp
+sed -i 's/\tacellular root\t/\tsuperkingdom\t/g' nodes.dmp
+sed -i 's/\tcellular root\t/\tsuperkingdom\t/g' nodes.dmp
+sed -i 's/\trealm\t/\tclade\t/g' nodes.dmp
+
+# make database with DIAMOND
+./diamond makedb -p 10 --in reference_proteomes.fasta.gz --taxonmap reference_proteomes.taxid_map --taxonnodes ../taxdump/nodes.dmp -d reference_proteomes.dmnd
+```
+
+Now, let's use DIAMOND to blast our RNAseq data against this database
+```
+pwd
+/projects/gatins/hci_genome/processing/diamond/rnaseq
+
+# running a search in blastx mode
+# GILL
+../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/GILL_RNA_1_polyAremoved_val_1.fq.gz -o gill_1_matches.tsv
+../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/GILL_RNA_2_polyAremoved_val_2.fq.gz -o gill_2_matches.tsv
+
+# HEART
+../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/HEART_mixed_1_polyAremoved_val_1.fq.gz -o heart_1_matches.tsv
+../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/HEART_mixed_2_polyAremoved_val_2.fq.gz -o heart_2_matches.tsv
+
+# LIVER
+../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/LIVER_RNA_1_polyAremoved_val_1.fq.gz -o liver_1_matches.tsv
+../diamond blastx -d reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/LIVER_RNA_2_polyAremoved_val_2.fq.gz -o liver_2_matches.tsv
+```
+
