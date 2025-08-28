@@ -310,7 +310,7 @@ C:95.1%[S:79.1%,D:15.9%],F:0.8%,M:4.1%,n:7207
 	299	Missing BUSCOs (M)
 	7207	Total BUSCO groups searched
 
-TSEBRA for filtering out single-exon genes
+TSEBRA for filtering out single-exon genes -- I'm going to keep this step in because TSEBRA's documentation states that BRAKER may overestimate single exon genes and this step should just be filtering out any single exon genes that do not have start or stop codon evidence. 
  ```
 apptainer exec braker3.sif tsebra.py \
 -g /projects/gatins/hci_genome/annotation/braker/hci_braker_final/GeneMark-ETP/genemark.gtf \
@@ -333,7 +333,15 @@ re-BUSCO
 source activate /projects/gatins/programs_explorer/busco
 busco -i hci_braker_final_nseg_li.aa --mode=proteins --lineage_dataset actinopterygii_odb12 --cpu 20 --out hci_braker_final_filtered_busco
 ```
+C:99.2%[S:98.9%,D:0.3%],F:0.5%,M:0.3%,n:7207
+	7149	Complete BUSCOs (C)
+	7126	Complete and single-copy BUSCOs (S)
+	23	Complete and duplicated BUSCOs (D)
+	39	Fragmented BUSCOs (F)
+	19	Missing BUSCOs (M)
+	7207	Total BUSCO groups searched
 
+ Great!!! Let's move on to functional annotation
 ## 6. Functional annotation with [InterProScan](https://www.ebi.ac.uk/interpro/) and [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
 
 
