@@ -298,6 +298,42 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 --AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_nobusco_ALLrnaseq_braker.log
 ```
 
+Running BUSCO on output before filtering
+```
+busco -i braker.aa --mode=proteins --lineage_dataset actinopterygii_odb12 --cpu 20 --out hci_braker_final_nofilter_busco
+```
+C:95.1%[S:79.1%,D:15.9%],F:0.8%,M:4.1%,n:7207
+	6852	Complete BUSCOs (C)
+	5704	Complete and single-copy BUSCOs (S)
+	1148	Complete and duplicated BUSCOs (D)
+	56	Fragmented BUSCOs (F)
+	299	Missing BUSCOs (M)
+	7207	Total BUSCO groups searched
+
+TSEBRA for filtering out single-exon genes
+ ```
+apptainer exec braker3.sif tsebra.py \
+-g /projects/gatins/hci_genome/annotation/braker/hci_braker_final/GeneMark-ETP/genemark.gtf \
+-k /projects/gatins/hci_genome/annotation/braker/hci_braker_final/Augustus/augustus.hints.gtf \
+-e /projects/gatins/hci_genome/annotation/braker/hci_braker_final/hintsfile.gff \
+--filter_single_exon_genes \
+-c /projects/gatins/hci_genome/annotation/braker/default.cfg \
+-o hci_braker_final_nseg.gtf
+```
+longest isoform
+```
+apptainer exec braker3.sif get_longest_isoform.py --gtf hci_braker_final_nseg.gtf --out hci_braker_final_nseg_li.gtf
+```
+extract protein sequence out
+```
+/projects/gatins/programs_explorer/gffread/bin/gffread -w hci_braker_final_nseg_li.fa -y hci_braker_final_nseg_li.aa -g /projects/gatins/hci_genome/processing/assembly_FINAL.fasta.masked hci_braker_final_nseg_li.gtf
+```
+re-BUSCO
+```
+source activate /projects/gatins/programs_explorer/busco
+busco -i hci_braker_final_nseg_li.aa --mode=proteins --lineage_dataset actinopterygii_odb12 --cpu 20 --out hci_braker_final_filtered_busco
+```
+
 ## 6. Functional annotation with [InterProScan](https://www.ebi.ac.uk/interpro/) and [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
 
 
