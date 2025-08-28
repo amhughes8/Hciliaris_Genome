@@ -197,13 +197,14 @@ grep -c "^>" braker.aa
 **27032**
 
 Initial protein BUSCO run after BRAKER:
-C:95.0%[S:79.3%,D:15.7%],F:0.8%,M:4.2%,n:7207
-	6846	Complete BUSCOs (C)
-	5712	Complete and single-copy BUSCOs (S)
-	1134	Complete and duplicated BUSCOs (D)
-	61	Fragmented BUSCOs (F)
-	300	Missing BUSCOs (M)
-	7207	Total BUSCO groups searched
+| C:95.0%[S:79.3%,D:15.7%],F:0.8%,M:4.2%,n:7207 |
+|-----------------------------------------------|
+|	6846	| Complete BUSCOs (C)	|
+|	5712 |	Complete and single-copy BUSCOs (S) |
+|	1134	| Complete and duplicated BUSCOs (D) |
+|	61	| Fragmented BUSCOs (F) |
+|	300	| Missing BUSCOs (M) |
+|	7207 |	Total BUSCO groups searched |
 
 Lots of duplicated BUSCOs. Let's see how filtering with TSEBRA alters this.
 
