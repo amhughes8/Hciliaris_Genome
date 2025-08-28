@@ -247,13 +247,14 @@ module load anaconda3/2024.06
 source activate /projects/gatins/programs_explorer/busco
 busco -i hci_transcripts_li_nseg.aa --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 10 --out hci_filtered_busco
 ```
-C:99.1%[S:98.7%,D:0.4%],F:0.6%,M:0.2%,n:7207
-	7143	Complete BUSCOs (C)
-	7114	Complete and single-copy BUSCOs (S)
-	29	Complete and duplicated BUSCOs (D)
-	46	Fragmented BUSCOs (F)
-	18	Missing BUSCOs (M)
-	7207	Total BUSCO groups searched
+| C:99.1%[S:98.7%,D:0.4%],F:0.6%,M:0.2%,n:7207 |
+|-----------------------------------------------|
+|	7143	Complete BUSCOs (C) |
+|	7114	Complete and single-copy BUSCOs (S) |
+|	29	Complete and duplicated BUSCOs (D) |
+|	46	Fragmented BUSCOs (F) |
+|	18	Missing BUSCOs (M) |
+|	7207	Total BUSCO groups searched |
 
 I'm going to try running this all over again from the braker output but exclude the step where I filter out single-exon genes. I just don't really understand this step and I want to see what impact it has on these BUSCO results.
 
@@ -278,13 +279,14 @@ source activate /projects/gatins/programs_explorer/busco
 busco -i hci_transcripts_li.aa --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 10 --out hci_filtered_busco_2
 ```
 
-C:99.1%[S:98.7%,D:0.4%],F:0.6%,M:0.2%,n:7207
-	7143	Complete BUSCOs (C)
-	7114	Complete and single-copy BUSCOs (S)
-	29	Complete and duplicated BUSCOs (D)
-	46	Fragmented BUSCOs (F)
-	18	Missing BUSCOs (M)
-	7207	Total BUSCO groups searched
+| C:99.1%[S:98.7%,D:0.4%],F:0.6%,M:0.2%,n:7207 |
+|-----------------------------------------------|
+|	7143	Complete BUSCOs (C) |
+|	7114	Complete and single-copy BUSCOs (S) |
+|	29	Complete and duplicated BUSCOs (D) |
+|	46	Fragmented BUSCOs (F) |
+|	18	Missing BUSCOs (M) |
+|	7207	Total BUSCO groups searched |
 
 Hmm... so it doesn't change the completeness. I'm going to move on to the InterProScan step and see what happens. Jen said she doesn't always just filter out single exon genes because they may have function so we'll see which ones map. 
 
@@ -303,13 +305,14 @@ Running BUSCO on output before filtering
 ```
 busco -i braker.aa --mode=proteins --lineage_dataset actinopterygii_odb12 --cpu 20 --out hci_braker_final_nofilter_busco
 ```
-C:95.1%[S:79.1%,D:15.9%],F:0.8%,M:4.1%,n:7207
-	6852	Complete BUSCOs (C)
-	5704	Complete and single-copy BUSCOs (S)
-	1148	Complete and duplicated BUSCOs (D)
-	56	Fragmented BUSCOs (F)
-	299	Missing BUSCOs (M)
-	7207	Total BUSCO groups searched
+| C:95.1%[S:79.1%,D:15.9%],F:0.8%,M:4.1%,n:7207 |
+|-----------------------------------------------|
+|	6852	Complete BUSCOs (C) |
+|	5704	Complete and single-copy BUSCOs (S) |
+|	1148	Complete and duplicated BUSCOs (D)|
+|	56	Fragmented BUSCOs (F) |
+|	299	Missing BUSCOs (M) |
+|	7207	Total BUSCO groups searched |
 
 TSEBRA for filtering out single-exon genes -- I'm going to keep this step in because TSEBRA's documentation states that BRAKER may overestimate single exon genes and this step should just be filtering out any single exon genes that do not have start or stop codon evidence. 
  ```
@@ -334,13 +337,14 @@ re-BUSCO
 source activate /projects/gatins/programs_explorer/busco
 busco -i hci_braker_final_nseg_li.aa --mode=proteins --lineage_dataset actinopterygii_odb12 --cpu 20 --out hci_braker_final_filtered_busco
 ```
-C:99.2%[S:98.9%,D:0.3%],F:0.5%,M:0.3%,n:7207
-	7149	Complete BUSCOs (C)
-	7126	Complete and single-copy BUSCOs (S)
-	23	Complete and duplicated BUSCOs (D)
-	39	Fragmented BUSCOs (F)
-	19	Missing BUSCOs (M)
-	7207	Total BUSCO groups searched
+| C:99.2%[S:98.9%,D:0.3%],F:0.5%,M:0.3%,n:7207 |
+|-----------------------------------------------|
+|	7149	Complete BUSCOs (C) |
+|	7126	Complete and single-copy BUSCOs (S) |
+|	23	Complete and duplicated BUSCOs (D) |
+|	39	Fragmented BUSCOs (F) |
+|	19	Missing BUSCOs (M) |
+|	7207	Total BUSCO groups searched |
 
  Great!!! Let's move on to functional annotation
 ## 6. Functional annotation with [InterProScan](https://www.ebi.ac.uk/interpro/) and [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
