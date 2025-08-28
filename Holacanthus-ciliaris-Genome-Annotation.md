@@ -301,6 +301,12 @@ apptainer exec -B /projects/gatins/hci_genome/annotation/braker /projects/gatins
 --AUGUSTUS_CONFIG_PATH=/projects/gatins/hci_genome/annotation/braker/config &> hci_nobusco_ALLrnaseq_braker.log
 ```
 
+Total number of protein-coding genes predicted:
+```
+grep -c "^>" braker.aa
+```
+**26980**
+
 Running BUSCO on output before filtering
 ```
 busco -i braker.aa --mode=proteins --lineage_dataset actinopterygii_odb12 --cpu 20 --out hci_braker_final_nofilter_busco
@@ -346,7 +352,9 @@ busco -i hci_braker_final_nseg_li.aa --mode=proteins --lineage_dataset actinopte
 |	19	Missing BUSCOs (M) |
 |	7207	Total BUSCO groups searched |
 
- Great!!! Let's move on to functional annotation
+Total number of protein-coding genes predicted: **29026**
+
+Great!!! Let's move on to functional annotation
 ## 6. Functional annotation with [InterProScan](https://www.ebi.ac.uk/interpro/) and [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
 
 
