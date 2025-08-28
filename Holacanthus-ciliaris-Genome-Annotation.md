@@ -357,6 +357,22 @@ Total number of protein-coding genes predicted: **29026**
 Great!!! Let's move on to functional annotation
 ## 6. Functional annotation with [InterProScan](https://www.ebi.ac.uk/interpro/) and [EnTAP](https://entap.readthedocs.io/en/latest/Getting_Started/introduction.html)
 
+```
+singularity exec \
+    -B $PWD/interproscan-5.75-106.0/data:/opt/interproscan/data \
+    -B $PWD/input:/input \
+    -B $PWD/temp:/temp \
+    -B $PWD/output:/output \
+    /projects/gatins/programs_explorer/InterProScan/interproscan_5.75-106.0.sif \
+    /opt/interproscan/interproscan.sh \
+    --input /projects/gatins/hci_genome/annotation/braker/hci_braker_final_nseg_li.fa \
+    --disable-precalc \
+    --iprlookup \
+    --goterms \
+    --output-dir /projects/gatins/hci_genome/annotation/interproscan \
+    --tempdir /projects/gatins/hci_genome/annotation/interproscan/temp \
+    --cpu 20
+```
 
 following formatting from red sea urchin genome annotation
 ```
