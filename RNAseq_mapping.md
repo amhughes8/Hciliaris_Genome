@@ -294,3 +294,26 @@ pwd
 ../diamond blastx -d ../reference_proteomes.dmnd -q /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/LIVER_RNA_2_polyAremoved_val_2.fq.gz -o liver_2_matches.tsv
 ```
 
+Going to also try mapping these reads to the unmasked genome and see if anything changes:
+```
+# index the genome
+hisat2-build -p 20 /projects/gatins/hci_genome/processing/assembly_FINAL.fasta unmasked_HCI
+
+# set up variables
+export HISAT2_INDEXES=/projects/gatins/hci_genome/rnaseq
+
+# map
+hisat2 -x unmasked_HCI -1 /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/HEART_mixed_1_polyAremoved_val_1.fq.gz -2 /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/HEART_mixed_2_polyAremoved_val_2.fq.gz -S HEART_RNA.sam -p 20
+```
+okay this didn't change anything.... let's try mapping against the assembled mitogenome
+```
+# index the genome
+hisat2-build -p 20 /projects/gatins/hci_genome/processing/mtdna/assembly_mtdna.fasta mito_HCI
+
+# set up variables
+export HISAT2_INDEXES=/projects/gatins/hci_genome/rnaseq
+
+# map
+hisat2 -x mito_HCI -1 /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/HEART_mixed_1_polyAremoved_val_1.fq.gz -2 /projects/gatins/hci_genome/rnaseq/fastqs/trimmed/HEART_mixed_2_polyAremoved_val_2.fq.gz -S HEART_RNA.sam -p 20
+```
+Ohhh overall alignment is up to 95%! So this is the problem. Well, not a problem, but just a biological explanation!
