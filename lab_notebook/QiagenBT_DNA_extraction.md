@@ -37,7 +37,7 @@
 ![plot](https://github.com/amhughes8/Hciliaris_Genome/blob/main/photos/gel_results.png)
 
 ## Tapestation Results:
-Ran a gDNA tape with FIE, FFF, and GFF. GFF looked the past through all quality checks:
+Ran a gDNA tape with FIE, FFF, and GFF. GFF looked the best through all quality checks:
 
 ![plot](https://github.com/amhughes8/Hciliaris_Genome/blob/main/photos/tapestation_results_gDNA_GFF.png)
 
