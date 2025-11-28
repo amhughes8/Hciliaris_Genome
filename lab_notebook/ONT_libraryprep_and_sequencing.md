@@ -20,10 +20,10 @@ I used my extraction from gill tissue ([HCI_CUR_092401_GFF](https://github.com/a
 > 2. Prepare 750 μL of fresh 80% ethanol in nuclease-free water
 
 - [ ] In a 0.2 mL PCR tube, mix the following:
-| Reagent | Volume |
+|Reagent|Volume|
 |--------|--------|
-| Input DNA | 63.97 μL |
-| NEBNext FFPE DNA Repair Buffer | 3.5 μL |
+|Input DNA |63.97 μL|
+|NEBNext FFPE DNA Repair Buffer|3.5 μL|
 | NEBNext FFPE DNA Repair Mix | 2 μL |
 | Ultra II End-prep Enzyme Mix | 3 μL |
 | Ultra II End-prep reaction buffer | 3.5 μL |
