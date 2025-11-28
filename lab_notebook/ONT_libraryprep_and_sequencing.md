@@ -20,6 +20,7 @@ I used my extraction from gill tissue ([HCI_CUR_092401_GFF](https://github.com/a
 > 2. Prepare 750 μL of fresh 80% ethanol in nuclease-free water
 
 - [ ] In a 0.2 mL PCR tube, mix the following:
+ 
 |Reagent|Volume|
 |--------|--------|
 |Input DNA |63.97 μL|
@@ -54,6 +55,7 @@ Qubit concentration: **37.4 ng/μL**
 > 4. Thaw Long Fragment Buffer (LFB) at room temperature and mix by vortexing. Then spin down and keep at room temperature.
 
 - [ ] Mix the following in a 1.5 mL Eppendorf DNA LoBind tube in the following order:
+
 | Reagent | Volume |
 |--------|--------|
 | DNA sample from previous step | 60 μL |
@@ -108,12 +110,14 @@ Load 3: 8 μL --> **380 ng**
 3 - DNA library 
 
 ### To prepare Tube 1: Flow cell priming mix (Flow Cell Flush + Flow Cell Tether)
+
 | Reagent | Volume |
 |--------|--------|
 | Flow Cell Flush | 1170 μL |
 | Flow Cell Tether | 30 μL |
 
 ### To prepare Tube 2: Library loading prep mix
+
 | Reagent | Volume |
 |--------|--------|
 | Sequencing Buffer | 100 μL |
