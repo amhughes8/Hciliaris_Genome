@@ -99,10 +99,13 @@ Load 2: 8 μL --> **380 ng**
 Load 3: 8 μL --> **380 ng**
 
 ## Step 5: Priming and loading the PromethION flow cell
-> **Prep for this step:** 
+
+> **Prep for this step:**
+
 > 1. Thaw the Sequencing Buffer (SB), Library Beads (LIB), Flow Cell Tether (FCT), and Flow Cell Flush (FCF) at room temperature before mixing by vortexing. Then spin down and store on ice.
 
 **We will be preparing 3 tubes to bring with us for sequencing:**
+
 1 - Flow cell priming mix (Flow Cell Flush + Flow Cell Tether)
 
 2 - Library loading prep mix (Sequencing Buffer + Library Beads)
