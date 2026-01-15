@@ -561,3 +561,18 @@ Cumulative:
 **I've now renamed assembly_nematoda_removal.fasta to assembly_FINAL.fasta in my /processing directory because this is the assembly I will move forward with!!!!!**
 
 **I also renamed the blob directory from nematoda_removed_assembly_blobdir to final_assembly_blobdir.**
+
+Update on 1/15/2026: Blobtools is SOOO much more powerful than I thought!!!! I can filter the contigs in my assembly by length and get a new assembly with the same BUSCO but only 28 contigs. CRAZY
+
+Filtered for a minimum contig length of 596000
+
+```
+sed -e 's/^"//' -e 's/"$//' -e 's/","/\n/g' nematoda_removed_assembly_blobdir_redo.filtered_blobtools_assembly.json > filtered_contigs_keeping.txt
+
+/projects/gatins/programs_explorer/seqtk/seqtk subseq ../assembly_FINAL.fasta filtered_contigs_keeping.txt > final_assembly_filtered.fasta
+
+seqkit stats -a final_assembly_filtered.fasta
+```
+| file |  format | type  |  num_seqs | sum_len | min_len | avg_len | max_len  |  Q1  |   Q2   |  Q3 | sum_gap |   N50 | N50_num | Q20(%) | Q30(%) |  AvgQual | GC(%) | sum_n | BUSCO |
+|-----|----------|------|----------|--------|----------|---------|---------|-------|------|------|-------|-------|------|-------|-------|------|------|------|----|
+| final_assembly_filtered.fasta | FASTA |  DNA   |  29 | 602,025,945 | 620,010 | 20,759,515.3 | 31,961,345 | 17,062,146 | 23,305,744 | 26,443,101     |   0  | 25,061,566   |    11  |     0   |    0    |    0 | 41.37   |   0 | 98.8% |
