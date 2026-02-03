@@ -381,3 +381,18 @@ following formatting from red sea urchin genome annotation
 --entap-ini /path/to/entap_config.ini -t 8
 ```
 
+Funannotate?
+```
+source activate /projects/gatins/programs_explorer/funannotate
+export FUNANNOTATE_DB=/home/meghan/fun_db
+
+nohup funannotate annotate --gff /home/meghan/v3_nucella_genome/v2_remove_incomplete_fixed_overlap_longest_insoforms_renamed.gff3 \
+--fasta /home/meghan/v3_nucella_genome/nlap_genome_no_mito_no_bac.filtered.fasta \
+--species "Nucella lapillus" \
+--out fun_noEgg_v2_0f_v3 \
+--iprscan /home/meghan/v3_nucella_genome/v2_remove_incomplete_fixed_overlap_agat_longest_isoforms.faa.xml \
+--rename ACOMHN \
+--busco_db metazoa \
+--cpus 35 \
+--sbt /home/meghan/template.sbt &
+```
