@@ -384,15 +384,17 @@ following formatting from red sea urchin genome annotation
 Funannotate?
 ```
 source activate /projects/gatins/programs_explorer/funannotate
-export FUNANNOTATE_DB=/home/meghan/fun_db
 
-nohup funannotate annotate --gff /home/meghan/v3_nucella_genome/v2_remove_incomplete_fixed_overlap_longest_insoforms_renamed.gff3 \
---fasta /home/meghan/v3_nucella_genome/nlap_genome_no_mito_no_bac.filtered.fasta \
---species "Nucella lapillus" \
---out fun_noEgg_v2_0f_v3 \
---iprscan /home/meghan/v3_nucella_genome/v2_remove_incomplete_fixed_overlap_agat_longest_isoforms.faa.xml \
---rename ACOMHN \
---busco_db metazoa \
---cpus 35 \
---sbt /home/meghan/template.sbt &
+# need a gff3 from filtering after braker earlier
+cd /projects/gatins/2025_HCI_Genome/annotation/braker
+apptainer exec braker3.sif rename_gtf.py --gtf hci_braker_final_nseg_li.gtf --out hci_braker_final_nseg_li_renamed.gtf
+apptainer exec braker3.sif gtf2gff.pl < hci_braker_final_nseg_li_renamed.gtf --out=hci_braker_final_nseg_li_renamed.gff3 --gff3
+
+funannotate annotate --gff /projects/gatins/2025_HCI_Genome/annotation/braker/hci_braker_final_nseg_li_renamed.gff3 \
+--fasta /projects/gatins/hci_genome/processing/assembly_FINAL.fasta \
+--species "Holacanthus ciliaris" \
+--out hbe_funannotate_test \
+--iprscan /projects/gatins/2025_HCI_Genome/annotation/interproscan/hci_braker_final_nseg_li.fa.xml \
+--busco_db actinopterygii_odb12 \
+--cpus 35
 ```
