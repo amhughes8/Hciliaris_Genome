@@ -383,18 +383,24 @@ following formatting from red sea urchin genome annotation
 
 Funannotate?
 ```
-source activate /projects/gatins/programs_explorer/funannotate
-
 # need a gff3 from filtering after braker earlier
 cd /projects/gatins/2025_HCI_Genome/annotation/braker
 apptainer exec braker3.sif rename_gtf.py --gtf hci_braker_final_nseg_li.gtf --out hci_braker_final_nseg_li_renamed.gtf
 apptainer exec braker3.sif gtf2gff.pl < hci_braker_final_nseg_li_renamed.gtf --out=hci_braker_final_nseg_li_renamed.gff3 --gff3
 
-funannotate annotate --gff /projects/gatins/2025_HCI_Genome/annotation/braker/hci_braker_final_nseg_li_renamed.gff3 \
---fasta /projects/gatins/hci_genome/processing/assembly_FINAL.fasta \
+# had to create a new database directory and bind it to container since container is read only
+apptainer exec --bind /projects/gatins/funannotate_db:/opt/databases \
+funannotate_latest.sif funannotate setup -b actinopterygii
+
+# run annotate command with binding included
+apptainer exec --bind /projects/gatins/programs_explorer/funannotate_db:/opt/databases \
+--bind /projects:/projects \
+funannotate_latest.sif funannotate annotate \
+--gff /projects/gatins/2025_HCI_Genome/annotation/braker/hci_braker_final_nseg_li_renamed.gff3 \
+--fasta /projects/gatins/2025_HCI_Genome/processing/assembly_FINAL.fasta \
 --species "Holacanthus ciliaris" \
---out hbe_funannotate_test \
+--out /projects/gatins/2025_HCI_Genome/annotation/hci_funannotate_test \
 --iprscan /projects/gatins/2025_HCI_Genome/annotation/interproscan/hci_braker_final_nseg_li.fa.xml \
---busco_db actinopterygii_odb12 \
+--busco_db actinopterygii \
 --cpus 35
 ```
