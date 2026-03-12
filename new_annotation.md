@@ -21,6 +21,7 @@ module load perl/5.40.0
 source activate /projects/gatins/programs_explorer/RepeatMasker
 /projects/gatins/2025_HCI_Genome/annotation/RepeatMasker/RepeatMasker -pa 10 -lib hci29_genome_repeats-families.fa -xsmall -gff /projects/gatins/2025_HCI_Genome/processing/final_filtering_blobtools/final_assembly_filtered.fasta
 ```
+```
 [hughes.annab@explorer-01 final_filtering_blobtools]$ cat final_assembly_filtered.fasta.tbl
 ==================================================
 file name: final_assembly_filtered.fasta
@@ -80,6 +81,7 @@ RepeatMasker version 4.1.9 , default mode
 run with rmblastn version 2.14.1+
 The query was compared to classified sequences in "hci29_genome_repeats-families.fa"
 FamDB:
+```
 
 ### 3. Gene prediction with BRAKER3
 ```
