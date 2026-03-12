@@ -163,3 +163,48 @@ busco -i hci29_braker_nseg_li.aa --mode proteins --lineage_dataset actinopterygi
 grep -c ">" hci29_braker_nseg_li.aa
 ```
 29049
+
+### 6. Functional annotation with InterProScan and Funannotate
+InterProScan:
+```
+apptainer exec \
+    -B /projects/gatins/programs_explorer/InterProScan/interproscan-5.75-106.0/data:/opt/interproscan/data \
+    -B /projects/gatins/2025_HCI_Genome/annotation/braker:/input \
+    -B /projects/gatins/2025_HCI_Genome/annotation/interproscan/temp:/temp \
+    -B /projects/gatins/2025_HCI_Genome/annotation/interproscan:/output \
+    /projects/gatins/programs_explorer/InterProScan/interproscan_5.75-106.0.sif \
+    /opt/interproscan/interproscan.sh \
+    --input /projects/gatins/2025_HCI_Genome/annotation/braker/hci29_braker_nseg_li.fa \
+    --disable-precalc \
+    --iprlookup \
+    --goterms \
+    --output-dir /projects/gatins/2025_HCI_Genome/annotation/interproscan/hci_29 \
+    --tempdir /projects/gatins/2025_HCI_Genome/annotation/interproscan/temp \
+    --cpu 20
+```
+
+Funannotate:
+```
+# need a gff3 from filtering after braker earlier
+cd /projects/gatins/2025_HCI_Genome/annotation/braker
+apptainer exec braker3.sif rename_gtf.py --gtf hci29_braker_nseg_li.gtf --out hci29_braker_nseg_li_renamed.gtf
+apptainer exec braker3.sif gtf2gff.pl < hci29_braker_nseg_li_renamed.gtf --out=hci29_braker_nseg_li_renamed.gff3 --gff3
+
+# had to create a new database directory and bind it to container since container is read only
+apptainer exec --bind /projects/gatins/funannotate_db:/opt/databases \
+funannotate_latest.sif funannotate setup -b actinopterygii
+
+# run annotate command with binding included
+apptainer exec --bind /projects/gatins/programs_explorer/funannotate_db:/opt/databases \
+--bind /projects:/projects \
+funannotate_latest.sif funannotate annotate \
+--gff /projects/gatins/2025_HCI_Genome/annotation/braker/hci29_braker_nseg_li_renamed.gff3 \
+--fasta /projects/gatins/2025_HCI_Genome/processing/final_filtering_blobtools/final_assembly_filtered.fasta \
+--species "Holacanthus ciliaris" \
+--rename AC0RV8 \
+--out /projects/gatins/2025_HCI_Genome/annotation/hci29_funannotate \
+--iprscan /projects/gatins/2025_HCI_Genome/annotation/interproscan/hci_29/hci29_braker_nseg_li.fa.xml \
+--busco_db actinopterygii \
+--cpus 35
+--sbt /projects/gatins/2025_HCI_Genome/annotation/hci29_template.sbt
+```
