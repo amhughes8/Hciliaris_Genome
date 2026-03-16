@@ -202,7 +202,7 @@ funannotate_latest.sif funannotate annotate \
 --fasta /projects/gatins/2025_HCI_Genome/processing/final_filtering_blobtools/final_assembly_filtered.fasta \
 --species "Holacanthus ciliaris" \
 --rename AC0RV8 \
---out /projects/gatins/2025_HCI_Genome/annotation/hci29_funannotate \
+--out /projects/gatins/2025_HCI_Genome/annotation/funannotate \
 --iprscan /projects/gatins/2025_HCI_Genome/annotation/interproscan/hci_29/hci29_braker_nseg_li.fa.xml \
 --busco_db actinopterygii \
 --cpus 35
