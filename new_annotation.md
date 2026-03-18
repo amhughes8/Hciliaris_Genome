@@ -205,6 +205,6 @@ funannotate_latest.sif funannotate annotate \
 --out /projects/gatins/2025_HCI_Genome/annotation/funannotate \
 --iprscan /projects/gatins/2025_HCI_Genome/annotation/interproscan/hci_29/hci29_braker_nseg_li.fa.xml \
 --busco_db actinopterygii \
---cpus 35
---sbt /projects/gatins/2025_HCI_Genome/annotation/hci29_template.sbt
+--cpus 35 \
+--sbt /projects/gatins/2025_HCI_Genome/template.sbt
 ```
